@@ -18,12 +18,12 @@ function MeowCore:namespace(str, root)
 	return obj;
 end
 
-function MeowCore:derive(str) {
+function MeowCore:derive(str)
 	local obj = MeowCore:require(str);
 	if(obj ~= nil) then
 		return obj:new();
 	end
-}
+end
 
 function MeowCore:require(str)
 	local path = str;
