@@ -108,6 +108,22 @@ function MeowCore:require(str)
 	return obj;
 end
 
+function MeowCore.extend(main, ...)
+		local args = table.pack(...);
+
+		for i = 1, args.n do
+			local table = args[i];
+      for k, v in pairs(table) do
+        if (type(main[k]) == 'table' and type(v) == 'table') then
+          main[k] = MeowCore.extend(main[k], v)
+        else
+          main[k] = v
+        end
+      end
+    end
+    return main;
+end
+
 
 local function _dump(o)
 	if type(o) == 'table' then
