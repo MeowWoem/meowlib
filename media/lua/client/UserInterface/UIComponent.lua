@@ -8,8 +8,15 @@ local UIStyle = MeowCore:require("Client/UserInterface/UIStyle");
 local Parent = ISUIElement;
 local UIComponent = Parent:derive("UIComponent");
 
+UIComponent.__type = "UIComponent";
 function UIComponent:initialise()
 	Parent.initialise(self);
+end
+
+function UIComponent:derive(str)
+	local c = Parent.derive(self, str);
+	c.__type = str;
+	return c;
 end
 
 function UIComponent:new(x, y, width, height)

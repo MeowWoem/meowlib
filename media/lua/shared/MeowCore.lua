@@ -1,5 +1,33 @@
 require "Types/String";
 require "Types/Table";
+
+function instanceof (subject, super)
+	super = tostring(super);
+	local mt = getmetatable(subject);
+	while true do
+		if mt == nil then return false end
+		if tostring(mt) == super then return true end
+		mt = getmetatable(mt);
+	end
+end
+
+function ctype(obj)
+    local t = type(obj)
+    if t == 'table' or t == 'userdata' then
+        local mt = getmetatable(obj)
+        if mt and mt.__type then
+            if type(mt.__type) == 'string' then
+                t = tostring(mt.__type)
+            else
+                pcall(function()
+                    t = tostring(mt:__type())
+                end)
+            end
+        end
+    end
+    return t
+end
+
 MeowCore = {};
 
 local _required = {};
@@ -23,6 +51,7 @@ end
 function MeowCore:derive(str)
 	local obj = MeowCore:require(str);
 	if(obj ~= nil) then
+		obj.__type = str;
 		return obj:new();
 	end
 end
