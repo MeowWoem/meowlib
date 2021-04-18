@@ -15,7 +15,8 @@ local properties = {
 			width = 0,
 			color = Color.transparent()
 		}
-	}
+	},
+	hover = {}
 }
 
 function UIStyle:initialise()
