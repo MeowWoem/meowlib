@@ -9,6 +9,15 @@ local Parent = ISUIElement;
 local UIComponent = Parent:derive("UIComponent");
 
 UIComponent.__type = "UIComponent";
+
+local properties = {
+	anchorLeft = true,
+	anchorRight = false,
+	anchorTop = true,
+	anchorBottom = false,
+	style = UIStyle:new()
+}
+
 function UIComponent:initialise()
 	Parent.initialise(self);
 end
@@ -21,17 +30,13 @@ end
 
 function UIComponent:new(x, y, width, height)
 	local o = Parent:new(x, y, width, height);
+	MeowCore.extend(o, properties);
 	setmetatable(o, self);
 	self.__index = self;
 	o.x = x;
 	o.y = y;
 	o.width = width;
 	o.height = height;
-	o.anchorLeft = true;
-	o.anchorRight = false;
-	o.anchorTop = true;
-	o.anchorBottom = false;
-	o.style = UIStyle:new();
 	return o;
 end
 

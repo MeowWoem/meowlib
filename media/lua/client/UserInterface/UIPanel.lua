@@ -9,8 +9,13 @@ function UIPanel:initialise()
 	Parent.initialise(self);
 end
 
+local properties = {
+	moveWithMouse = false
+}
+
 function UIPanel:new(x, y, width, height)
 	local o = Parent:new(x, y, width, height);
+	MeowCore.extend(o, properties);
 	setmetatable(o, self);
 	self.__index = self;
     o.moveWithMouse = true;

@@ -4,7 +4,9 @@ MeowCore:namespace("Client/UserInterface");
 
 local Color = MeowCore:require("Shared/Types/Color");
 
-local UIStyle = {};
+local UIStyle = {
+	__type = "UIStyle"
+};
 
 local properties = {
 	background = Color.red(),
@@ -21,7 +23,8 @@ function UIStyle:initialise()
 end
 
 function UIStyle:new(o)
-	o = o or DeepCopy(properties);
+	o = o or {};
+	MeowCore.extend(o, properties);
 	setmetatable(o, self);
 	self.__index = self;
 	return o;
