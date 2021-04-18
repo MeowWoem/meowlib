@@ -30,7 +30,19 @@ function MeowCore:require(str)
 	local i, l = path:find("Client/");
 	if(i == 1) then
 		path = path:sub(i + l);
+	else
+		i, l = path:find("Shared/");
+		if(i == 1) then
+			path = path:sub(i + l);
+		else
+			i, l = path:find("Server/");
+			if(i == 1) then
+				path = path:sub(i + l);
+			end
+		end
 	end
+
+
 
 	if(_required[str] ~= true) then
 
