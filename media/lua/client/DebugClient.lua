@@ -1,8 +1,8 @@
 require "MeowCore";
 
-local UIComponent = MeowCore:require("Client/UserInterface/UIComponent");
+local UIPanel = MeowCore:require("Client/UserInterface/UIPanel");
 
-local elm = UIComponent:new(250, 250, 500, 500);
+local elm = UIPanel:new(500, 250, 500, 500);
 elm:initialise();
 elm:addToUIManager();
 elm:setVisible(true);
