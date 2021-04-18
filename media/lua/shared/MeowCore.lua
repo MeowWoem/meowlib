@@ -1,3 +1,5 @@
+require "Types/String";
+require "Types/Table";
 MeowCore = {};
 
 local _required = {};
