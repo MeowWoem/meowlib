@@ -1,24 +1,24 @@
 require "MeowCore";
 
 MeowCore:namespace("Client/UserInterface");
+
 local UIComponent = MeowCore:require("Client/UserInterface/UIComponent");
 local Parent = UIComponent;
 local UIPanel = Parent:derive("UIPanel");
 
-function UIPanel:initialise()
-	Parent.initialise(self);
-end
-
 local properties = {
 	moveWithMouse = false
 }
+
+function UIPanel:initialise()
+	Parent.initialise(self);
+end
 
 function UIPanel:new(x, y, width, height)
 	local o = Parent:new(x, y, width, height);
 	o = MeowCore.extend({}, o, properties);
 	setmetatable(o, self);
 	self.__index = self;
-    o.moveWithMouse = true;
 	return o;
 end
 

@@ -12,20 +12,20 @@ function instanceof (subject, super)
 end
 
 function ctype(obj)
-    local t = type(obj)
-    if t == 'table' or t == 'userdata' then
-        local mt = getmetatable(obj)
-        if mt and mt.__type then
-            if type(mt.__type) == 'string' then
-                t = tostring(mt.__type)
-            else
-                pcall(function()
-                    t = tostring(mt:__type())
-                end)
-            end
-        end
-    end
-    return t
+	local t = type(obj)
+	if t == 'table' or t == 'userdata' then
+		local mt = getmetatable(obj)
+		if mt and mt.__type then
+			if type(mt.__type) == 'string' then
+				t = tostring(mt.__type)
+			else
+				pcall(function()
+					t = tostring(mt:__type())
+				end)
+			end
+		end
+	end
+	return t
 end
 
 MeowCore = {};
@@ -109,20 +109,19 @@ function MeowCore:require(str)
 end
 
 function MeowCore.extend(main, ...)
-		local args = table.pack(...);
+	local args = table.pack(...);
 
-		for i = 1, args.n do
-			local table = args[i];
-      for k, v in pairs(table) do
-        if (type(main[k]) == 'table' and type(v) == 'table') then
-          main[k] = MeowCore.extend(main[k], v)
-        else
-          main[k] = v
-        end
-      end
-    end
-    return main;
+	for i = 1, args.n do
+		local table = args[i];
+		for k, v in pairs(table) do
+			if (type(main[k]) == 'table' and type(v) == 'table') then
 				main[k] = MeowCore.extend({}, main[k], v)
+			else
+				main[k] = v
+			end
+		end
+	end
+	return main;
 end
 
 
@@ -144,21 +143,21 @@ function Dump(o)
 end
 
 function DeepCopy(obj)
-    if type(obj) ~= 'table' then return obj end
-    local res = setmetatable({}, getmetatable(obj))
-    for k, v in pairs(obj) do res[DeepCopy(k)] = DeepCopy(v) end
-    return res
+	if type(obj) ~= 'table' then return obj end
+	local res = setmetatable({}, getmetatable(obj))
+	for k, v in pairs(obj) do res[DeepCopy(k)] = DeepCopy(v) end
+	return res
 end
 
 function DeepCopyRecursive(obj, seen)
-    -- Handle non-tables and previously-seen tables.
-    if type(obj) ~= 'table' then return obj end
-    if seen and seen[obj] then return seen[obj] end
+	-- Handle non-tables and previously-seen tables.
+	if type(obj) ~= 'table' then return obj end
+	if seen and seen[obj] then return seen[obj] end
 
-    -- New table; mark it as seen and copy recursively.
-    local s = seen or {}
-    local res = {}
-    s[obj] = res
-    for k, v in pairs(obj) do res[DeepCopyRecursive(k, s)] = DeepCopyRecursive(v, s) end
-    return setmetatable(res, getmetatable(obj))
+	-- New table; mark it as seen and copy recursively.
+	local s = seen or {}
+	local res = {}
+	s[obj] = res
+	for k, v in pairs(obj) do res[DeepCopyRecursive(k, s)] = DeepCopyRecursive(v, s) end
+	return setmetatable(res, getmetatable(obj))
 end
