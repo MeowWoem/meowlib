@@ -122,6 +122,7 @@ function MeowCore.extend(main, ...)
       end
     end
     return main;
+				main[k] = MeowCore.extend({}, main[k], v)
 end
 
 

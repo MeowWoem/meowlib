@@ -30,7 +30,7 @@ end
 
 function UIComponent:new(x, y, width, height)
 	local o = Parent:new(x, y, width, height);
-	MeowCore.extend(o, properties);
+	o = MeowCore.extend({}, o, properties);
 	setmetatable(o, self);
 	self.__index = self;
 	o.x = x;
