@@ -6,16 +6,24 @@ local Color = MeowCore:require("Shared/Types/Color");
 
 local UIStyle = {};
 
+local properties = {
+	background = Color.red(),
+	border = {
+		all = {
+			width = 0,
+			color = Color.transparent()
+		}
+	}
+}
+
 function UIStyle:initialise()
 	Parent.initialise(self);
 end
 
 function UIStyle:new(o)
-	local o = o or {};
+	o = o or DeepCopy(properties);
 	setmetatable(o, self);
 	self.__index = self;
-	o.background = Color:new();
-	Dump(o.background);
 	return o;
 end
 

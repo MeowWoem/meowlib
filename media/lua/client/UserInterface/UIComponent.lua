@@ -18,19 +18,90 @@ function UIComponent:new(x, y, width, height)
 	self.__index = self;
 	o.x = x;
 	o.y = y;
-    o.width = width;
+	o.width = width;
 	o.height = height;
+	o.anchorLeft = true;
+	o.anchorRight = false;
+	o.anchorTop = true;
+	o.anchorBottom = false;
 	o.style = UIStyle:new();
 	return o;
 end
 
 function UIComponent:prerender()
-	--self:drawText("You must override UIComponent prerender method!", 0, 0, 0.8, 0, 0, 1, UIFont.Medium);
 	local style = self.style;
-	if style.background then
-		self:drawRectStatic(0, 0, self.width, self.height, style.background.a, style.background.r, style.background.g, style.background.b);
-		--self:drawRectBorderStatic(0, 0, self.width, self.height, self.borderColor.a, self.borderColor.r, self.borderColor.g, self.borderColor.b);
+
+	local bgOffsetW = 0; local bgOffsetH = 0; local bgOffsetX = 0; local bgOffsetY = 0;
+	local borderOffsetW = 0; local borderOffsetH = 0; local borderOffsetX = 0; local borderOffsetY = 0;
+
+	if style.border then
+
+		if(style.border.all or style.border.top) then
+			local b = style.border.all or style.border.top;
+			bgOffsetY = bgOffsetY + b.width;
+			bgOffsetH = bgOffsetH - b.width;
+		end
+
+		if(style.border.all or style.border.left) then
+			local b = style.border.all or style.border.left;
+			bgOffsetX = bgOffsetX + b.width;
+			bgOffsetW = bgOffsetW - b.width;
+		end
+
+		if(style.border.all or style.border.bottom) then
+			local b = style.border.all or style.border.bottom;
+			bgOffsetH = bgOffsetH - b.width;
+		end
+
+		if(style.border.all or style.border.right) then
+			local b = style.border.all or style.border.right;
+			bgOffsetW = bgOffsetW - b.width;
+		end
+
 	end
+
+	if style.background then
+		self:drawRectStatic(bgOffsetX, bgOffsetY, self.width + bgOffsetW, self.height + bgOffsetH, style.background.a, style.background.r, style.background.g, style.background.b);
+	end
+
+	if style.border then
+
+		if(style.border.all or style.border.top) then
+			local b = style.border.all or style.border.top;
+			if(b.width > 0) then
+				self:drawRectStatic(0, 0, self.width, b.width, b.color.a, b.color.r, b.color.g, b.color.b);
+			end
+		end
+
+		if(style.border.all or style.border.left) then
+			local b = style.border.all or style.border.left;
+			if(b.width > 0) then
+				self:drawRectStatic(0, bgOffsetY, b.width, self.height + bgOffsetH, b.color.a, b.color.r, b.color.g, b.color.b);
+			end
+		end
+
+		if(style.border.all or style.border.bottom) then
+			local b = style.border.all or style.border.bottom;
+			if(b.width > 0) then
+				self:drawRectStatic(0, self.height - b.width, self.width, b.width, b.color.a, b.color.r, b.color.g, b.color.b);
+			end
+		end
+
+		if(style.border.all or style.border.right) then
+			local b = style.border.all or style.border.right;
+			if(b.width > 0) then
+				local y = 0;
+				if((style.border.all or style.border.top) ~= nil) then
+					local bTop = style.border.all or style.border.top;
+					y = bTop.width;
+				end
+
+				self:drawRectStatic(self.width - b.width, y, b.width, self.height + bgOffsetH, b.color.a, b.color.r, b.color.g, b.color.b);
+			end
+		end
+
+	end
+
 end
 
 MeowCore.Client.UserInterface.UIComponent = UIComponent;
