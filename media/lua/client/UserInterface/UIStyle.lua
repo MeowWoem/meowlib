@@ -16,6 +16,8 @@ local properties = {
 			color = Color.transparent()
 		}
 	},
+	color = Color.white(),
+	font = UIFont.Small,
 	hover = {}
 }
 
