@@ -14,9 +14,10 @@ function UIPanel:initialise()
 	Parent.initialise(self);
 end
 
-function UIPanel:new(x, y, width, height)
-	local o = Parent:new(x, y, width, height);
-	o = MeowCore.extend({}, o, properties);
+function UIPanel:new(props)
+	props = MeowCore.extend({}, properties, props);
+	local o = Parent:new(props);
+	o = MeowCore.extend({}, o, props);
 	setmetatable(o, self);
 	self.__index = self;
 	return o;
@@ -56,9 +57,7 @@ function UIPanel:onMouseUpOutside(x, y)
 end
 
 function UIPanel:onMouseDown(x, y)
-	Dump("TEST");
-	Dump(x);
-	Dump(y);
+
     if not self.moveWithMouse then return true; end
     if not self:getIsVisible() then
         return;
@@ -74,8 +73,8 @@ function UIPanel:onMouseDown(x, y)
 end
 
 function UIPanel:onMouseMoveOutside(dx, dy)
+	Parent.onMouseMoveOutside(self, dx, dy);
     if not self.moveWithMouse then return; end
-    self.mouseOver = false;
 
     if self.moving then
         if self.parent then
@@ -90,8 +89,8 @@ function UIPanel:onMouseMoveOutside(dx, dy)
 end
 
 function UIPanel:onMouseMove(dx, dy)
+	Parent.onMouseMove(self, dx, dy);
     if not self.moveWithMouse then return; end
-    self.mouseOver = true;
 
     if self.moving then
         if self.parent then

@@ -11,11 +11,17 @@ local UIComponent = Parent:derive("UIComponent");
 UIComponent.__type = "UIComponent";
 
 local properties = {
+	x = 0,
+	y = 0,
+	width = 0,
+	height = 0,
 	anchorLeft = true,
 	anchorRight = false,
 	anchorTop = true,
 	anchorBottom = false,
-	style = UIStyle:new()
+	style = UIStyle:new(),
+    fade = UITransition.new(),
+	currentBackground = nil
 }
 
 function UIComponent:initialise()
@@ -28,19 +34,43 @@ function UIComponent:derive(str)
 	return c;
 end
 
-function UIComponent:new(x, y, width, height)
-	local o = Parent:new(x, y, width, height);
-	o = MeowCore.extend({}, o, properties);
+function UIComponent:new(props)
+	props = MeowCore.extend({}, properties, props);
+	local o = Parent:new(props.x, props.y, props.width, props.height);
+	o = MeowCore.extend({}, o, props);
 	setmetatable(o, self);
 	self.__index = self;
-	o.x = x;
-	o.y = y;
-	o.width = width;
-	o.height = height;
+	o.currentBackground = o.style.background;
 	return o;
 end
 
+-- Mouse Handling
+function UIComponent:onMouseMove(dx, dy)
+	self.mouseOver = self:isMouseOver();
+end
+
+function UIComponent:onMouseMoveOutside(dx, dy)
+	self.mouseOver = false;
+end
+
+function UIComponent:prerenderHover()
+	if(self.style.hover.background) then
+		self.fade:setFadeIn((self.mouseOver and self:isMouseOver()) or false);
+		self.fade:update();
+		local f = self.fade:fraction();
+		self.currentBackground = Color:new({
+			r=self.style.hover.background.r * f + self.style.background.r * (1 - f),
+			g=self.style.hover.background.g * f + self.style.background.g * (1 - f),
+			b=self.style.hover.background.b * f + self.style.background.b * (1 - f),
+			a=self.style.hover.background.a * f + self.style.background.a * (1 - f),
+		});
+	end
+end
+
 function UIComponent:prerender()
+	
+	self:prerenderHover();
+
 	local style = self.style;
 	local bgOffsetW = 0; local bgOffsetH = 0; local bgOffsetX = 0; local bgOffsetY = 0;
 	local borderOffsetW = 0; local borderOffsetH = 0; local borderOffsetX = 0; local borderOffsetY = 0;
@@ -70,8 +100,8 @@ function UIComponent:prerender()
 
 	-- # 	DRAWING
 	-- #	Background
-	if style.background then
-		self:drawRectStatic(bgOffsetX, bgOffsetY, self.width + bgOffsetW, self.height + bgOffsetH, style.background.a, style.background.r, style.background.g, style.background.b);
+	if self.currentBackground then
+		self:drawRectStatic(bgOffsetX, bgOffsetY, self.width + bgOffsetW, self.height + bgOffsetH, self.currentBackground.a, self.currentBackground.r, self.currentBackground.g, self.currentBackground.b);
 	end
 
 	if style.border then
