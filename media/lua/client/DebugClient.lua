@@ -4,6 +4,8 @@ local UIPanel = MeowCore:require("Client/UserInterface/UIPanel");
 local UIComponent = MeowCore:require("Client/UserInterface/UIComponent");
 local UIButton = MeowCore:require("Client/UserInterface/UIButton");
 local Config = MeowCore:require("Shared/Core/Config");
+local Vector2 = MeowCore:require("Shared/Math/Geometry/Vector2");
+local Vector3 = MeowCore:require("Shared/Math/Geometry/Vector3");
 
 function test()
 
@@ -42,5 +44,16 @@ function test()
 
 	cfg:initialise();
 end
+
+local v2 = Vector2:new(0, 5);
+local v = Vector3:new(0, 5, 3);
+Dump(ccast(Vector3, v2));
+Dump(v);
+Dump(ctype(v));
+Dump(cinstanceof(Vector3, Vector2));
+Dump(cinstanceof(Vector3, v2));
+Dump(cinstanceof(v2, Vector3));
+Dump(cinstanceof(v2, Vector2));
+Dump(cinstanceof(v2, Config));
 
 Events.OnMainMenuEnter.Add(test);
