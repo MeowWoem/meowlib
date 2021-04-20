@@ -11,7 +11,12 @@ local properties = {
 	a = 0
 }
 
-function Color:new(o)
+function Color:new(o, g, b, a)
+	local r = nil;
+	if(type(o) == "number") then
+		r = o;
+		o = {r=r,g=g,b=b,a=a or 1};
+	end
 	o = o or DeepCopy(properties);
 	setmetatable(o, self);
 	self.__index = self;
