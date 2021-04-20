@@ -33,7 +33,7 @@ MeowCore = {};
 local _required = {};
 
 function MeowCore:namespace(str, root)
-	root = root or MeowCore;
+	root = root or self;
 	local obj = root;
 	local lastObj = root;
 	for _, v in ipairs(luautils.split(str, "/")) do
@@ -74,7 +74,7 @@ function MeowCore:require(str)
 		_required[str] = true;
 		require (path);
 	end
-	local obj = MeowCore;
+	local obj = self;
 
 	for _, v in ipairs(luautils.split(str, "/")) do
 		if(obj == nil) then
@@ -83,7 +83,7 @@ function MeowCore:require(str)
 		obj = obj[v];
 	end
 
-	if(obj == nil or obj == MeowCore) then
+	if(obj == nil or obj == self) then
 		print("Module : " .. str .. " Not exists in client!");
 		return nil;
 	end
