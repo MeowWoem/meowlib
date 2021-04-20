@@ -2,6 +2,27 @@ require "Types/String";
 require "Types/Table";
 require "Math/Math";
 
+function isctype(t, value, strict)
+	strict = strict or false;
+	if(t == 'number' and strict) then error("You can't use number type with strict comparaison"); end
+	local tv = ctype(value);
+	return (
+		tv == t or (
+			(t == 'number' or t == 'float') and
+			((strict == false and tv == 'integer') or tv == 'float')
+		)
+	);
+end
+
+function typed(t, value, strict)
+	strict = strict or false;
+	if(isctype(t, value, strict)) then
+		return value;
+	else
+		error("Expected " .. (strict and 'strict ' or '') .. t .. " but " .. ctype(value) .. " given!")
+	end
+end
+
 function ccast(cast, obj)
 	if(type(obj) == "table" and cinstanceof(cast, getmetatable(obj))) then
 		return cast:new(obj);
@@ -31,6 +52,8 @@ function ctype(obj)
 				end)
 			end
 		end
+	elseif t == 'number' then
+		t = math.floor(obj) == obj and 'integer' or 'float';
 	end
 	return t
 end
@@ -103,7 +126,7 @@ function MeowCore.extend(main, ...)
 	for i = 1, args.n do
 		local table = args[i];
 		for k, v in pairs(table) do
-			if (type(main[k]) == 'table' and type(v) == 'table') then
+			if (ctype(main[k]) == 'table' and ctype(v) == 'table') then
 				main[k] = MeowCore.extend({}, main[k], v)
 			else
 				main[k] = v
