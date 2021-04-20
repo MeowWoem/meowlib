@@ -5,6 +5,18 @@ local Color = MeowCore:require("Shared/Types/Color");
 
 
 local Theme = {
+	UIPanel = Style:new({
+		background = Color.white(),
+		color = Color.black(),
+		font = UIFont.Small,
+		border = {
+			all = {
+				width = 0,
+				color = Color.transparent()
+			}
+		},
+		hover = {}
+	}),
 	UIButton = Style:new({
 		background = Color.black(),
 		color = Color.white(),
