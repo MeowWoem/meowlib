@@ -25,7 +25,7 @@ local properties = {
 	anchorBottom = false,
 	style = nil,
     fade = UITransition.new(),
-	currentBackground = nil
+	backgroundRect = nil
 }
 
 local function getRectData(parX, parY, parW, parH, parA, parR, parG, parB)
@@ -63,14 +63,35 @@ function UIComponent:initialise()
 	if(self.style == nil) then
 		self.style = UIStyle:new();
 	end
-	self.currentBackground = self.style.background;
-	return self;
-end
 
-function UIComponent:derive(str)
-	local c = Parent.derive(self, str);
-	c.__type = str;
-	return c;
+	local bg = UIRectStruct:new();
+	bg.rect.x = 0;
+	bg.rect.y = 0;
+	bg.rect.w = self.width;
+	bg.rect.h = self.height;
+	bg.color = self.style.background;
+	self.backgroundRect = bg;
+
+	local sb = self.style.border;
+
+	if(sb.top or sb.all) then
+		local b = sb.top or sb.all;
+		bg:setBorderTop(b.width, b.color);
+	end
+	if(sb.right or sb.all) then
+		local b = sb.right or sb.all;
+		bg:setBorderRight(b.width, b.color);
+	end
+	if(sb.bottom or sb.all) then
+		local b = sb.bottom or sb.all;
+		bg:setBorderBottom(b.width, b.color);
+	end
+	if(sb.left or sb.all) then
+		local b = sb.left or sb.all;
+		bg:setBorderLeft(b.width, b.color);
+	end
+
+	return self;
 end
 
 function UIComponent:new(props)
@@ -97,7 +118,7 @@ function UIComponent:prerenderHover()
 		self.fade:setFadeIn((self.mouseOver and self:isMouseOver()) or false);
 		self.fade:update();
 		local f = self.fade:fraction();
-		self.currentBackground = Color:new({
+		self.backgroundRect.color = Color:new({
 			r=self.style.hover.background.r * f + self.style.background.r * (1 - f),
 			g=self.style.hover.background.g * f + self.style.background.g * (1 - f),
 			b=self.style.hover.background.b * f + self.style.background.b * (1 - f),
@@ -111,36 +132,16 @@ function UIComponent:prerender()
 	self:prerenderHover();
 
 	local style = self.style;
-	local bgOffsetW = 0; local bgOffsetH = 0; local bgOffsetX = 0; local bgOffsetY = 0;
-	-- # 	PREPARE
-	-- ## 	Prepare background offset
-	-- #### Borders
-	if style.border then
-		if(style.border.all or style.border.top) then
-			local b = style.border.all or style.border.top;
-			bgOffsetY = bgOffsetY + b.width;
-			bgOffsetH = bgOffsetH - b.width;
-		end
-		if(style.border.all or style.border.left) then
-			local b = style.border.all or style.border.left;
-			bgOffsetX = bgOffsetX + b.width;
-			bgOffsetW = bgOffsetW - b.width;
-		end
-		if(style.border.all or style.border.bottom) then
-			local b = style.border.all or style.border.bottom;
-			bgOffsetH = bgOffsetH - b.width;
-		end
-		if(style.border.all or style.border.right) then
-			local b = style.border.all or style.border.right;
-			bgOffsetW = bgOffsetW - b.width;
-		end
-	end
+
+	local backgroundOffset = self.backgroundRect:getRectOffset();
+	local backgroundWithOffset = self.backgroundRect:getRectWithOffset();
 
 	-- # 	DRAWING
 	-- #	Background
-	if self.currentBackground then
-		self:drawRectStatic(bgOffsetX, bgOffsetY, self.width + bgOffsetW, self.height + bgOffsetH, self.currentBackground.a, self.currentBackground.r, self.currentBackground.g, self.currentBackground.b);
-	end
+	self:drawRectStatic(
+		backgroundWithOffset,
+		self.backgroundRect.color
+	);
 
 	if style.border then
 		if(style.border.all or style.border.top) then
@@ -152,7 +153,10 @@ function UIComponent:prerender()
 		if(style.border.all or style.border.left) then
 			local b = style.border.all or style.border.left;
 			if(b.width > 0) then
-				self:drawRectStatic(0, bgOffsetY, b.width, self.height + bgOffsetH, b.color.a, b.color.r, b.color.g, b.color.b);
+				self:drawRectStatic(
+					0, backgroundOffset.y, b.width, self.height - backgroundOffset.h,
+					b.color.a, b.color.r, b.color.g, b.color.b
+				);
 			end
 		end
 		if(style.border.all or style.border.bottom) then
@@ -171,7 +175,7 @@ function UIComponent:prerender()
 				end
 				self:drawRectStatic(
 					self.width - b.width, y,
-					b.width, self.height + bgOffsetH,
+					b.width, self.height - backgroundOffset.h,
 					b.color.a, b.color.r, b.color.g, b.color.b
 				);
 			end
