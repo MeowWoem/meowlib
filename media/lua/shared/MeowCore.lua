@@ -48,14 +48,6 @@ function MeowCore:namespace(str, root)
 	return obj;
 end
 
-function MeowCore:derive(str)
-	local obj = MeowCore:require(str);
-	if(obj ~= nil) then
-		obj.__type = str;
-		return obj:new();
-	end
-end
-
 function MeowCore:require(str)
 	local path = str;
 	local i, l = path:find("Client/");
@@ -89,16 +81,6 @@ function MeowCore:require(str)
 			return nil;
 		end
 		obj = obj[v];
-	end
-
-	if(obj == nil) then
-		print("Module : " .. str .. " not found in shared!");
-		--obj = MeowServer:require(str);
-	end
-
-	if(obj == nil) then
-		--print("Module : " .. str .. " Not exists in server!");
-		--obj = LifeClient:require(str);
 	end
 
 	if(obj == nil or obj == MeowCore) then
