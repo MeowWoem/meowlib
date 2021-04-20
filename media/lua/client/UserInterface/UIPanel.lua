@@ -3,8 +3,9 @@ require "MeowCore";
 MeowCore:namespace("Client/UserInterface");
 
 local UIComponent = MeowCore:require("Client/UserInterface/UIComponent");
-local Parent = UIComponent;
-local UIPanel = Parent:derive("UIPanel");
+
+local UIPanel = UIComponent:new();
+UIPanel.__type = 'UIPanel';
 
 local properties = {
 	moveWithMouse = false
@@ -21,7 +22,7 @@ function UIPanel:new(props)
 end
 
 function UIPanel:prerender()
-	Parent.prerender(self);
+	UIComponent.prerender(self);
 	self:drawText("UI PANEL", 0, 0, .5, .3, .3, 1, UIFont.Medium);
 end
 
@@ -70,7 +71,7 @@ function UIPanel:onMouseDown(x, y)
 end
 
 function UIPanel:onMouseMoveOutside(dx, dy)
-	Parent.onMouseMoveOutside(self, dx, dy);
+	UIComponent.onMouseMoveOutside(self, dx, dy);
     if not self.moveWithMouse then return; end
 
     if self.moving then
@@ -86,7 +87,7 @@ function UIPanel:onMouseMoveOutside(dx, dy)
 end
 
 function UIPanel:onMouseMove(dx, dy)
-	Parent.onMouseMove(self, dx, dy);
+	UIComponent.onMouseMove(self, dx, dy);
     if not self.moveWithMouse then return; end
 
     if self.moving then

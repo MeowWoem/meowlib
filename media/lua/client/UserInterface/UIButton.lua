@@ -7,8 +7,8 @@ local UIPanel = MeowCore:require("Client/UserInterface/UIPanel");
 local Color = MeowCore:require("Shared/Types/Color");
 
 local Parent = UIPanel;
-local UIButton = Parent:derive("UIButton");
-
+local UIButton = Parent:new();
+UIButton.__type = "UIButton";
 local properties = {
 	enable = true,
 	joypadFocused = false,
@@ -43,7 +43,7 @@ function UIButton:prerenderHover()
 		self.fade:setFadeIn(self.enable and ((self.mouseOver and self:isMouseOver()) or self.joypadFocused) or false);
 		self.fade:update();
 		local f = self.fade:fraction();
-		self.currentBackground = Color:new({
+		self.backgroundRect.color = Color:new({
 			r=self.style.hover.background.r * f + self.style.background.r * (1 - f),
 			g=self.style.hover.background.g * f + self.style.background.g * (1 - f),
 			b=self.style.hover.background.b * f + self.style.background.b * (1 - f),
