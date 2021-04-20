@@ -4,6 +4,7 @@ require "ISUI/ISUIElement"
 
 MeowCore:namespace("Client/UserInterface");
 
+local UIRectStruct = MeowCore:require("Client/UserInterface/UIRectStruct");
 local Color = MeowCore:require("Shared/Types/Color");
 local UIStyle = MeowCore:require("Client/UserInterface/UIStyle");
 
@@ -26,6 +27,30 @@ local properties = {
     fade = UITransition.new(),
 	currentBackground = nil
 }
+
+local function getRectData(parX, parY, parW, parH, parA, parR, parG, parB)
+	local x, y, w, h, a, r, g, b = 0;
+	if(isctype("Rect2D", parX)) then
+		x = parX.x; y = parX.y;
+		w = parX.w; h = parX.h;
+		if(isctype("Color", parY)) then
+			a = parY.a; r = parY.r; g = parY.g; b = parY.b;
+		elseif(isctype("float", parY)) then
+			a = parY; r = typed('float', parW);
+			b = typed('float', parH); g = typed('float', parA);
+		end
+	elseif(isctype("integer", parX)) then
+		x = parX; y = typed('integer', parY);
+		w = typed('integer', parW); h = typed('integer', parH);
+		if(isctype("Color", parA)) then
+			a = parA.a; r = parA.r; g = parA.g; b = parA.b;
+		elseif(isctype("float", parA)) then
+			a = parA; r = typed('float', parR);
+			b = typed('float', parB); g = typed('float', parG);
+		end
+	end
+	return x, y, w, h, a, r, g, b;
+end
 
 function UIComponent:initialise()
 	Parent.initialise(self);
@@ -153,6 +178,25 @@ function UIComponent:prerender()
 
 	end
 
+end
+
+function UIComponent:drawRect(parX, parY, parW, parH, parA, parR, parG, parB)
+	local x, y, w, h, a, r, g, b = getRectData(parX, parY, parW, parH, parA, parR, parG, parB);
+	Parent.drawRect(self, x, y, w, h, a, r, g, b);
+end
+
+function UIComponent:drawRectStatic(parX, parY, parW, parH, parA, parR, parG, parB)
+	local x, y, w, h, a, r, g, b = getRectData(parX, parY, parW, parH, parA, parR, parG, parB);
+	Parent.drawRectStatic(self, x, y, w, h, a, r, g, b);
+end
+
+function UIComponent:drawRectBorderStatic(parX, parY, parW, parH, parA, parR, parG, parB, parWT, parWR, parWB, parWL)
+	local x, y, w, h, a, r, g, b, wt, wr, wb, wl = getRectData(parX, parY, parW, parH, parA, parR, parG, parB),
+		typed('integer', parWT), typed('integer', parWR), typed('integer', parWB), typed('integer', parWL);
+	-- top border
+	if(b.width > 0) then
+		self:drawRectStatic(x, y, w, WT, b.color.a, b.color.r, b.color.g, b.color.b);
+	end
 end
 
 MeowCore.Client.UserInterface.UIComponent = UIComponent;
