@@ -20,6 +20,7 @@ function test()
 	local btn = UIButton:new({
 		title = "Button"
 	});
+	btn:initialise();
 	elm:addChild(btn);
 
 	local cfg = Config:new("meowlib", {
