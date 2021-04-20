@@ -2,7 +2,8 @@ require "MeowCore";
 
 MeowCore:namespace("Shared/Types");
 
-local Color = {}
+local Color = {};
+Color.__type = 'Color';
 
 local properties = {
 	r = 0,
@@ -12,10 +13,9 @@ local properties = {
 }
 
 function Color:new(o, g, b, a)
-	local r = nil;
+	o = o or {};
 	if(type(o) == "number") then
-		r = o;
-		o = {r=r,g=g,b=b,a=a or 1};
+		o = {r=o,g=g,b=b,a=a};
 	end
 	o = MeowCore.extend({}, DeepCopyRecursive(properties), o);
 	setmetatable(o, self);
@@ -71,7 +71,7 @@ function Color:parse(c)
 		self.b = c:getB();
 		self.a = c:getA();
 	else
-		Dump(c);
+		--Dump(c);
 	end
 
 end
