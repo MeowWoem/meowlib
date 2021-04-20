@@ -1,6 +1,12 @@
 require "Types/String";
 require "Types/Table";
 
+function ccast(cast, obj)
+	if(type(obj) == "table" and cinstanceof(cast, getmetatable(obj))) then
+		return cast:new(obj);
+	end
+end
+
 function cinstanceof (subject, super)
 	super = tostring(super);
 	local mt = getmetatable(subject);
