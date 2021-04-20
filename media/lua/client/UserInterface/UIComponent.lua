@@ -86,7 +86,6 @@ function UIComponent:prerender()
 
 	local style = self.style;
 	local bgOffsetW = 0; local bgOffsetH = 0; local bgOffsetX = 0; local bgOffsetY = 0;
-	local borderOffsetW = 0; local borderOffsetH = 0; local borderOffsetX = 0; local borderOffsetY = 0;
 	-- # 	PREPARE
 	-- ## 	Prepare background offset
 	-- #### Borders
