@@ -15,7 +15,7 @@ local properties = {
 function Color:new(o, g, b, a)
 	o = o or {};
 	if(type(o) == "number") then
-		o = {r=o,g=g,b=b,a=a};
+		o = {r=o,g=g,b=b,a=a or 1};
 	end
 	o = MeowCore.extend({}, DeepCopyRecursive(properties), o);
 	setmetatable(o, self);
