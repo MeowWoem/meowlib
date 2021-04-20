@@ -45,15 +45,5 @@ function test()
 	cfg:initialise();
 end
 
-local v2 = Vector2:new(0, 5);
-local v = Vector3:new(0, 5, 3);
-Dump(ccast(Vector3, v2));
-Dump(v);
-Dump(ctype(v));
-Dump(cinstanceof(Vector3, Vector2));
-Dump(cinstanceof(Vector3, v2));
-Dump(cinstanceof(v2, Vector3));
-Dump(cinstanceof(v2, Vector2));
-Dump(cinstanceof(v2, Config));
 
 Events.OnMainMenuEnter.Add(test);
