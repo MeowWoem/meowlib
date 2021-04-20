@@ -74,7 +74,8 @@ function UIComponent:derive(str)
 end
 
 function UIComponent:new(props)
-	props = MeowCore.extend({}, properties, props);
+	props = props or {};
+	props = MeowCore.extend({}, DeepCopyRecursive(properties), props);
 	local o = Parent:new(props.x, props.y, props.width, props.height);
 	o = MeowCore.extend({}, o, props);
 	setmetatable(o, self);

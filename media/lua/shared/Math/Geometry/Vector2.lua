@@ -23,7 +23,7 @@ function Vector2:new(props, y)
 		obj = props;
 	end
 
-	local o = MeowCore.extend({}, properties, obj);
+	local o = MeowCore.extend({}, DeepCopyRecursive(properties), obj);
 
 	setmetatable(o, self);
 	self.__index = self;

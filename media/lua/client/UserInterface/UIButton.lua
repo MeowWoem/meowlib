@@ -16,7 +16,8 @@ local properties = {
 }
 
 function UIButton:new(props)
-	props = MeowCore.extend({}, properties, props);
+	props = props or {};
+	props = MeowCore.extend({}, DeepCopyRecursive(properties), props);
 	local o = Parent:new(props);
 	o = MeowCore.extend({}, o, props);
 	setmetatable(o, self);

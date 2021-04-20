@@ -27,7 +27,7 @@ end
 
 function UIStyle:new(o)
 	o = o or {};
-	o = MeowCore.extend({}, properties, o);
+	o = MeowCore.extend({}, DeepCopyRecursive(properties), o);
 	setmetatable(o, self);
 	self.__index = self;
 	return o;

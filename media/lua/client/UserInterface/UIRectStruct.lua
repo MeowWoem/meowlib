@@ -44,7 +44,7 @@ function UIRectStruct:new(props, color)
 		obj = props;
 	end
 
-	local o = MeowCore.extend({}, properties, obj);
+	local o = MeowCore.extend({}, DeepCopyRecursive(properties), obj);
 
 	setmetatable(o, self);
 	self.__index = self;

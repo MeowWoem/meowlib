@@ -17,7 +17,7 @@ function Color:new(o, g, b, a)
 		r = o;
 		o = {r=r,g=g,b=b,a=a or 1};
 	end
-	o = o or DeepCopy(properties);
+	o = MeowCore.extend({}, DeepCopyRecursive(properties), o);
 	setmetatable(o, self);
 	self.__index = self;
 	return o;

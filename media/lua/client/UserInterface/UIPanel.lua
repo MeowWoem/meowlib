@@ -11,8 +11,9 @@ local properties = {
 }
 
 function UIPanel:new(props)
-	props = MeowCore.extend({}, properties, props);
-	local o = Parent:new(props);
+	props = props or {};
+	props = MeowCore.extend({}, DeepCopyRecursive(properties), props);
+	local o = UIComponent:new(props);
 	o = MeowCore.extend({}, o, props);
 	setmetatable(o, self);
 	self.__index = self;
