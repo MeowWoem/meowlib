@@ -9,7 +9,7 @@ local UIStyle = {
 };
 
 local properties = {
-	background = Color.red(),
+	background = Color.transparent(),
 	border = {
 		all = {
 			width = 0,
@@ -21,9 +21,6 @@ local properties = {
 	hover = {}
 }
 
-function UIStyle:initialise()
-	Parent.initialise(self);
-end
 
 function UIStyle:new(o)
 	o = o or {};
