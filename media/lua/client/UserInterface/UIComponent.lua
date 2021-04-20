@@ -143,7 +143,11 @@ function UIComponent:prerender()
 					local bTop = style.border.all or style.border.top;
 					y = bTop.width;
 				end
-				self:drawRectStatic(self.width - b.width, y, b.width, self.height + bgOffsetH, b.color.a, b.color.r, b.color.g, b.color.b);
+				self:drawRectStatic(
+					self.width - b.width, y,
+					b.width, self.height + bgOffsetH,
+					b.color.a, b.color.r, b.color.g, b.color.b
+				);
 			end
 		end
 
