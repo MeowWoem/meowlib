@@ -1,5 +1,6 @@
 require "Types/String";
 require "Types/Table";
+require "Math/Math";
 
 function ccast(cast, obj)
 	if(type(obj) == "table" and cinstanceof(cast, getmetatable(obj))) then
