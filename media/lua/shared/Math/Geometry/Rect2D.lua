@@ -30,6 +30,8 @@ function Rect2D:new(props, y, w, h)
 	return o;
 end
 
+function Rect2D.zero() return Rect2D:new(0,0,0,0) end
+
 function Rect2D:calculateArea()
 	return self.w * self.h;
 end
