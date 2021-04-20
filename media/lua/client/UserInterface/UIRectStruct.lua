@@ -64,6 +64,26 @@ function UIRectStruct:setBorderThickness(thickness)
 	self:setBorderLeftThickness(thickness);
 end
 
+function UIRectStruct:setBorderTop(thickness, color)
+	self:setBorderTopThickness(thickness);
+	self:setBorderTopColor(color);
+end
+
+function UIRectStruct:setBorderRight(thickness, color)
+	self:setBorderRightThickness(thickness);
+	self:setBorderRightColor(color);
+end
+
+function UIRectStruct:setBorderBottom(thickness, color)
+	self:setBorderBottomThickness(thickness);
+	self:setBorderBottomColor(color);
+end
+
+function UIRectStruct:setBorderLeft(thickness, color)
+	self:setBorderLeftThickness(thickness);
+	self:setBorderLeftColor(color);
+end
+
 function UIRectStruct:setBorderTopThickness(thickness)
 	setBorderThickness(self, 't', thickness);
 end
@@ -103,4 +123,19 @@ function UIRectStruct:setBorderLeftColor(color)
 	setBorderColor(self, 'l', color);
 end
 
-MeowCore.Shared.Math.Geometry.UIRectStruct = UIRectStruct;
+function UIRectStruct:getRectOffset()
+	return Rect2D:new(
+		self.borders.t.thickness, self.borders.l.thickness,
+		self.borders.r.thickness, self.borders.b.thickness
+	);
+end
+
+function UIRectStruct:getRectWithOffset()
+	local offset = self:getRectOffset();
+	return Rect2D:new(
+		self.rect.x + offset.x, self.rect.y + offset.y,
+		self.rect.w - offset.w, self.rect.h - offset.h
+	);
+end
+
+MeowCore.Client.UserInterface.UIRectStruct = UIRectStruct;
