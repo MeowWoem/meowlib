@@ -4,6 +4,7 @@ require "ISUI/ISUIElement"
 
 MeowCore:namespace("Client/UserInterface");
 
+local Color = MeowCore:require("Shared/Types/Color");
 local UIStyle = MeowCore:require("Client/UserInterface/UIStyle");
 
 local Parent = ISUIElement;
