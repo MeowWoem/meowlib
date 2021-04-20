@@ -1,7 +1,7 @@
 require "Types/String";
 require "Types/Table";
 
-function instanceof (subject, super)
+function cinstanceof (subject, super)
 	super = tostring(super);
 	local mt = getmetatable(subject);
 	while true do
