@@ -10,10 +10,6 @@ local properties = {
 	moveWithMouse = false
 }
 
-function UIPanel:initialise()
-	Parent.initialise(self);
-end
-
 function UIPanel:new(props)
 	props = MeowCore.extend({}, properties, props);
 	local o = Parent:new(props);
