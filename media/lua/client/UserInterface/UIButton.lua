@@ -12,18 +12,8 @@ local UIButton = Parent:derive("UIButton");
 local properties = {
 	enable = true,
 	joypadFocused = false,
-	title = "Button",
-	style = UIStyle:new({
-		background = Color.green(),
-		hover = {
-			background = Color.blue()
-		}
-	})
+	title = "Button"
 }
-
-function UIButton:initialise()
-	Parent.initialise(self);
-end
 
 function UIButton:new(props)
 	props = MeowCore.extend({}, properties, props);

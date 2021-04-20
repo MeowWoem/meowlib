@@ -1,4 +1,5 @@
 require "MeowCore";
+require "Theme";
 require "ISUI/ISUIElement"
 
 MeowCore:namespace("Client/UserInterface");
@@ -11,6 +12,7 @@ local UIComponent = Parent:derive("UIComponent");
 UIComponent.__type = "UIComponent";
 
 local properties = {
+	theme = nil,
 	x = 0,
 	y = 0,
 	width = 0,
@@ -19,13 +21,24 @@ local properties = {
 	anchorRight = false,
 	anchorTop = true,
 	anchorBottom = false,
-	style = UIStyle:new(),
+	style = nil,
     fade = UITransition.new(),
 	currentBackground = nil
 }
 
 function UIComponent:initialise()
 	Parent.initialise(self);
+	if(self.theme ~= nil) then
+		self.style = MeowCore.Client.Theme[self.theme];
+	end
+	if(self.theme == nil or self.style == nil) then
+		self.style = MeowCore.Client.Theme[ctype(self)];
+	end
+	if(self.style == nil) then
+		self.style = UIStyle:new();
+	end
+	self.currentBackground = self.style.background;
+	return self;
 end
 
 function UIComponent:derive(str)
@@ -40,7 +53,6 @@ function UIComponent:new(props)
 	o = MeowCore.extend({}, o, props);
 	setmetatable(o, self);
 	self.__index = self;
-	o.currentBackground = o.style.background;
 	return o;
 end
 
@@ -68,7 +80,7 @@ function UIComponent:prerenderHover()
 end
 
 function UIComponent:prerender()
-	
+
 	self:prerenderHover();
 
 	local style = self.style;
