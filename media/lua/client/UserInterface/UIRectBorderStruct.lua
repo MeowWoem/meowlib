@@ -30,4 +30,4 @@ function UIRectBorderStruct:new(props, color)
 	return o;
 end
 
-MeowCore.Shared.Math.Geometry.UIRectBorderStruct = UIRectBorderStruct;
+MeowCore.Client.UserInterface.UIRectBorderStruct = UIRectBorderStruct;
