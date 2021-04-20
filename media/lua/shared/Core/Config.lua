@@ -3,42 +3,9 @@ require "MeowCore";
 MeowCore:namespace("Shared/Core");
 local INIUtils = MeowCore:require("Shared/Utils/INIUtils");
 
-local __FILE_SEP__ = getFileSeparator();
 local Config = {};
 
-local function toINI(modid, filename, content, fd, parentCat, fdTypeMap)
-	if(fd == nil) then
-		fd = getFileWriter(modid .. __FILE_SEP__ .. filename, true, false);
-	end
-	if(fdTypeMap == nil) then
-		fdTypeMap = getFileWriter(modid .. __FILE_SEP__ .. filename .. ".typemap", true, false);
-	end
-
-  if not fd then return false end;
-  local category = "";
-	for catK, catV in pairs(content) do
-		if parentCat then
-      category = parentCat.."/"..catK;
-		else
-			category = catK;
-		end
-		fd:write("["..category.."]\n");
-		fdTypeMap:write("["..category.."]\n");
-
-		for k,v in pairs(catV) do
-			if type(v) == "table" then
-				local categoryTable = {};
-				categoryTable[k] = v;
-				toINI(modid, filename, categoryTable, fd, category, fdTypeMap);
-			else
-				fd:write(tostring(k).."="..tostring(v).."\n");
-				fdTypeMap:write(tostring(k).."="..type(v).."\n");
-			end
-		end
-	end
-  fd:close();
-  fdTypeMap:close();
-end
+local DS = INIUtils.DIR_SEP;
 
 
 function Config:new(modid, defaultConfig)
@@ -55,7 +22,7 @@ function Config:new(modid, defaultConfig)
 end
 
 function Config:load()
-	local cfg = INIUtils.INIToTable(self.modid, self.filename);
+	local cfg = INIUtils.INIToTable(self.modid, "config" .. DS .. self.filename);
 	if(table.isEmpty(cfg)) then
 		cfg = {};
 	end
@@ -64,7 +31,7 @@ end
 
 function Config:save()
 	if(self.cfg == nil) then return false end
-	INIUtils.TableToINI(self.modid, self.filename, self.cfg);
+	INIUtils.TableToINI(self.modid, "config" .. DS .. self.filename, self.cfg);
 	return true;
 end
 

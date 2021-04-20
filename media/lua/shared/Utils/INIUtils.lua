@@ -2,15 +2,18 @@ require "MeowCore";
 
 MeowCore:namespace("Shared/Utils");
 
-local __FILE_SEP__ = getFileSeparator();
+local DS = getFileSeparator();
 local INIUtils = {};
+
+INIUtils.DS = DS;
+INIUtils.DIR_SEP = DS;
 
 function INIUtils.TableToINI(modid, filename, content, fd, parentCat, fdTypeMap)
 	if(fd == nil) then
-		fd = getFileWriter(modid .. __FILE_SEP__ .. filename, true, false);
+		fd = getFileWriter(modid .. DS .. filename, true, false);
 	end
 	if(fdTypeMap == nil) then
-		fdTypeMap = getFileWriter(modid .. __FILE_SEP__ .. filename .. ".typemap", true, false);
+		fdTypeMap = getFileWriter(modid .. DS .. filename .. ".typemap", true, false);
 	end
 
   if not fd then return false end;
@@ -43,8 +46,8 @@ function INIUtils.INIToTable(modid, filename)
 	local retVal = {};
 	local retTypes = {};
 	local rvptr = retVal;
-	local f = getFileReader(modid .. __FILE_SEP__ .. filename, false);
-	local f2 = getModFileReader(modid, "media".. __FILE_SEP__ ..".typemaps" .. __FILE_SEP__ .. filename .. ".typemap", false);
+	local f = getFileReader(modid .. DS .. filename, false);
+	local f2 = getModFileReader(modid, "media".. DS ..".typemaps" .. DS .. filename .. ".typemap", false);
 	if not f or not f2 then return retVal end;
 
 	local line = "1";
