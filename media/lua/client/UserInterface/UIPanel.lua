@@ -23,7 +23,8 @@ end
 
 function UIPanel:prerender()
 	UIComponent.prerender(self);
-	self:drawText("UI PANEL", 0, 0, .5, .3, .3, 1, UIFont.Medium);
+	-- Code, Cred1, Cred2, Dialogue, Intro, Large, MainMenu1, MainMenu2, Massive, Medium, MediumNew, NewLarge, NewMedium, NewSmall, Small
+	--self:drawText("UI PANEL", 0, 0, .5, .3, .3, 1, UIFont.Small);
 end
 
 function UIPanel:close()
@@ -31,9 +32,13 @@ function UIPanel:close()
 end
 
 function UIPanel:onMouseUp(x, y)
-    if not self.moveWithMouse then return; end
+	local event = UIComponent.onMouseUp(self, x, y);
+	if(event.preventDefault) then
+		return event;
+	end
+    if not self.moveWithMouse then return event; end
     if not self:getIsVisible() then
-        return;
+        return event;
     end
 
     self.moving = false;
@@ -42,37 +47,50 @@ function UIPanel:onMouseUp(x, y)
     end
 
     ISMouseDrag.dragView = nil;
+	return event;
 end
 
 function UIPanel:onMouseUpOutside(x, y)
+	local event = UIComponent.onMouseUpOutside(self, x, y);
+	if(event.preventDefault) then
+		return event;
+	end
     if not self.moveWithMouse then return; end
     if not self:getIsVisible() then
-        return;
+        return event;
     end
 
     self.moving = false;
     ISMouseDrag.dragView = nil;
+        return event;
 end
 
 function UIPanel:onMouseDown(x, y)
-
+	local event = UIComponent.onMouseDown(self, x, y);
+	if(event.preventDefault) then
+		return event;
+	end
     if not self.moveWithMouse then return true; end
     if not self:getIsVisible() then
-        return;
+        return event;
     end
     if not self:isMouseOver() then
-        return -- this happens with setCapture(true)
+        return event; -- this happens with setCapture(true)
     end
 
     self.downX = x;
     self.downY = y;
     self.moving = true;
     self:bringToTop();
+    return event;
 end
 
 function UIPanel:onMouseMoveOutside(dx, dy)
-	UIComponent.onMouseMoveOutside(self, dx, dy);
-    if not self.moveWithMouse then return; end
+	local event = UIComponent.onMouseMoveOutside(self, dx, dy);
+	if(event.preventDefault) then
+		return event;
+	end
+    if not self.moveWithMouse then return event; end
 
     if self.moving then
         if self.parent then
@@ -84,11 +102,15 @@ function UIPanel:onMouseMoveOutside(dx, dy)
             self:bringToTop();
         end
     end
+	return event;
 end
 
 function UIPanel:onMouseMove(dx, dy)
-	UIComponent.onMouseMove(self, dx, dy);
-    if not self.moveWithMouse then return; end
+	local event = UIComponent.onMouseMove(self, dx, dy);
+	if(event.preventDefault) then
+		return event;
+	end
+    if not self.moveWithMouse then return event; end
 
     if self.moving then
         if self.parent then
@@ -101,6 +123,7 @@ function UIPanel:onMouseMove(dx, dy)
         end
         --ISMouseDrag.dragView = self;
     end
+	return event;
 end
 
 MeowCore.Client.UserInterface.UIPanel = UIPanel;
