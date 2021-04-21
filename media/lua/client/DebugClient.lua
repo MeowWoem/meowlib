@@ -10,7 +10,7 @@ local Vector3 = MeowCore:require("Shared/Math/Geometry/Vector3");
 function test()
 
 	local elm = UIPanel:new({
-		x = 500,
+		x = 1000,
 		y = 250,
 		width = 500,
 		height = 500
@@ -23,6 +23,19 @@ function test()
 		title = "Button"
 	});
 	btn:initialise();
+
+	--btn:testTooltip();
+
+	local TestClass = MeowCore.class("TestClass", {
+		x = 1000,
+		y = 250,
+		width = 500,
+		height = 500
+	});
+
+	Dump(TestClass);
+	Dump(ctype(TestClass));
+
 	elm:addChild(btn);
 
 	local cfg = Config:new("meowlib", {
