@@ -7,7 +7,8 @@ local Config = MeowCore.require("Shared/Core/Config");
 local Vector2 = MeowCore.require("Shared/Math/Geometry/Vector2");
 local Vector3 = MeowCore.require("Shared/Math/Geometry/Vector3");
 
-function test()
+
+local function test()
 
 	local elm = UIPanel:new({
 		x = 1000,
@@ -26,6 +27,13 @@ function test()
 
 	--btn:testTooltip();
 
+	local TestClass2 = MeowCore.class("TestClass2", {
+		x = 1000,
+		y = 250,
+		width = 500,
+		height = 500
+	});
+
 	local TestClass = MeowCore.class("TestClass", {
 		x = 1000,
 		y = 250,
@@ -33,8 +41,11 @@ function test()
 		height = 500
 	});
 
-	Dump(TestClass);
-	Dump(ctype(TestClass));
+	local TestChild = MeowCore.derive("TestChild", TestClass);
+	local testcInst = TestChild:new({x=50});
+	Dump(ctype(TestChild), TestChild, testcInst, cinstanceof(testcInst, TestClass2));
+	Dump(ctype(package));
+
 
 	elm:addChild(btn);
 
