@@ -240,21 +240,39 @@ function MeowClass:hasSuper()
 end
 
 
-local function _dump(o)
+local function _dump(o, lvl)
+	local strIndent = '|  ';
+	for _=1,lvl do
+		strIndent = strIndent ..  '   ';
+	end
 	if type(o) == 'table' then
-		local s = '{ \n';
+		local s = strIndent .. '{ \n';
 		for k,v in pairs(o) do
-			if type(k) ~= 'number' then k = '"'..k..'"' end
-			s = s .. '['..k..'] = ' .. _dump(v) .. ',';
+			if lvl >= 256 then
+				return (s .. strIndent ..  '   ' .. '\n... Max depth 256\n} ');
+			end
+			if(v == o) then
+				s = s .. strIndent ..  '   ' .. '['..k..'] = ' .. tostring(v):gsub("table ", ctype(v) .. ':') .. ' (Recursive),\n';
+			else
+				if type(k) ~= 'number' then k = '"'..k..'"' end
+				s = s .. strIndent ..  '   ' .. '['..k..'] = ' .. _dump(v, lvl + 1) .. ',\n';
+			end
 		end
-		return (s .. '\n} ');
+		return (s .. strIndent .. '} ');
 	else
 		return (tostring(o));
 	end
 end
 
-function Dump(o)
-	print(_dump(o));
+function Dump(...)
+	local args = {...};
+	local str = '';
+	local l = table.length(args);
+	for i, v in ipairs(args) do
+		str = str .. '|-> ' .. _dump(v, 0);
+		if(i < l) then str = str ..'\n' end
+	end
+	print("\n-------\n| [DUMP]\n" .. str .. '\n-------\n' .. debugstacktrace(nil, 2, 1));
 end
 
 function DeepCopy(obj)
