@@ -6,8 +6,8 @@ local Color = MeowCore:require("Shared/Types/Color");
 
 local Theme = {
 	UIPanel = Style:new({
-		background = Color.white(),
-		color = Color.black(),
+		background = Color.black(),
+		color = Color.white(),
 		font = UIFont.Small,
 		border = {
 			all = {
@@ -24,7 +24,7 @@ local Theme = {
 		border = {
 			all = {
 				width = 1,
-				color = Color:new(0.7, 0.7, 0.7, 0.8)
+				color = Color:new(0.7, 0.7, 0.7, 1)
 			}
 		},
 		hover = {
