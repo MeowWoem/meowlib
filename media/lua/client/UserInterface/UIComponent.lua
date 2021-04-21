@@ -113,6 +113,9 @@ end
 
 -- Mouse Handling
 function UIComponent:onMouseMove(dx, dy)
+	if not self:getIsVisible() then
+		return;
+	end
 	local event = UIMouseClickEvent:new({x=dx,y=dy});
 	self.mouseOver = self:isMouseOver();
 	self.events:trigger(self, "MouseMove", event);
@@ -120,6 +123,9 @@ function UIComponent:onMouseMove(dx, dy)
 end
 
 function UIComponent:onMouseMoveOutside(dx, dy)
+	if not self:getIsVisible() then
+		return;
+	end
 	local event = UIMouseClickEvent:new({x=dx,y=dy});
 	self.mouseOver = false;
 	self.events:trigger(self, "MouseMoveOutside", event);
@@ -127,18 +133,27 @@ function UIComponent:onMouseMoveOutside(dx, dy)
 end
 
 function UIComponent:onMouseDown(dx, dy)
+	if not self:getIsVisible() then
+		return;
+	end
 	local event = UIMouseClickEvent:new({x=dx,y=dy});
 	self.events:trigger(self, "MouseDown", event);
 	return event;
 end
 
 function UIComponent:onMouseUp(dx, dy)
+	if not self:getIsVisible() then
+		return;
+	end
 	local event = UIMouseClickEvent:new({x=dx,y=dy});
 	self.events:trigger(self, "MouseUp", event);
 	return event;
 end
 
 function UIComponent:onMouseUpOutside(dx, dy)
+	if not self:getIsVisible() then
+		return;
+	end
 	local event = UIMouseClickEvent:new({x=dx,y=dy});
 	self.events:trigger(self, "MouseUpOutside", event);
 	return event;

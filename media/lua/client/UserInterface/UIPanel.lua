@@ -33,7 +33,7 @@ end
 
 function UIPanel:onMouseUp(x, y)
 	local event = UIComponent.onMouseUp(self, x, y);
-	if(event.preventDefault) then
+	if(event ~= nil and event.preventDefault) then
 		return event;
 	end
     if not self.moveWithMouse then return event; end
@@ -52,7 +52,7 @@ end
 
 function UIPanel:onMouseUpOutside(x, y)
 	local event = UIComponent.onMouseUpOutside(self, x, y);
-	if(event.preventDefault) then
+	if(event ~= nil and event.preventDefault) then
 		return event;
 	end
     if not self.moveWithMouse then return; end
@@ -67,15 +67,15 @@ end
 
 function UIPanel:onMouseDown(x, y)
 	local event = UIComponent.onMouseDown(self, x, y);
-	if(event.preventDefault) then
+	if(event ~= nil and event.preventDefault) then
 		return event;
 	end
     if not self.moveWithMouse then return true; end
     if not self:getIsVisible() then
-        return event;
+        return;
     end
     if not self:isMouseOver() then
-        return event; -- this happens with setCapture(true)
+        return; -- this happens with setCapture(true)
     end
 
     self.downX = x;
@@ -87,7 +87,7 @@ end
 
 function UIPanel:onMouseMoveOutside(dx, dy)
 	local event = UIComponent.onMouseMoveOutside(self, dx, dy);
-	if(event.preventDefault) then
+	if(event ~= nil and event.preventDefault) then
 		return event;
 	end
     if not self.moveWithMouse then return event; end
@@ -107,7 +107,7 @@ end
 
 function UIPanel:onMouseMove(dx, dy)
 	local event = UIComponent.onMouseMove(self, dx, dy);
-	if(event.preventDefault) then
+	if(event ~= nil and event.preventDefault) then
 		return event;
 	end
     if not self.moveWithMouse then return event; end
