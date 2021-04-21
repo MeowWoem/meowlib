@@ -4,6 +4,8 @@ require "ISUI/ISUIElement"
 
 MeowCore:namespace("Client/UserInterface");
 
+local UIComponentEventsManager = MeowCore:require("Client/UserInterface/Events/UIComponentEventsManager");
+local UIMouseClickEvent = MeowCore:require("Client/UserInterface/Events/UIMouseClickEvent");
 local UIRectStruct = MeowCore:require("Client/UserInterface/UIRectStruct");
 local Color = MeowCore:require("Shared/Types/Color");
 local UIStyle = MeowCore:require("Client/UserInterface/UIStyle");
@@ -25,7 +27,8 @@ local properties = {
 	anchorBottom = false,
 	style = nil,
     fade = UITransition.new(),
-	backgroundRect = nil
+	backgroundRect = nil,
+	events = UIComponentEventsManager:new()
 }
 
 local function getRectData(parX, parY, parW, parH, parA, parR, parG, parB)
@@ -110,11 +113,35 @@ end
 
 -- Mouse Handling
 function UIComponent:onMouseMove(dx, dy)
+	local event = UIMouseClickEvent:new({x=dx,y=dy});
 	self.mouseOver = self:isMouseOver();
+	self.events:trigger(self, "MouseMove", event);
+	return event;
 end
 
 function UIComponent:onMouseMoveOutside(dx, dy)
+	local event = UIMouseClickEvent:new({x=dx,y=dy});
 	self.mouseOver = false;
+	self.events:trigger(self, "MouseMoveOutside", event);
+	return event;
+end
+
+function UIComponent:onMouseDown(dx, dy)
+	local event = UIMouseClickEvent:new({x=dx,y=dy});
+	self.events:trigger(self, "MouseDown", event);
+	return event;
+end
+
+function UIComponent:onMouseUp(dx, dy)
+	local event = UIMouseClickEvent:new({x=dx,y=dy});
+	self.events:trigger(self, "MouseUp", event);
+	return event;
+end
+
+function UIComponent:onMouseUpOutside(dx, dy)
+	local event = UIMouseClickEvent:new({x=dx,y=dy});
+	self.events:trigger(self, "MouseUpOutside", event);
+	return event;
 end
 
 function UIComponent:prerenderHover()
