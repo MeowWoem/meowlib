@@ -1,6 +1,6 @@
 require "MeowCore";
 
-MeowCore:namespace("Shared/Actors");
+MeowCore.namespace("Shared/Actors");
 
 local Actor = {
 

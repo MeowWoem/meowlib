@@ -1,6 +1,6 @@
 require "MeowCore";
 
-MeowCore:namespace("Shared/Events");
+MeowCore.namespace("Shared/Events");
 
 
 local EventsManager = {};

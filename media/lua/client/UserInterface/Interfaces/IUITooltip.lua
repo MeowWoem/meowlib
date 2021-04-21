@@ -1,6 +1,6 @@
 require "MeowCore";
 
-MeowCore:namespace("Client/UserInterface/Interfaces");
+MeowCore.namespace("Client/UserInterface/Interfaces");
 
 local IUITooltip = {
 	tooltip = nil

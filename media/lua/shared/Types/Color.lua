@@ -1,6 +1,6 @@
 require "MeowCore";
 
-MeowCore:namespace("Shared/Types");
+MeowCore.namespace("Shared/Types");
 
 local Color = {};
 Color.__type = 'Color';

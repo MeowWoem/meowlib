@@ -1,7 +1,7 @@
 require "MeowCore";
 
-MeowCore:namespace("Client/UserInterface/Events");
-local UIEvent = MeowCore:require("Client/UserInterface/Events/UIEvent");
+MeowCore.namespace("Client/UserInterface/Events");
+local UIEvent = MeowCore.require("Client/UserInterface/Events/UIEvent");
 
 local UIMouseClickEvent = UIEvent:new();
 UIMouseClickEvent.__type = "UIMouseClickEvent";

@@ -1,10 +1,10 @@
 require "MeowCore";
 
-MeowCore:namespace("Client/UserInterface");
+MeowCore.namespace("Client/UserInterface");
 
-local Color = MeowCore:require("Shared/Types/Color");
-local Rect2D = MeowCore:require("Shared/Math/Geometry/Rect2D");
-local UIRectBorderStruct = MeowCore:require("Client/UserInterface/UIRectBorderStruct");
+local Color = MeowCore.require("Shared/Types/Color");
+local Rect2D = MeowCore.require("Shared/Math/Geometry/Rect2D");
+local UIRectBorderStruct = MeowCore.require("Client/UserInterface/UIRectBorderStruct");
 
 local UIRectStruct = {};
 UIRectStruct.__type = "UIRectStruct";

@@ -63,8 +63,8 @@ MeowCore = {};
 
 local _required = {};
 
-function MeowCore:namespace(str, root)
-	root = root or self;
+function MeowCore.namespace(str, root)
+	root = root or MeowCore;
 	local obj = root;
 	local lastObj = root;
 	for _, v in ipairs(luautils.split(str, "/")) do
@@ -79,8 +79,8 @@ function MeowCore:namespace(str, root)
 	return obj;
 end
 
-function MeowCore:interface(classObj, interfaceName)
-	local interface = self:require(interfaceName);
+function MeowCore.interface(classObj, interfaceName)
+	local interface = MeowCore.require(interfaceName);
 	if(interface ~= nil) then
 		return MeowCore.extend(classObj, interface);
 	else
@@ -111,8 +111,8 @@ function MeowCore.class(typeName, properties)
 	return derived:new(properties);
 end
 
-function MeowCore:derive(typeName, from)
-	local super = self:require(from);
+function MeowCore.derive(typeName, from)
+	local super = MeowCore.require(from);
 	if(super ~= nil) then
 		local derived = super:new();
 		derived.__type = typeName;
@@ -126,7 +126,7 @@ function MeowCore:derive(typeName, from)
 	end
 end
 
-function MeowCore:require(str)
+function MeowCore.require(str)
 	local path = str;
 	local i, l = path:find("Client/");
 	if(i == 1) then
@@ -152,7 +152,7 @@ function MeowCore:require(str)
 		_required[str] = true;
 		require (path);
 	end
-	local obj = self;
+	local obj = MeowCore;
 
 	for _, v in ipairs(luautils.split(str, "/")) do
 		if(obj == nil) then
@@ -161,7 +161,7 @@ function MeowCore:require(str)
 		obj = obj[v];
 	end
 
-	if(obj == nil or obj == self) then
+	if(obj == nil or obj == MeowCore) then
 		print("Module : " .. str .. " Not exists in client!");
 		return nil;
 	end

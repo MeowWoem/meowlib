@@ -1,6 +1,6 @@
 require "MeowCore";
 
-MeowCore:namespace("Shared/Utils");
+MeowCore.namespace("Shared/Utils");
 
 local DS = getFileSeparator();
 local INIUtils = {};

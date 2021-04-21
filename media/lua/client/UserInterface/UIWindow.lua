@@ -1,7 +1,7 @@
 require "MeowCore";
 
-MeowCore:namespace("Client/UserInterface");
-local UIPanel = MeowCore:require("Client/UserInterface/UIPanel");
+MeowCore.namespace("Client/UserInterface");
+local UIPanel = MeowCore.require("Client/UserInterface/UIPanel");
 local Parent = UIPanel;
 local UIWindow = Parent:derive("UIWindow");
 

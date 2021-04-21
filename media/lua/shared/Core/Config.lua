@@ -1,7 +1,7 @@
 require "MeowCore";
 
-MeowCore:namespace("Shared/Core");
-local INIUtils = MeowCore:require("Shared/Utils/INIUtils");
+MeowCore.namespace("Shared/Core");
+local INIUtils = MeowCore.require("Shared/Utils/INIUtils");
 
 local Config = {};
 

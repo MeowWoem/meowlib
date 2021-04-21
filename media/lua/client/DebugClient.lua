@@ -1,11 +1,11 @@
 require "MeowCore";
 
-local UIPanel = MeowCore:require("Client/UserInterface/UIPanel");
-local UIComponent = MeowCore:require("Client/UserInterface/UIComponent");
-local UIButton = MeowCore:require("Client/UserInterface/UIButton");
-local Config = MeowCore:require("Shared/Core/Config");
-local Vector2 = MeowCore:require("Shared/Math/Geometry/Vector2");
-local Vector3 = MeowCore:require("Shared/Math/Geometry/Vector3");
+local UIPanel = MeowCore.require("Client/UserInterface/UIPanel");
+local UIComponent = MeowCore.require("Client/UserInterface/UIComponent");
+local UIButton = MeowCore.require("Client/UserInterface/UIButton");
+local Config = MeowCore.require("Shared/Core/Config");
+local Vector2 = MeowCore.require("Shared/Math/Geometry/Vector2");
+local Vector3 = MeowCore.require("Shared/Math/Geometry/Vector3");
 
 function test()
 

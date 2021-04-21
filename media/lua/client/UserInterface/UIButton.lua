@@ -1,11 +1,11 @@
 require "MeowCore";
 
-MeowCore:namespace("Client/UserInterface");
+MeowCore.namespace("Client/UserInterface");
 
-local Color = MeowCore:require("Shared/Types/Color");
+local Color = MeowCore.require("Shared/Types/Color");
 
-local UIButton = MeowCore:derive("UIButton", "Client/UserInterface/UIPanel");
-MeowCore:interface(UIButton, "Client/UserInterface/Interfaces/IUITooltip");
+local UIButton = MeowCore.derive("UIButton", "Client/UserInterface/UIPanel");
+MeowCore.interface(UIButton, "Client/UserInterface/Interfaces/IUITooltip");
 
 local properties = {
 	enable = true,

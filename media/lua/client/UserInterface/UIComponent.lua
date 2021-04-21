@@ -2,13 +2,13 @@ require "MeowCore";
 require "Theme";
 require "ISUI/ISUIElement"
 
-MeowCore:namespace("Client/UserInterface");
+MeowCore.namespace("Client/UserInterface");
 
-local UIComponentEventsManager = MeowCore:require("Client/UserInterface/Events/UIComponentEventsManager");
-local UIMouseClickEvent = MeowCore:require("Client/UserInterface/Events/UIMouseClickEvent");
-local UIRectStruct = MeowCore:require("Client/UserInterface/UIRectStruct");
-local Color = MeowCore:require("Shared/Types/Color");
-local UIStyle = MeowCore:require("Client/UserInterface/UIStyle");
+local UIComponentEventsManager = MeowCore.require("Client/UserInterface/Events/UIComponentEventsManager");
+local UIMouseClickEvent = MeowCore.require("Client/UserInterface/Events/UIMouseClickEvent");
+local UIRectStruct = MeowCore.require("Client/UserInterface/UIRectStruct");
+local Color = MeowCore.require("Shared/Types/Color");
+local UIStyle = MeowCore.require("Client/UserInterface/UIStyle");
 
 local Parent = ISUIElement;
 local UIComponent = Parent:derive("UIComponent");

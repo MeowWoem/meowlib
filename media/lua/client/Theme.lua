@@ -1,7 +1,7 @@
 require "MeowCore";
 
-local Style = MeowCore:require("Client/UserInterface/UIStyle");
-local Color = MeowCore:require("Shared/Types/Color");
+local Style = MeowCore.require("Client/UserInterface/UIStyle");
+local Color = MeowCore.require("Shared/Types/Color");
 
 
 local Theme = {

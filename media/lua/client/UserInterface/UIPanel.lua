@@ -1,8 +1,8 @@
 require "MeowCore";
 
-MeowCore:namespace("Client/UserInterface");
+MeowCore.namespace("Client/UserInterface");
 
-local UIComponent = MeowCore:require("Client/UserInterface/UIComponent");
+local UIComponent = MeowCore.require("Client/UserInterface/UIComponent");
 
 local UIPanel = UIComponent:new();
 UIPanel.__type = 'UIPanel';

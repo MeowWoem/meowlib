@@ -1,7 +1,7 @@
 require "MeowCore";
 
-MeowCore:namespace("Shared/Math/Geometry");
-local Vector2 = MeowCore:require("Shared/Math/Geometry/Vector2");
+MeowCore.namespace("Shared/Math/Geometry");
+local Vector2 = MeowCore.require("Shared/Math/Geometry/Vector2");
 
 local Vector3 = Vector2:new();
 Vector3.__type = "Vector3";

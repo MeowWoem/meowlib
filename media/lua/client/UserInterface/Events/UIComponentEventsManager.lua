@@ -1,7 +1,7 @@
 require "MeowCore";
 
-MeowCore:namespace("Client/UserInterface/Events");
-local EventsManager = MeowCore:require("Shared/Events/EventsManager");
+MeowCore.namespace("Client/UserInterface/Events");
+local EventsManager = MeowCore.require("Shared/Events/EventsManager");
 
 local UIComponentEventsManager = EventsManager:new();
 UIComponentEventsManager.__type = "UIComponentEventsManager";

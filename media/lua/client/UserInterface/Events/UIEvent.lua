@@ -1,7 +1,7 @@
 require "MeowCore";
 
-MeowCore:namespace("Client/UserInterface/Events");
-local Event = MeowCore:require("Shared/Events/Event");
+MeowCore.namespace("Client/UserInterface/Events");
+local Event = MeowCore.require("Shared/Events/Event");
 
 local UIEvent = Event:new();
 UIEvent.__type = "UIEvent";

@@ -1,8 +1,8 @@
 require "MeowCore";
 
-MeowCore:namespace("Client/UserInterface");
+MeowCore.namespace("Client/UserInterface");
 
-local Color = MeowCore:require("Shared/Types/Color");
+local Color = MeowCore.require("Shared/Types/Color");
 
 local UIRectBorderStruct = {};
 UIRectBorderStruct.__type = "UIRectBorderStruct";

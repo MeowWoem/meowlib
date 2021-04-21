@@ -1,6 +1,6 @@
 require "MeowCore";
 
-MeowCore:namespace("Shared/Math/Geometry");
+MeowCore.namespace("Shared/Math/Geometry");
 
 
 local Vector2 = {};
