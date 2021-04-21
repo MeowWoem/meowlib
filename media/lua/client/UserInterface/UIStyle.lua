@@ -19,7 +19,8 @@ local properties = {
 	color = Color.white(),
 	font = UIFont.Small,
 	boxSizing = "border-box",
-	hover = {}
+	hover = {},
+	active = {}
 }
 
 
