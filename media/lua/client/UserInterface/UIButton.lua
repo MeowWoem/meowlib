@@ -2,14 +2,16 @@ require "MeowCore";
 
 MeowCore:namespace("Client/UserInterface");
 
-local UIPanel = MeowCore:require("Client/UserInterface/UIPanel");
 local Color = MeowCore:require("Shared/Types/Color");
 
-local Parent = UIPanel;
-local UIButton = Parent:new();
-UIButton.__type = "UIButton";
+local UIButton = MeowCore:derive("UIButton", "Client/UserInterface/UIPanel");
+MeowCore:interface(UIButton, "Client/UserInterface/Interfaces/IUITooltip");
+
 local properties = {
 	enable = true,
+	pressed = false,
+	allowMouseUpProcessing = false,
+	target = nil,
 	joypadFocused = false,
 	title = "Button"
 }
@@ -17,12 +19,10 @@ local properties = {
 function UIButton:new(props)
 	props = props or {};
 	props = MeowCore.extend({}, DeepCopyRecursive(properties), props);
-	local o = Parent:new(props);
+	local o = self:super():new(props);
 	o = MeowCore.extend({}, o, props);
 	setmetatable(o, self);
 	self.__index = self;
-
-
 
 	return o;
 end
@@ -39,11 +39,42 @@ function UIButton:initialise()
         self.height = tm:MeasureStringY(self.style.font, self.title) + 10;
     end
 
-    Parent.initialise(self);
+    self:super().initialise(self);
 
 end
+
 function UIButton:setJoypadFocused(focused)
     self.joypadFocused = focused;
+end
+
+function UIButton:onMouseUp(x, y)
+	local event = self:super().onMouseUp(self, x, y);
+
+	if(event ~= nil and event.preventDefault) then
+		return event;
+	end
+    if not self:getIsVisible() then
+        return;
+    end
+    local process = false;
+    if self.pressed == true then
+        process = true;
+    end
+    self.pressed = false;
+
+    if self.enable and (process or self.allowMouseUpProcessing) then
+		-- TODO: On click
+    end
+
+	return event;
+end
+
+function UIButton:onMouseUpOutside(x, y)
+    self.pressed = false;
+	local event = self:super().onMouseUpOutside(self, x, y);
+	if(event ~= nil and event.preventDefault) then
+		return event;
+	end
 end
 
 function UIButton:prerenderHover()
@@ -62,7 +93,10 @@ end
 
 function UIButton:render()
 	local height = getTextManager():MeasureStringY(self.style.font, self.title)
-	self:drawTextCentre(self.title, self.width / 2, (self.height / 2) - (height/2), self.style.color.r, self.style.color.g, self.style.color.b, self.style.color.a, self.style.font);
+	self:drawTextCentre(
+		self.title, self.width / 2, (self.height / 2) - (height/2),
+		self.style.color.r, self.style.color.g, self.style.color.b, self.style.color.a, self.style.font
+	);
 
 end
 

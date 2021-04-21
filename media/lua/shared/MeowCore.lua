@@ -58,6 +58,7 @@ function ctype(obj)
 	return t
 end
 
+local MeowClass = {};
 MeowCore = {};
 
 local _required = {};
@@ -76,6 +77,53 @@ function MeowCore:namespace(str, root)
 	end
 
 	return obj;
+end
+
+function MeowCore:interface(classObj, interfaceName)
+	local interface = self:require(interfaceName);
+	if(interface ~= nil) then
+		return MeowCore.extend(classObj, interface);
+	else
+		return nil;
+		-- TODO : Error
+	end
+end
+
+function MeowCore.class(typeName, properties)
+	properties = properties or {};
+	local derived = MeowClass:new();
+	derived.__type = typeName;
+	function derived:new(props)
+		props = props or {};
+		if(props == properties) then
+			props = MeowCore.extend({}, props);
+		else
+			props = MeowCore.extend({}, DeepCopyRecursive(properties), props);
+			-- Do a deep copy on  properties definition to ensure default objects references are not shared between instance
+		end
+
+		local o = MeowClass:new(props);
+		setmetatable(o, self);
+		self.__index = self;
+		return o;
+	end
+
+	return derived:new(properties);
+end
+
+function MeowCore:derive(typeName, from)
+	local super = self:require(from);
+	if(super ~= nil) then
+		local derived = super:new();
+		derived.__type = typeName;
+		derived.__super = super;
+
+		function derived:super()
+			return self.__super;
+		end
+
+		return derived;
+	end
 end
 
 function MeowCore:require(str)
@@ -134,6 +182,34 @@ function MeowCore.extend(main, ...)
 		end
 	end
 	return main;
+end
+
+
+MeowClass.__type = 'MeowClass';
+MeowClass.__super = nil;
+
+function MeowClass:new(props)
+	props = props or {};
+	local o = MeowCore.extend({}, props);
+	setmetatable(o, self);
+	self.__index = self;
+	return o;
+end
+
+function MeowClass.getClass()
+	return MeowClass;
+end
+
+function MeowClass:getClassName()
+	return self.__type;
+end
+
+function MeowClass:super()
+	return self.__super;
+end
+
+function MeowClass:hasSuper()
+	return self.__super ~= nil;
 end
 
 
