@@ -52,8 +52,7 @@ local function getRectData(parX, parY, parW, parH, parA, parR, parG, parB)
 	return x, y, w, h, a, r, g, b;
 end
 
-function UIComponent:initialise()
-	Parent.initialise(self);
+function UIComponent:loadStyle()
 	if(self.theme ~= nil) then
 		self.style = MeowCore.Client.Theme[self.theme];
 	end
@@ -63,6 +62,11 @@ function UIComponent:initialise()
 	if(self.style == nil) then
 		self.style = UIStyle:new();
 	end
+end
+
+function UIComponent:initialise()
+	Parent.initialise(self);
+	self:loadStyle();
 
 	local bg = UIRectStruct:new();
 	bg.rect.x = 0;
