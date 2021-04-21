@@ -108,11 +108,23 @@ function MeowCore.class(typeName, properties)
 		return o;
 	end
 
+	function derived.getClass()
+		return derived;
+	end
+
 	return derived:new(properties);
 end
 
-function MeowCore.derive(typeName, from)
-	local super = MeowCore.require(from);
+function MeowCore.derive(typeName, from, properties)
+
+	properties = properties or {};
+
+	local super = nil;
+	if(type(from) == 'string') then
+		super = MeowCore.require(from);
+	elseif(from.__type ~= nil) then
+		super = from;
+	end
 	if(super ~= nil) then
 		local derived = super:new();
 		derived.__type = typeName;
@@ -122,7 +134,22 @@ function MeowCore.derive(typeName, from)
 			return self.__super;
 		end
 
-		return derived;
+		function derived:new(props)
+			props = props or {};
+			if(props == properties) then
+				props = MeowCore.extend({}, props);
+			else
+				props = MeowCore.extend({}, DeepCopyRecursive(properties), props);
+				-- Do a deep copy on  properties definition to ensure default objects references are not shared between instance
+			end
+
+			local o = super:new(props);
+			setmetatable(o, self);
+			self.__index = self;
+			return o;
+		end
+
+		return derived:new(properties);
 	end
 end
 
