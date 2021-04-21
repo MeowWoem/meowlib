@@ -10,10 +10,9 @@ local UIRectStruct = MeowCore.require("Client/UserInterface/UIRectStruct");
 local Color = MeowCore.require("Shared/Types/Color");
 local UIStyle = MeowCore.require("Client/UserInterface/UIStyle");
 
-local Parent = ISUIElement;
-local UIComponent = Parent:derive("UIComponent");
-
+local UIComponent = ISUIElement:derive("UIComponent");
 UIComponent.__type = "UIComponent";
+UIComponent.__super = ISUIElement;
 
 local properties = {
 	theme = nil,
@@ -67,8 +66,24 @@ function UIComponent:loadStyle()
 	end
 end
 
+function UIComponent.getClass()
+	return UIComponent;
+end
+
+function UIComponent:getClassName()
+	return UIComponent.__type;
+end
+
+function UIComponent:super()
+	return UIComponent.__super;
+end
+
+function UIComponent:hasSuper()
+	return UIComponent.__super ~= nil;
+end
+
 function UIComponent:initialise()
-	Parent.initialise(self);
+	UIComponent.__super.initialise(self);
 	self:loadStyle();
 
 	local bg = UIRectStruct:new();
@@ -104,7 +119,7 @@ end
 function UIComponent:new(props)
 	props = props or {};
 	props = MeowCore.extend({}, DeepCopyRecursive(properties), props);
-	local o = Parent:new(props.x, props.y, props.width, props.height);
+	local o = UIComponent.__super:new(props.x, props.y, props.width, props.height);
 	o = MeowCore.extend({}, o, props);
 	setmetatable(o, self);
 	self.__index = self;
@@ -184,12 +199,12 @@ end
 
 function UIComponent:drawRectStatic(parX, parY, parW, parH, parA, parR, parG, parB)
 	local x, y, w, h, a, r, g, b = getRectData(parX, parY, parW, parH, parA, parR, parG, parB);
-	Parent.drawRectStatic(self, x, y, w, h, a, r, g, b);
+	UIComponent.__super.drawRectStatic(self, x, y, w, h, a, r, g, b);
 end
 
 function UIComponent:drawRect(parX, parY, parW, parH, parA, parR, parG, parB)
 	local x, y, w, h, a, r, g, b = getRectData(parX, parY, parW, parH, parA, parR, parG, parB);
-	Parent.drawRect(self, x, y, w, h, a, r, g, b);
+	UIComponent.__super.drawRect(self, x, y, w, h, a, r, g, b);
 end
 
 function UIComponent:drawUIRectStructStatic(uirect)
