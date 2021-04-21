@@ -138,4 +138,34 @@ function UIRectStruct:getRectWithOffset()
 	);
 end
 
+function UIRectStruct:getBorderTopRect()
+	return Rect2D:new(
+		self.rect.x, self.rect.y,
+		self.rect.w, self.borders.t.thickness
+	);
+end
+
+function UIRectStruct:getBorderLeftRect()
+	local offset = self:getRectOffset();
+	return Rect2D:new(
+		self.rect.x, self.rect.y + offset.y,
+		self.borders.l.thickness, self.rect.h - offset.h
+	);
+end
+
+function UIRectStruct:getBorderBottomRect()
+	return Rect2D:new(
+		self.rect.x, self.rect.h - self.borders.b.thickness,
+		self.rect.w, self.borders.b.thickness
+	);
+end
+
+function UIRectStruct:getBorderRightRect()
+	local offset = self:getRectOffset();
+	return Rect2D:new(
+		self.rect.w - self.borders.r.thickness, self.rect.y + offset.y,
+		self.borders.t.thickness, self.rect.h - offset.h
+	);
+end
+
 MeowCore.Client.UserInterface.UIRectStruct = UIRectStruct;
