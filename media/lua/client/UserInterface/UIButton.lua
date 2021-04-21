@@ -2,7 +2,6 @@ require "MeowCore";
 
 MeowCore:namespace("Client/UserInterface");
 
-local UIStyle = MeowCore:require("Client/UserInterface/UIStyle");
 local UIPanel = MeowCore:require("Client/UserInterface/UIPanel");
 local Color = MeowCore:require("Shared/Types/Color");
 
@@ -23,17 +22,26 @@ function UIButton:new(props)
 	setmetatable(o, self);
 	self.__index = self;
 
-	local tm = getTextManager();
-	if o.width < (tm:MeasureStringX(UIFont.Small, o.title) + 10) then
-        o.width = tm:MeasureStringX(UIFont.Small, o.title) + 10;
-    end
-	if o.height < (tm:MeasureStringY(UIFont.Small, o.title) + 10) then
-        o.height = tm:MeasureStringY(UIFont.Small, o.title) + 10;
-    end
+
 
 	return o;
 end
 
+function UIButton:initialise()
+
+	self:loadStyle();
+
+	local tm = getTextManager();
+	if self.width < (tm:MeasureStringX(self.style.font, self.title) + 10) then
+        self.width = tm:MeasureStringX(self.style.font, self.title) + 10;
+    end
+	if self.height < (tm:MeasureStringY(self.style.font, self.title) + 10) then
+        self.height = tm:MeasureStringY(self.style.font, self.title) + 10;
+    end
+
+    Parent.initialise(self);
+
+end
 function UIButton:setJoypadFocused(focused)
     self.joypadFocused = focused;
 end
