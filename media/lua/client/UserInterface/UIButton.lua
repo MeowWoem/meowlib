@@ -19,7 +19,7 @@ local properties = {
 function UIButton:new(props)
 	props = props or {};
 	props = MeowCore.extend({}, DeepCopyRecursive(properties), props);
-	local o = self:super():new(props);
+	local o = UIButton:super():new(props);
 	o = MeowCore.extend({}, o, props);
 	setmetatable(o, self);
 	self.__index = self;
@@ -39,7 +39,7 @@ function UIButton:initialise()
         self.height = tm:MeasureStringY(self.style.font, self.title) + 10;
     end
 
-    self:super().initialise(self);
+    UIButton:super().initialise(self);
 
 end
 
@@ -48,7 +48,7 @@ function UIButton:setJoypadFocused(focused)
 end
 
 function UIButton:onMouseUp(x, y)
-	local event = self:super().onMouseUp(self, x, y);
+	local event = UIButton:super().onMouseUp(self, x, y);
 
 	if(event ~= nil and event.preventDefault) then
 		return event;
@@ -71,7 +71,7 @@ end
 
 function UIButton:onMouseUpOutside(x, y)
     self.pressed = false;
-	local event = self:super().onMouseUpOutside(self, x, y);
+	local event = UIButton:super().onMouseUpOutside(self, x, y);
 	if(event ~= nil and event.preventDefault) then
 		return event;
 	end

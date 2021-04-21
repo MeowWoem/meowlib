@@ -2,10 +2,8 @@ require "MeowCore";
 
 MeowCore.namespace("Client/UserInterface");
 
-local UIComponent = MeowCore.require("Client/UserInterface/UIComponent");
+local UIPanel = MeowCore.derive("UIPanel", "Client/UserInterface/UIComponent");
 
-local UIPanel = UIComponent:new();
-UIPanel.__type = 'UIPanel';
 
 local properties = {
 	moveWithMouse = false
@@ -14,7 +12,7 @@ local properties = {
 function UIPanel:new(props)
 	props = props or {};
 	props = MeowCore.extend({}, DeepCopyRecursive(properties), props);
-	local o = UIComponent:new(props);
+	local o = UIPanel:super():new(props);
 	o = MeowCore.extend({}, o, props);
 	setmetatable(o, self);
 	self.__index = self;
@@ -22,7 +20,7 @@ function UIPanel:new(props)
 end
 
 function UIPanel:prerender()
-	UIComponent.prerender(self);
+	UIPanel:super().prerender(self);
 	-- Code, Cred1, Cred2, Dialogue, Intro, Large, MainMenu1, MainMenu2, Massive, Medium, MediumNew, NewLarge, NewMedium, NewSmall, Small
 	--self:drawText("UI PANEL", 0, 0, .5, .3, .3, 1, UIFont.Small);
 end
@@ -32,7 +30,7 @@ function UIPanel:close()
 end
 
 function UIPanel:onMouseUp(x, y)
-	local event = UIComponent.onMouseUp(self, x, y);
+	local event = UIPanel:super().onMouseUp(self, x, y);
 	if(event ~= nil and event.preventDefault) then
 		return event;
 	end
@@ -51,7 +49,7 @@ function UIPanel:onMouseUp(x, y)
 end
 
 function UIPanel:onMouseUpOutside(x, y)
-	local event = UIComponent.onMouseUpOutside(self, x, y);
+	local event = UIPanel:super().onMouseUpOutside(self, x, y);
 	if(event ~= nil and event.preventDefault) then
 		return event;
 	end
@@ -66,7 +64,7 @@ function UIPanel:onMouseUpOutside(x, y)
 end
 
 function UIPanel:onMouseDown(x, y)
-	local event = UIComponent.onMouseDown(self, x, y);
+	local event = UIPanel:super().onMouseDown(self, x, y);
 	if(event ~= nil and event.preventDefault) then
 		return event;
 	end
@@ -86,7 +84,7 @@ function UIPanel:onMouseDown(x, y)
 end
 
 function UIPanel:onMouseMoveOutside(dx, dy)
-	local event = UIComponent.onMouseMoveOutside(self, dx, dy);
+	local event = UIPanel:super().onMouseMoveOutside(self, dx, dy);
 	if(event ~= nil and event.preventDefault) then
 		return event;
 	end
@@ -106,7 +104,7 @@ function UIPanel:onMouseMoveOutside(dx, dy)
 end
 
 function UIPanel:onMouseMove(dx, dy)
-	local event = UIComponent.onMouseMove(self, dx, dy);
+	local event = UIPanel:super().onMouseMove(self, dx, dy);
 	if(event ~= nil and event.preventDefault) then
 		return event;
 	end
