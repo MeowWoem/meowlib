@@ -162,58 +162,14 @@ function UIComponent:prerender()
 
 	self:prerenderHover();
 
-	local style = self.style;
+	self:drawUIRectStructStatic(self.backgroundRect);
 
-	local backgroundOffset = self.backgroundRect:getRectOffset();
-	local backgroundWithOffset = self.backgroundRect:getRectWithOffset();
+end
 
-	-- # 	DRAWING
-	-- #	Background
-	self:drawRectStatic(
-		backgroundWithOffset,
-		self.backgroundRect.color
-	);
 
-	if style.border then
-		if(style.border.all or style.border.top) then
-			local b = style.border.all or style.border.top;
-			if(b.width > 0) then
-				self:drawRectStatic(0, 0, self.width, b.width, b.color.a, b.color.r, b.color.g, b.color.b);
-			end
-		end
-		if(style.border.all or style.border.left) then
-			local b = style.border.all or style.border.left;
-			if(b.width > 0) then
-				self:drawRectStatic(
-					0, backgroundOffset.y, b.width, self.height - backgroundOffset.h,
-					b.color.a, b.color.r, b.color.g, b.color.b
-				);
-			end
-		end
-		if(style.border.all or style.border.bottom) then
-			local b = style.border.all or style.border.bottom;
-			if(b.width > 0) then
-				self:drawRectStatic(0, self.height - b.width, self.width, b.width, b.color.a, b.color.r, b.color.g, b.color.b);
-			end
-		end
-		if(style.border.all or style.border.right) then
-			local b = style.border.all or style.border.right;
-			if(b.width > 0) then
-				local y = 0;
-				if((style.border.all or style.border.top) ~= nil) then
-					local bTop = style.border.all or style.border.top;
-					y = bTop.width;
-				end
-				self:drawRectStatic(
-					self.width - b.width, y,
-					b.width, self.height - backgroundOffset.h,
-					b.color.a, b.color.r, b.color.g, b.color.b
-				);
-			end
-		end
-
-	end
-
+function UIComponent:drawRectStatic(parX, parY, parW, parH, parA, parR, parG, parB)
+	local x, y, w, h, a, r, g, b = getRectData(parX, parY, parW, parH, parA, parR, parG, parB);
+	Parent.drawRectStatic(self, x, y, w, h, a, r, g, b);
 end
 
 function UIComponent:drawRect(parX, parY, parW, parH, parA, parR, parG, parB)
@@ -221,18 +177,162 @@ function UIComponent:drawRect(parX, parY, parW, parH, parA, parR, parG, parB)
 	Parent.drawRect(self, x, y, w, h, a, r, g, b);
 end
 
-function UIComponent:drawRectStatic(parX, parY, parW, parH, parA, parR, parG, parB)
-	local x, y, w, h, a, r, g, b = getRectData(parX, parY, parW, parH, parA, parR, parG, parB);
-	Parent.drawRectStatic(self, x, y, w, h, a, r, g, b);
+function UIComponent:drawUIRectStructStatic(uirect)
+
+	local backgroundWithOffset = uirect:getRectWithOffset();
+
+	-- # 	DRAWING
+	-- #	Background
+	self:drawRectStatic(
+		backgroundWithOffset,
+		uirect.color
+	);
+
+	if(uirect.borders.t.thickness > 0) then
+		self:drawRectStatic(
+			uirect:getBorderTopRect(),
+			uirect.borders.t.color
+		);
+	end
+	if(uirect.borders.l.thickness > 0) then
+		self:drawRectStatic(
+			uirect:getBorderLeftRect(),
+			uirect.borders.l.color
+		);
+	end
+	if(uirect.borders.b.thickness > 0) then
+		self:drawRectStatic(
+			uirect:getBorderBottomRect(),
+			uirect.borders.b.color
+		);
+	end
+	if(uirect.borders.r.thickness > 0) then
+		self:drawRectStatic(
+			uirect:getBorderRightRect(),
+			uirect.borders.r.color
+		);
+	end
+
 end
 
-function UIComponent:drawRectBorderStatic(parX, parY, parW, parH, parA, parR, parG, parB, parWT, parWR, parWB, parWL)
-	local x, y, w, h, a, r, g, b, wt, wr, wb, wl = getRectData(parX, parY, parW, parH, parA, parR, parG, parB),
-		typed('integer', parWT), typed('integer', parWR), typed('integer', parWB), typed('integer', parWL);
-	-- top border
-	if(b.width > 0) then
-		self:drawRectStatic(x, y, w, WT, b.color.a, b.color.r, b.color.g, b.color.b);
+function UIComponent:drawUIRectStruct(uirect)
+
+	local backgroundWithOffset = uirect:getRectWithOffset();
+
+	-- # 	DRAWING
+	-- #	Background
+	self:drawRect(
+		backgroundWithOffset,
+		uirect.color
+	);
+
+	if(uirect.borders.t.thickness > 0) then
+		self:drawRect(
+			uirect:getBorderTopRect(),
+			uirect.borders.t.color
+		);
 	end
+	if(uirect.borders.l.thickness > 0) then
+		self:drawRect(
+			uirect:getBorderLeftRect(),
+			uirect.borders.l.color
+		);
+	end
+	if(uirect.borders.b.thickness > 0) then
+		self:drawRect(
+			uirect:getBorderBottomRect(),
+			uirect.borders.b.color
+		);
+	end
+	if(uirect.borders.r.thickness > 0) then
+		self:drawRect(
+			uirect:getBorderRightRect(),
+			uirect.borders.r.color
+		);
+	end
+
 end
+
+function UIComponent:drawRectBorderStatic(
+		parX, parY, parW, parH,
+		parA, parR, parG, parB,
+		parWT, parWR, parWB, parWL
+	) ---------------------------------
+	local x, y, w, h, a, r, g, b = getRectData(parX, parY, parW, parH, parA, parR, parG, parB);
+	local wt = typed('integer', parWT or -1);
+	local wr = typed('integer', parWR or -1);
+	local wb = typed('integer', parWB or -1);
+	local wl = typed('integer', parWL or -1);
+	--------------
+	Dump(a, r, g, b);
+	wt = wt > -1 and wt or 1;
+	wr = wr > -1 and wr or wt;
+	wb = wb > -1 and wb or wt;
+	wl = wl > -1 and wl or wl;
+
+	local offsetY = 0;
+	local offsetH = 0;
+
+	if(wt > 0) then
+		self:drawRect(x, y, w, wt, a, r, g, b);
+		offsetY = offsetY + wt;
+	end
+
+	if(wb > 0) then
+		self:drawRectStatic(x, h - wb, w, wb, a, r, g, b);
+		offsetH = offsetH + wb;
+	end
+
+	if(wl > 0) then
+		self:drawRectStatic(x, y + offsetY, wl, h - offsetH, a, r, g, b);
+	end
+
+	if(wr > 0) then
+		self:drawRectStatic(w - wr, y + offsetY, wr, h - offsetH, a, r, g, b);
+	end
+
+end
+
+function UIComponent:drawRectBorder(
+		parX, parY, parW, parH,
+		parA, parR, parG, parB,
+		parWT, parWR, parWB, parWL
+	) ---------------------------------
+	local x, y, w, h, a, r, g, b = getRectData(parX, parY, parW, parH, parA, parR, parG, parB);
+	local wt = typed('integer', parWT or -1);
+	local wr = typed('integer', parWR or -1);
+	local wb = typed('integer', parWB or -1);
+	local wl = typed('integer', parWL or -1);
+	--------------
+	Dump(a, r, g, b);
+	wt = wt > -1 and wt or 1;
+	wr = wr > -1 and wr or wt;
+	wb = wb > -1 and wb or wt;
+	wl = wl > -1 and wl or wl;
+
+	local offsetY = 0;
+	local offsetH = 0;
+
+	if(wt > 0) then
+		self:drawRect(x, y, w, wt, a, r, g, b);
+		offsetY = offsetY + wt;
+	end
+
+	if(wb > 0) then
+		self:drawRect(x, h - wb, w, wb, a, r, g, b);
+		offsetH = offsetH + wb;
+	end
+
+	if(wl > 0) then
+		self:drawRect(x, y + offsetY, wl, h - offsetH, a, r, g, b);
+	end
+
+	if(wr > 0) then
+		self:drawRect(w - wr, y + offsetY, wr, h - offsetH, a, r, g, b);
+	end
+
+end
+
+
 
 MeowCore.Client.UserInterface.UIComponent = UIComponent;
