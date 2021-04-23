@@ -2,25 +2,43 @@ require "MeowCore";
 
 MeowCore.namespace("Shared/Types");
 
-local Color = {};
-Color.__type = 'Color';
+local Color = MeowCore.class(
+	"Color",
+	{ r=0, g=0, b=0, a=0 },
+	{
+		["integer,integer,integer"] = "constructorRGBAInt",
+		["integer,integer,integer,integer"] = "constructorRGBAInt",
+		["number,number,number"] = "constructorRGBA",
+		["number,number,number,number"] = "constructorRGBA",
+		["string"] = "constructorHEX",
+		["ColorInfo"] = "constructorColorInfo"
+	}
+);
 
-local properties = {
-	r = 0,
-	g = 0,
-	b = 0,
-	a = 0
-}
 
-function Color:new(o, g, b, a)
-	o = o or {};
-	if(type(o) == "number") then
-		o = {r=o,g=g,b=b,a=a or 1};
-	end
-	o = MeowCore.extend({}, DeepCopyRecursive(properties), o);
-	setmetatable(o, self);
-	self.__index = self;
-	return o;
+function Color:constructorRGBA(r, g, b, a)
+	self.r = MeowCore.default(r, "float", 1);
+	self.g = MeowCore.default(g, "float", 1);
+	self.b = MeowCore.default(b, "float", 1);
+	self.a = MeowCore.default(a, "float", 1);
+end
+
+function Color:constructorRGBAInt(r, g, b, a)
+	self.r = MeowCore.default(r, "integer", 255) / 255;
+	self.g = MeowCore.default(g, "integer", 255) / 255;
+	self.b = MeowCore.default(b, "integer", 255) / 255;
+	self.a = MeowCore.default(a, "integer", 255) / 255;
+end
+
+function Color:constructorHEX(hex)
+	self:parse(hex);
+end
+
+function Color:constructorColorInfo(color)
+	self.r = color:getR();
+	self.g = color:getG();
+	self.b = color:getB();
+	self.a = color:getA();
 end
 
 function Color:toColorInfo()
@@ -73,7 +91,7 @@ function Color:parse(c)
 	else
 		--Dump(c);
 	end
-
+	return self;
 end
 
 Color.paleturquoise = function() return Color:new({r=0.68627450980392,g=0.93333333333333,b=0.93333333333333,a=1 });end
