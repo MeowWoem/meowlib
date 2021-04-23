@@ -58,6 +58,15 @@ function ctype(obj)
 	return t
 end
 
+local function getTableTypeSignature(tbl)
+	local signature = '';
+	local l = #tbl;
+	for i, v in ipairs(tbl) do
+		signature = signature .. ctype(v) .. (i == l and '' or ',');
+	end
+	return signature;
+end
+
 local MeowClass = {};
 MeowCore = {};
 
@@ -89,12 +98,21 @@ function MeowCore.interface(classObj, interfaceName)
 	end
 end
 
-function MeowCore.class(typeName, properties)
+function MeowCore.class(typeName, properties, constructors)
+	constructors = constructors or {};
 	properties = properties or {};
 	local derived = MeowClass:new();
 	derived.__type = typeName;
-	function derived:new(props)
-		props = props or {};
+	function derived:new(...)
+		local args = {...};
+		local signature = getTableTypeSignature(args);
+		local props;
+		if(constructors[signature]) then
+			props = {};
+		else
+			props = args[0] or {};
+		end
+
 		if(props == properties) then
 			props = MeowCore.extend({}, props);
 		else
@@ -105,8 +123,8 @@ function MeowCore.class(typeName, properties)
 		local o = MeowClass:new(props);
 		setmetatable(o, self);
 		self.__index = self;
-		if(type(self.constructor) == "function") then
-			self:constructor(props);
+		if(constructors[signature] and o[constructors[signature]]) then
+			o[constructors[signature]](o, ...);
 		end
 		return o;
 	end
