@@ -47,7 +47,7 @@ function INIUtils.INIToTable(modid, filename)
 	local retTypes = {};
 	local rvptr = retVal;
 	local f = getFileReader(modid .. DS .. filename, false);
-	local f2 = getModFileReader(modid, "media".. DS ..".typemaps" .. DS .. filename .. ".typemap", false);
+	local f2 = getFileReader(modid .. DS .. filename .. ".typemap", false);
 	if not f or not f2 then return retVal end;
 
 	local line = "1";
@@ -90,6 +90,7 @@ function INIUtils.INIToTable(modid, filename)
 			end
 		end
 	end
+		Dump(retVal);
 	return retVal;
 end
 
