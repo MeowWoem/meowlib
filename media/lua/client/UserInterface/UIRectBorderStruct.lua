@@ -4,30 +4,17 @@ MeowCore.namespace("Client/UserInterface");
 
 local Color = MeowCore.require("Shared/Types/Color");
 
-local UIRectBorderStruct = {};
-UIRectBorderStruct.__type = "UIRectBorderStruct";
+local UIRectBorderStruct = MeowCore.class(
+	"UIRectBorderStruct", {
+		thickness = 0,
+		color = Color.transparent()
+	}
+);
 
-local properties = {
-	thickness = 0,
-	color = Color.transparent()
-}
 
-function UIRectBorderStruct:new(props, color)
-	props = props or {};
-	local obj = {};
-	if(isctype("integer", props)) then
-		obj.thickness = props;
-		obj.color = typed("Color", color);
-	else
-		obj = props;
-	end
-
-	local o = MeowCore.extend({}, DeepCopyRecursive(properties), obj);
-
-	setmetatable(o, self);
-	self.__index = self;
-
-	return o;
+function UIRectBorderStruct:constructor_integer_Color(thickness, color)
+	self.thickness = thickness;
+	self.color = typed("Color", color);
 end
 
 MeowCore.Client.UserInterface.UIRectBorderStruct = UIRectBorderStruct;

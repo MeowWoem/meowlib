@@ -6,19 +6,20 @@ local Color = MeowCore.require("Shared/Types/Color");
 local Rect2D = MeowCore.require("Shared/Math/Geometry/Rect2D");
 local UIRectBorderStruct = MeowCore.require("Client/UserInterface/UIRectBorderStruct");
 
-local UIRectStruct = {};
-UIRectStruct.__type = "UIRectStruct";
 
-local properties = {
-	rect = Rect2D.zero(),
-	color = Color.white(),
-	borders = {
-		t = UIRectBorderStruct:new(),
-		r = UIRectBorderStruct:new(),
-		b = UIRectBorderStruct:new(),
-		l = UIRectBorderStruct:new()
+local UIRectStruct = MeowCore.class(
+	"UIRectStruct", {
+		rect = Rect2D.zero(),
+		color = Color.white(),
+		borders = {
+			t = UIRectBorderStruct:new(),
+			r = UIRectBorderStruct:new(),
+			b = UIRectBorderStruct:new(),
+			l = UIRectBorderStruct:new()
+		}
 	}
-}
+);
+
 
 local function setBorderProp(instance, border, prop, value)
 	instance.borders[border][prop] = value;
@@ -34,22 +35,9 @@ local function setBorderColor(instance, border, color)
 	setBorderProp(instance, border, 'color', color);
 end
 
-function UIRectStruct:new(props, color)
-	props = props or {};
-	local obj = {};
-	if(isctype("Rect2D", props)) then
-		obj.rect = props;
-		obj.color = typed("Color", color);
-	else
-		obj = props;
-	end
-
-	local o = MeowCore.extend({}, DeepCopyRecursive(properties), obj);
-
-	setmetatable(o, self);
-	self.__index = self;
-
-	return o;
+function UIRectBorderStruct:constructor_Rect2D_Color(rect, color)
+	self.rect = rect;
+	self.color = typed("Color", color);
 end
 
 function UIRectStruct:setBorder(thickness, color)
