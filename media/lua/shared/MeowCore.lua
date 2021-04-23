@@ -89,6 +89,24 @@ MeowCore = {};
 
 local _required = {};
 
+function MeowCore.default(val, typeName, defaultVal)
+	if(val ~= nil and isctype(typeName, val)) then
+		return val;
+	elseif(defaultVal ~= nil) then
+		return defaultVal;
+	else
+		switch(typeName, {
+			integer = function() return 0 end,
+			float = function() return 0 end,
+			number = function() return 0 end,
+			string = function() return '' end,
+			boolean = function() return false end,
+			table = function() return {} end,
+			default = function() return nil end;
+		});
+	end
+end
+
 function MeowCore.namespace(str, root)
 	root = root or MeowCore;
 	local obj = root;
