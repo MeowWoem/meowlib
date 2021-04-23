@@ -46,7 +46,10 @@ function cinstanceof (subject, super)
 	end
 end
 
-function ctype(obj)
+function ctype(obj, strict)
+	if(strict == nil) then
+		strict = true;
+	end
 	local t = type(obj)
 	if t == 'table' or t == 'userdata' then
 		local mt = getmetatable(obj)
@@ -60,7 +63,11 @@ function ctype(obj)
 			end
 		end
 	elseif t == 'number' then
-		t = math.floor(obj) == obj and 'integer' or 'float';
+		if strict then
+			t = math.floor(obj) == obj and 'integer' or 'float';
+		else
+			t = 'number';
+		end
 	end
 	return t
 end
