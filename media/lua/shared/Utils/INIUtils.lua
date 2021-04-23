@@ -3,8 +3,7 @@ require "MeowCore";
 MeowCore.namespace("Shared/Utils");
 
 local DS = getFileSeparator();
-local INIUtils = {};
-
+local INIUtils = MeowCore.class("INIUtils");
 INIUtils.DS = DS;
 INIUtils.DIR_SEP = DS;
 
@@ -16,11 +15,12 @@ function INIUtils.TableToINI(modid, filename, content, fd, parentCat, fdTypeMap)
 		fdTypeMap = getFileWriter(modid .. DS .. filename .. ".typemap", true, false);
 	end
 
-  if not fd then return false end;
-  local category = "";
+	if not fd then return false end;
+	local category;
+
 	for catK, catV in pairs(content) do
 		if parentCat then
-      category = parentCat.."/"..catK;
+			category = parentCat.."/"..catK;
 		else
 			category = catK;
 		end
@@ -38,8 +38,8 @@ function INIUtils.TableToINI(modid, filename, content, fd, parentCat, fdTypeMap)
 			end
 		end
 	end
-  fd:close();
-  fdTypeMap:close();
+	fd:close();
+	fdTypeMap:close();
 end
 
 function INIUtils.INIToTable(modid, filename)
@@ -78,13 +78,13 @@ function INIUtils.INIToTable(modid, filename)
 				end
 			else
 				local kv = string.split(line, "=");
-        local vtype = retTypes[currentCat .. "/" .. kv[1]];
-        local v = kv[2];
-        if(vtype == "number") then
-          v = tonumber(v);
-        elseif(vtype == "boolean") then
-          v = v == "true";
-        end
+				local vtype = retTypes[currentCat .. "/" .. kv[1]];
+				local v = kv[2];
+				if(vtype == "number") then
+					v = tonumber(v);
+				elseif(vtype == "boolean") then
+					v = v == "true";
+				end
 
 				rvptr[kv[1]] = v;
 			end

@@ -2,19 +2,19 @@ function string:findLast(haystack, needle)
 
 	if(needle == nil) then
 		needle = haystack;
-      	haystack = self;
-    end
+		haystack = self;
+	end
 
-    local i=haystack:match(".*"..needle.."()");
-    if i==nil then return nil else return i-1 end
+	local i=haystack:match(".*"..needle.."()");
+	if i==nil then return nil else return i-1 end
 end
 
 function string:endsWith(str, endsWith)
-  if(endsWith == nil) then
-    endsWith = str;
-    str = self;
-  end
-   return endsWith == '' or string.sub(str,-string.len(endsWith)) == endsWith;
+	if(endsWith == nil) then
+		endsWith = str;
+		str = self;
+	end
+	return endsWith == '' or string.sub(str,-string.len(endsWith)) == endsWith;
 end
 
 function string:getAllAfterLast(haystack, needle)
