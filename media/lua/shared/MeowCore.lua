@@ -105,6 +105,9 @@ function MeowCore.class(typeName, properties)
 		local o = MeowClass:new(props);
 		setmetatable(o, self);
 		self.__index = self;
+		if(type(self.constructor) == "function") then
+			self:constructor(props);
+		end
 		return o;
 	end
 
@@ -164,6 +167,9 @@ function MeowCore.derive(typeName, from, properties)
 			local o = super:new(props);
 			setmetatable(o, self);
 			self.__index = self;
+			if(type(self.constructor) == "function") then
+				self:constructor(props);
+			end
 			return o;
 		end
 
