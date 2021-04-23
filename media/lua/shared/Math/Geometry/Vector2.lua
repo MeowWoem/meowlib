@@ -3,40 +3,26 @@ require "MeowCore";
 MeowCore.namespace("Shared/Math/Geometry");
 
 
-local Vector2 = {};
-Vector2.__type = "Vector2";
+local Vector2 = MeowCore.class(
+	"Vector2",
+	{ x=0, y=0 }
+);
 
-local properties = {
-	x=0, y=0
-}
-
-function Vector2:new(props, y)
-	props = props or {};
-	local obj = {};
-	if(instanceof(props, "IsoGridSquare")) then
-		obj.x = props:getX();
-		obj.y = props:getY();
-	elseif(type(props) == "number" and y ~= nil) then
-		obj.x = props;
-		obj.y = y;
-	else
-		obj = props;
-	end
-
-	local o = MeowCore.extend({}, DeepCopyRecursive(properties), obj);
-
-	setmetatable(o, self);
-	self.__index = self;
-
-	return o;
+function Vector2:constructor_number_number(x, y)
+	self.x = x; self.y = y;
 end
 
+function Vector2:constructor_IsoGridSquare(square)
+	self:constructorXY(square:getX(), square:getY());
+end
+
+
 function Vector2.zero()
-	return Vector2:new({x=0,y=0});
+	return Vector2:new(0, 0);
 end
 
 function Vector2:copy ()
-	return Vector2:new({x=self.x, y=self.y})
+	return Vector2:new(self.x, self.y)
 end
 
 function Vector2:__tostring ()
@@ -48,19 +34,19 @@ function Vector2:__eq (other)
 end
 
 function Vector2:__add (other)
-	return Vector2:new({x=(self.x + other.x), y=(self.y + other.y)})
+	return Vector2:new(self.x + other.x, self.y + other.y)
 end
 
 function Vector2:__sub (other)
-	return Vector2:new({x=(self.x - other.x), y=(self.y - other.y)})
+	return Vector2:new(self.x - other.x, self.y - other.y)
 end
 
 function Vector2:__mul (value)
-	return Vector2:new({x=(self.x * value), y=(self.y * value)})
+	return Vector2:new(self.x * value, self.y * value)
 end
 
 function Vector2:__div (value)
-	return Vector2:new({x=(self.x / value), y=(self.y / value)})
+	return Vector2:new(self.x / value, self.y / value)
 end
 
 function Vector2:getX ()

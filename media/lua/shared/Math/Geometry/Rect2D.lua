@@ -3,31 +3,17 @@ require "MeowCore";
 MeowCore.namespace("Shared/Math/Geometry");
 
 
-local Rect2D = {};
-Rect2D.__type = "Rect2D";
+local Rect2D = MeowCore.class(
+	"Rect2D",
+	{ x=0, y=0, w=0, h=0 }
+);
 
-local properties = {
-	x=0, y=0, w=0, h=0
-}
 
-function Rect2D:new(props, y, w, h)
-	props = props or {};
-	local obj = {};
-	if(type(props) == "number" and y ~= nil and w ~= nil and h ~= nil) then
-		obj.x = props;
-		obj.y = y;
-		obj.w = w;
-		obj.h = h;
-	else
-		obj = props;
-	end
-
-	local o = MeowCore.extend({}, DeepCopyRecursive(properties), obj);
-
-	setmetatable(o, self);
-	self.__index = self;
-
-	return o;
+function Rect2D:constructor_number_number_number_number(x, y, w, h)
+	self.x = x;
+	self.y = y;
+	self.w = w;
+	self.h = h;
 end
 
 function Rect2D.zero() return Rect2D:new(0,0,0,0) end

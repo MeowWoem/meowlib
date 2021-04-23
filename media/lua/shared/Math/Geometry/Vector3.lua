@@ -1,46 +1,30 @@
 require "MeowCore";
 
 MeowCore.namespace("Shared/Math/Geometry");
-local Vector2 = MeowCore.require("Shared/Math/Geometry/Vector2");
 
-local Vector3 = Vector2:new();
-Vector3.__type = "Vector3";
+local Vector3 = MeowCore.derive(
+	"Vector3",
+	"Shared/Math/Geometry/Vector2",
+	{ x=0, y=0, z=0 }
+);
 
-local properties = {
-	x=0, y=0, z=0
-}
 
-function Vector3:new(props, y, z)
-	props = props or {};
-	local obj = {};
-	if(instanceof(props, "IsoGridSquare")) then
-		obj.x = props:getX();
-		obj.y = props:getY();
-		obj.z = props:getZ();
-	elseif(type(props) == "number" and y ~= nil and z ~= nil) then
-		obj.x = props;
-		obj.y = y;
-		obj.z = z;
-	else
-		obj = props;
-	end
 
-	props = MeowCore.extend({}, DeepCopyRecursive(properties), obj);
-	local o = Vector2:new(props);
+function Vector3:constructor_number_number_number(x, y, z)
+	self.x = x; self.y = y; self.z = z;
+end
 
-	setmetatable(o, self);
-	self.__index = self;
-
-	return o;
+function Vector3:constructor_IsoGridSquare(square)
+	self:constructorXYZ(square:getX(), square:getY(), square:getZ());
 end
 
 
 function Vector3.zero()
-	return Vector3:new({x=0,y=0,z=0});
+	return Vector3:new(0, 0, 0);
 end
 
 function Vector3:copy ()
-	return Vector3:new({x=self.x, y=self.y, z=self.z});
+	return Vector3:new(self.x, self.y, self.z);
 end
 
 function Vector3:__tostring ()
@@ -52,19 +36,19 @@ function Vector3:__eq (other)
 end
 
 function Vector3:__add (other)
-	return Vector3:new({x=(self.x + other.x), y=(self.y + other.y), z=(self.z + other.z)});
+	return Vector3:new(self.x + other.x, self.y + other.y, self.z + other.z);
 end
 
 function Vector3:__sub (other)
-	return Vector3:new({x=(self.x - other.x), y=(self.y - other.y), z=(self.z - other.z)});
+	return Vector3:new(self.x - other.x, self.y - other.y, self.z - other.z);
 end
 
 function Vector3:__mul (value)
-	return Vector3:new({x=(self.x * value), y=(self.y * value), z=(self.z * value)});
+	return Vector3:new(self.x * value, self.y * value, self.z * value);
 end
 
 function Vector3:__div (value)
-	return Vector3:new({x=(self.x / value), y=(self.y / value), z=(self.z / value)});
+	return Vector3:new(self.x / value, self.y / value, self.z / value);
 end
 
 function Vector3:getX ()

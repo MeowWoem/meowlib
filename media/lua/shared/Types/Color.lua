@@ -6,35 +6,32 @@ local Color = MeowCore.class(
 	"Color",
 	{ r=0, g=0, b=0, a=0 },
 	{
-		["integer,integer,integer"] = "constructorRGBAInt",
-		["integer,integer,integer,integer"] = "constructorRGBAInt",
-		["number,number,number"] = "constructorRGBA",
-		["number,number,number,number"] = "constructorRGBA",
-		["string"] = "constructorHEX",
-		["ColorInfo"] = "constructorColorInfo"
+		["integer,integer,integer"] = "constructor_integer_integer_integer_integer",
+		["number,number,number"] = "constructor_number_number_number_number",
+		["ColorInfo"] = "constructor_Color"
 	}
 );
 
 
-function Color:constructorRGBA(r, g, b, a)
+function Color:constructor_number_number_number_number(r, g, b, a)
 	self.r = MeowCore.default(r, "float", 1);
 	self.g = MeowCore.default(g, "float", 1);
 	self.b = MeowCore.default(b, "float", 1);
 	self.a = MeowCore.default(a, "float", 1);
 end
 
-function Color:constructorRGBAInt(r, g, b, a)
+function Color:constructor_integer_integer_integer_integer(r, g, b, a)
 	self.r = MeowCore.default(r, "integer", 255) / 255;
 	self.g = MeowCore.default(g, "integer", 255) / 255;
 	self.b = MeowCore.default(b, "integer", 255) / 255;
 	self.a = MeowCore.default(a, "integer", 255) / 255;
 end
 
-function Color:constructorHEX(hex)
+function Color:constructor_string(hex)
 	self:parse(hex);
 end
 
-function Color:constructorColorInfo(color)
+function Color:constructor_Color(color)
 	self.r = color:getR();
 	self.g = color:getG();
 	self.b = color:getB();
@@ -43,6 +40,22 @@ end
 
 function Color:toColorInfo()
 	return ColorInfo:new(self.r, self.g, self.b, self.a);
+end
+
+function Color:getR()
+	return self.r;
+end
+
+function Color:getG()
+	return self.g;
+end
+
+function Color:getB()
+	return self.b;
+end
+
+function Color:getA()
+	return self.a;
 end
 
 function Color:parse(c)

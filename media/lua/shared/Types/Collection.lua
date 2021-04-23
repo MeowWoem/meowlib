@@ -4,9 +4,6 @@ MeowCore.namespace("Shared/Types");
 
 local Collection = MeowCore.class("Collection", {
 	table = {}
-},
-{
-	["table"] = "constructor"
 });
 
 
@@ -25,7 +22,7 @@ function Collection:all()
     return tbl;
 end
 
-function Collection:constructor(tbl)
+function Collection:constructor_table(tbl)
 	self.table = tbl;
 end
 

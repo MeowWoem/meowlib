@@ -51,7 +51,7 @@ function ctype(obj, strict)
 		strict = true;
 	end
 	local t = type(obj)
-	if t == 'table' or t == 'userdata' then
+	if t == 'table' then
 		local mt = getmetatable(obj)
 		if mt and mt.__type then
 			if type(mt.__type) == 'string' then
@@ -62,6 +62,8 @@ function ctype(obj, strict)
 				end)
 			end
 		end
+	elseif t == 'userdata' then
+		t = tostring(obj):split(" ")[1];
 	elseif t == 'number' then
 		if strict then
 			t = math.floor(obj) == obj and 'integer' or 'float';
@@ -141,13 +143,20 @@ function MeowCore.class(typeName, properties, constructors)
 	function derived:new(...)
 		local args = {...};
 		local signature = getTableTypeSignature(args);
+		local autoSignature = signature:gsub(",", "_");
 		local strictSignature = getTableTypeSignature(args, true);
-		Dump(signature, strictSignature);
+		local autoStrictSignature = strictSignature:gsub(",", "_");
 		local props;
-		if(constructors[signature] or constructors[strictSignature]) then
+		if(
+			constructors[signature] or
+			constructors[strictSignature] or
+			self["constructor_" .. autoSignature] or
+			self["constructor_" .. autoStrictSignature] or
+			type(args[1]) ~= "table"
+		) then
 			props = {};
 		else
-			props = args[0] or {};
+			props = args[1] or {};
 		end
 
 		if(props == properties) then
@@ -162,8 +171,12 @@ function MeowCore.class(typeName, properties, constructors)
 		self.__index = self;
 		if(constructors[strictSignature] and o[constructors[strictSignature]]) then
 			o[constructors[strictSignature]](o, ...);
+		elseif(o["constructor_" .. autoStrictSignature]) then
+			o["constructor_" .. autoStrictSignature](o, ...);
 		elseif(constructors[signature] and o[constructors[signature]]) then
 			o[constructors[signature]](o, ...);
+		elseif(o["constructor_" .. autoSignature]) then
+			o["constructor_" .. autoSignature](o, ...);
 		elseif(o.constructor) then
 			o:constructor(...);
 		end
@@ -217,11 +230,20 @@ function MeowCore.derive(typeName, from, properties, constructors)
 		function derived:new(...)
 			local args = {...};
 			local signature = getTableTypeSignature(args);
+			local autoSignature = signature:gsub(",", "_");
+			local strictSignature = getTableTypeSignature(args, true);
+			local autoStrictSignature = strictSignature:gsub(",", "_");
 			local props;
-			if(constructors[signature]) then
+			if(
+				constructors[signature] or
+				constructors[strictSignature] or
+				self["constructor_" .. autoSignature] or
+				self["constructor_" .. autoStrictSignature] or
+				type(args[1]) ~= "table"
+			) then
 				props = {};
 			else
-				props = args[0] or {};
+				props = args[1] or {};
 			end
 			if(props == properties) then
 				props = MeowCore.extend({}, props);
@@ -229,13 +251,17 @@ function MeowCore.derive(typeName, from, properties, constructors)
 				props = MeowCore.extend({}, DeepCopyRecursive(properties), props);
 				-- Do a deep copy on  properties definition to ensure default objects references are not shared between instance
 			end
-
 			local o = super:new(props);
 			setmetatable(o, self);
 			self.__index = self;
-
-			if(constructors[signature] and o[constructors[signature]]) then
+			if(constructors[strictSignature] and o[constructors[strictSignature]]) then
+				o[constructors[strictSignature]](o, ...);
+			elseif(o["constructor_" .. autoStrictSignature]) then
+				o["constructor_" .. autoStrictSignature](o, ...);
+			elseif(constructors[signature] and o[constructors[signature]]) then
 				o[constructors[signature]](o, ...);
+			elseif(o["constructor_" .. autoSignature]) then
+				o["constructor_" .. autoSignature](o, ...);
 			elseif(o.constructor) then
 				o:constructor(...);
 			end
