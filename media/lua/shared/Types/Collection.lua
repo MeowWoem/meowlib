@@ -1,7 +1,13 @@
 require "MeowCore";
 
 MeowCore.namespace("Shared/Types");
-local Collection = MeowCore.class("Collection");
+
+local Collection = MeowCore.class("Collection", {
+	table = {}
+},
+{
+	["table"] = "constructor"
+});
 
 
 
@@ -17,6 +23,10 @@ function Collection:all()
         tbl[key] = value;
     end
     return tbl;
+end
+
+function Collection:constructor(tbl)
+	self.table = tbl;
 end
 
 --- Adds an item to the end of a collection
@@ -1252,3 +1262,5 @@ Collection.sortAsc = Collection.sort;
 
 --- Alias for the Collection:average() method
 Collection.replace = Collection.splice;
+
+MeowCore.Shared.Types.Collection = Collection;
