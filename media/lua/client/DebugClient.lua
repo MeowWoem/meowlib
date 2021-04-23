@@ -42,9 +42,11 @@ local function test()
 	});
 
 	local TestChild = MeowCore.derive("TestChild", TestClass);
+	local test1Inst = TestClass:new({x=50});
 	local testcInst = TestChild:new({x=50});
+	local testcInst2 = TestChild:new({x=50});
 	Dump(ctype(TestChild), TestChild, testcInst, cinstanceof(testcInst, TestClass2));
-	Dump(ctype(package));
+	Dump(tostring(TestClass), tostring(TestChild), tostring(test1Inst), tostring(testcInst), tostring(testcInst2));
 
 
 	elm:addChild(btn);
