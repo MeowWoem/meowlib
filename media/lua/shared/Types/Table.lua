@@ -13,5 +13,8 @@ end
 
 function table:isEmpty(o)
 	if(o == nil) then o = self; end
-	return #o == 0;
+	for _,_ in pairs(o) do
+		return false;
+	end
+	return true;
 end
