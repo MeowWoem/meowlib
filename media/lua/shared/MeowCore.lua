@@ -123,8 +123,10 @@ function MeowCore.class(typeName, properties, constructors)
 	function derived:new(...)
 		local args = {...};
 		local signature = getTableTypeSignature(args);
+		local strictSignature = getTableTypeSignature(args, true);
+		Dump(signature, strictSignature);
 		local props;
-		if(constructors[signature]) then
+		if(constructors[signature] or constructors[strictSignature]) then
 			props = {};
 		else
 			props = args[0] or {};
@@ -140,7 +142,9 @@ function MeowCore.class(typeName, properties, constructors)
 		local o = MeowClass:new(props);
 		setmetatable(o, self);
 		self.__index = self;
-		if(constructors[signature] and o[constructors[signature]]) then
+		if(constructors[strictSignature] and o[constructors[strictSignature]]) then
+			o[constructors[strictSignature]](o, ...);
+		elseif(constructors[signature] and o[constructors[signature]]) then
 			o[constructors[signature]](o, ...);
 		elseif(o.constructor) then
 			o:constructor(...);
