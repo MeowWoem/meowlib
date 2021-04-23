@@ -72,11 +72,14 @@ function ctype(obj, strict)
 	return t
 end
 
-local function getTableTypeSignature(tbl)
+local function getTableTypeSignature(tbl, strict)
+	if(strict == nil) then
+		strict = false;
+	end
 	local signature = '';
 	local l = #tbl;
 	for i, v in ipairs(tbl) do
-		signature = signature .. ctype(v) .. (i == l and '' or ',');
+		signature = signature .. ctype(v, strict) .. (i == l and '' or ',');
 	end
 	return signature;
 end
