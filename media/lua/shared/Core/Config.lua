@@ -3,22 +3,19 @@ require "MeowCore";
 MeowCore.namespace("Shared/Core");
 local INIUtils = MeowCore.require("Shared/Utils/INIUtils");
 
-local Config = {};
+local Config = MeowCore.class(
+	"Config",
+	{ filename="cfg.ini", cfg=nil, modid=nil, defaultConfig=nil }
+);
 
 local DS = INIUtils.DIR_SEP;
 
 
-function Config:new(modid, defaultConfig)
-	local o = {};
-	o.__type = "Config";
-	setmetatable(o, self);
-	self.__index = self;
+function Config:constructor_string_table(modid, defaultConfig)
 
-	o.modid = modid;
-	o.defaultConfig = defaultConfig;
-	o.filename = "cfg.ini";
-	o.cfg = nil;
-	return o;
+	self.modid = modid;
+	self.defaultConfig = defaultConfig;
+
 end
 
 function Config:load()

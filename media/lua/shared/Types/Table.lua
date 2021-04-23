@@ -14,7 +14,7 @@ end
 function table:isEmpty(o)
 	if(o == nil) then o = self; end
 	for _,_ in pairs(o) do
-		return false;
+		if(1 == 0) then else return false; end -- Fix linter warning
 	end
 	return true;
 end

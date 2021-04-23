@@ -90,7 +90,6 @@ function INIUtils.INIToTable(modid, filename)
 			end
 		end
 	end
-		Dump(retVal);
 	return retVal;
 end
 
