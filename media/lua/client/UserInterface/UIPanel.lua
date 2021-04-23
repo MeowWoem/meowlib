@@ -1,27 +1,17 @@
 require "MeowCore";
+require "ISUI/ISMouseDrag";
 
 MeowCore.namespace("Client/UserInterface");
 
-local UIPanel = MeowCore.derive("UIPanel", "Client/UserInterface/UIComponent");
-
-
-local properties = {
+local UIPanel = MeowCore.derive("UIPanel", "Client/UserInterface/UIComponent", {
 	moveWithMouse = false
-}
+});
 
-function UIPanel:new(props)
-	props = props or {};
-	props = MeowCore.extend({}, DeepCopyRecursive(properties), props);
-	local o = UIPanel:super():new(props);
-	o = MeowCore.extend({}, o, props);
-	setmetatable(o, self);
-	self.__index = self;
-	return o;
-end
 
 function UIPanel:prerender()
 	UIPanel:super().prerender(self);
-	-- Code, Cred1, Cred2, Dialogue, Intro, Large, MainMenu1, MainMenu2, Massive, Medium, MediumNew, NewLarge, NewMedium, NewSmall, Small
+	-- Code, Cred1, Cred2, Dialogue, Intro, Large, MainMenu1, MainMenu2, Massive, Medium, MediumNew,
+	-- NewLarge, NewMedium, NewSmall, Small
 	--self:drawText("UI PANEL", 0, 0, .5, .3, .3, 1, UIFont.Small);
 end
 

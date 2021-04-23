@@ -4,10 +4,7 @@ MeowCore.namespace("Client/UserInterface");
 
 local Color = MeowCore.require("Shared/Types/Color");
 
-local UIButton = MeowCore.derive("UIButton", "Client/UserInterface/UIPanel");
-MeowCore.interface(UIButton, "Client/UserInterface/Interfaces/IUITooltip");
-
-local properties = {
+local UIButton = MeowCore.derive("UIButton", "Client/UserInterface/UIPanel", {
 	enable = true,
 	pressed = false,
 	allowMouseUpProcessing = false,
@@ -18,17 +15,12 @@ local properties = {
 	overlayText = nil,
     forcedWidthImage = nil,
     forcedHeightImage = nil
-}
+});
+MeowCore.interface(UIButton, "Client/UserInterface/Interfaces/IUITooltip");
 
-function UIButton:new(props)
-	props = props or {};
-	props = MeowCore.extend({}, DeepCopyRecursive(properties), props);
-	local o = UIButton:super():new(props);
-	o = MeowCore.extend({}, o, props);
-	setmetatable(o, self);
-	self.__index = self;
 
-	return o;
+function UIButton:constructor_string(title)
+	self.title = title;
 end
 
 function UIButton:initialise()
