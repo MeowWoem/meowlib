@@ -112,7 +112,25 @@ function MeowCore.class(typeName, properties)
 		return derived;
 	end
 
-	return derived:new(properties);
+	derived.__tostring = function(self)
+		local old = derived.__tostring;
+		local olds = MeowClass.__tostring;
+		derived.__tostring = nil;
+		local s = typeName .. " " .. tostring(self):sub(7);
+		derived.__tostring = old;
+		MeowClass.__tostring = olds;
+		return s;
+	end
+
+	local c = derived:new(properties);
+	c.__tostring = function(self)
+		local old = c.__tostring;
+		c.__tostring = nil;
+		local s = tostring(self);
+		c.__tostring = old;
+		return s;
+	end
+	return c;
 end
 
 function MeowCore.derive(typeName, from, properties)
@@ -149,7 +167,27 @@ function MeowCore.derive(typeName, from, properties)
 			return o;
 		end
 
-		return derived:new(properties);
+		derived.__tostring = function(self)
+			local old = derived.__tostring;
+			local olds = super.__tostring;
+			derived.__tostring = nil;
+			local s = derived.__type .. " " .. tostring(self):sub(#super.__type + 2);
+			derived.__tostring = old;
+			super.__tostring = olds;
+			return s;
+		end
+
+		local c = derived:new(properties);
+		c.__tostring = function(self)
+			local old = c.__tostring;
+			local olds = super.__tostring;
+			c.__tostring = nil;
+			local s = derived.__type .. " " .. tostring(self):sub(#super.__type + 2);
+			c.__tostring = old;
+			super.__tostring = olds;
+			return s;
+		end
+		return c;
 	end
 end
 
@@ -238,7 +276,6 @@ end
 function MeowClass:hasSuper()
 	return self.__super ~= nil;
 end
-
 
 local function _dump(o, lvl)
 	local strIndent = '|  ';
