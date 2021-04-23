@@ -125,6 +125,8 @@ function MeowCore.class(typeName, properties, constructors)
 		self.__index = self;
 		if(constructors[signature] and o[constructors[signature]]) then
 			o[constructors[signature]](o, ...);
+		elseif(o.constructor) then
+			o:constructor(...);
 		end
 		return o;
 	end
@@ -154,8 +156,8 @@ function MeowCore.class(typeName, properties, constructors)
 	return c;
 end
 
-function MeowCore.derive(typeName, from, properties)
-
+function MeowCore.derive(typeName, from, properties, constructors)
+	constructors = constructors or {};
 	properties = properties or {};
 
 	local super = nil;
@@ -173,8 +175,15 @@ function MeowCore.derive(typeName, from, properties)
 			return self.__super;
 		end
 
-		function derived:new(props)
-			props = props or {};
+		function derived:new(...)
+			local args = {...};
+			local signature = getTableTypeSignature(args);
+			local props;
+			if(constructors[signature]) then
+				props = {};
+			else
+				props = args[0] or {};
+			end
 			if(props == properties) then
 				props = MeowCore.extend({}, props);
 			else
@@ -185,8 +194,11 @@ function MeowCore.derive(typeName, from, properties)
 			local o = super:new(props);
 			setmetatable(o, self);
 			self.__index = self;
-			if(type(self.constructor) == "function") then
-				self:constructor(props);
+
+			if(constructors[signature] and o[constructors[signature]]) then
+				o[constructors[signature]](o, ...);
+			elseif(o.constructor) then
+				o:constructor(...);
 			end
 			return o;
 		end
