@@ -29,6 +29,9 @@ local Theme = {
 		},
 		hover = {
 			background = Color:new(0.3, 0.3, 0.3)
+		},
+		active = {
+			background = Color:new(0.15, 0.15, 0.15)
 		}
 	})
 };
