@@ -111,7 +111,7 @@ Color.lightgray = function() return Color:new({r=0.82745098039216,g=0.8274509803
 Color.tomato = function() return Color:new({r=1,g=0.38823529411765,b=0.27843137254902,a=1 });end
 Color.slateblue = function() return Color:new({r=0.4156862745098,g=0.35294117647059,b=0.80392156862745,a=1 });end
 Color.fuchsia = function() return Color:new({r=1,g=0,b=1,a=1 });end
-Color.mediumvioletred = function() return Color:new({r=0.78039215686275,g=0.082352941176471,b=0.52156862745098,a=1 });end
+Color.mediumvioletred = function() return Color:new({r=0.78039215686,g=0.082352941176,b=0.52156862745,a=1 });end
 Color.blueviolet = function() return Color:new({r=0.54117647058824,g=0.16862745098039,b=0.88627450980392,a=1 });end
 Color.darkorchid = function() return Color:new({r=0.6,g=0.19607843137255,b=0.8,a=1 });end
 Color.red = function() return Color:new({r=1,g=0,b=0,a=1 });end
@@ -155,7 +155,7 @@ Color.lightcyan = function() return Color:new({r=0.87843137254902,g=1,b=1,a=1 })
 Color.burlywood = function() return Color:new({r=0.87058823529412,g=0.72156862745098,b=0.52941176470588,a=1 });end
 Color.palevioletred = function() return Color:new({r=0.85882352941176,g=0.43921568627451,b=0.57647058823529,a=1 });end
 Color.aqua = function() return Color:new({r=0,g=1,b=1,a=1 });end
-Color.lightgoldenrodyellow = function() return Color:new({r=0.98039215686275,g=0.98039215686275,b=0.82352941176471,a=1 });end
+Color.lightgoldenrodyellow = function() return Color:new({r=0.98039215686,g=0.98039215686,b=0.82352941176,a=1 });end
 Color.antiquewhite = function() return Color:new({r=0.98039215686275,g=0.92156862745098,b=0.84313725490196,a=1 });end
 Color.honeydew = function() return Color:new({r=0.94117647058824,g=1,b=0.94117647058824,a=1 });end
 Color.lightseagreen = function() return Color:new({r=0.12549019607843,g=0.69803921568627,b=0.66666666666667,a=1 });end
