@@ -16,6 +16,18 @@ function Rect2D:constructor_number_number_number_number(x, y, w, h)
 	self.h = h;
 end
 
+function Rect2D:constructor_Vector2_number_number(pos, w, h)
+	self:constructor_number_number_number_number(pos.x, pos.y, w, h);
+end
+
+function Rect2D:constructor_number_number_Vector2(x, y, dim)
+	self:constructor_number_number_number_number(x, y, dim.x, dim.y);
+end
+
+function Rect2D:constructor_Vector2_Vector2(pos, dim)
+	self:constructor_number_number_number_number(pos.x, pos.y, dim.x, dim.y);
+end
+
 function Rect2D.zero() return Rect2D:new(0,0,0,0) end
 
 function Rect2D:calculateArea()
