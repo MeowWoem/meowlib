@@ -2,6 +2,13 @@ require "Types/String";
 require "Types/Table";
 require "Math/Math";
 
+local function __switchMissing() end
+
+local function switch(value, cases)
+	local case = cases[value] or cases.default or __switchMissing;
+	return case(value);
+end
+
 function isctype(t, value, strict)
 	strict = strict or false;
 	if(t == 'number' and strict) then error("You can't use number type with strict comparaison"); end
