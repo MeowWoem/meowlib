@@ -2,6 +2,7 @@ require "Types/String";
 require "Types/Table";
 require "Math/Math";
 
+
 local function __switchMissing() end
 
 local function switch(value, cases)
@@ -189,6 +190,7 @@ function MeowCore.class(typeName, properties, constructors)
 
 		local o = MeowClass:new(props);
 		setmetatable(o, self);
+		tostring(o);
 		self.__index = self;
 		if(constructors[strictSignature] and o[constructors[strictSignature]]) then
 			o[constructors[strictSignature]](o, ...);
@@ -201,8 +203,18 @@ function MeowCore.class(typeName, properties, constructors)
 		elseif(o.constructor) then
 			o:constructor(...);
 		end
-		if(namespace) then
-			namespace[typeName] = o;
+		o.__tostring = function(self)
+			local old = o.__tostring;
+			o.__tostring = nil;
+			local str = tostring(o);
+			local i = str:find(' 0x');
+			i = (not i) and str:find('@0x') or i;
+			if(not i) then error("Use the method toString instead __tostring on " .. derived.__type) end
+			str = str:sub(i)
+			o.__varAddress = str;
+			local s = derived.__type .. " " .. self.__varAddress;
+			o.__tostring = old;
+			return s;
 		end
 		return o;
 	end
@@ -215,7 +227,13 @@ function MeowCore.class(typeName, properties, constructors)
 		local old = derived.__tostring;
 		local olds = MeowClass.__tostring;
 		derived.__tostring = nil;
-		local s = typeName .. " " .. tostring(self):sub(7);
+		local str = tostring(self);
+		local i = str:find(' 0x');
+		i = (not i) and str:find('@0x') or i;
+		if(not i) then error("Use the method toString instead __tostring on " .. derived.__type) end
+		str = str:sub(i + 1)
+		self.__varAddress = str:trim();
+		local s = derived.__type .. ":Class@" .. self.__varAddress;
 		derived.__tostring = old;
 		MeowClass.__tostring = olds;
 		return s;
@@ -225,9 +243,18 @@ function MeowCore.class(typeName, properties, constructors)
 	c.__tostring = function(self)
 		local old = c.__tostring;
 		c.__tostring = nil;
-		local s = tostring(self);
+		local str = tostring(self);
+		local i = str:find(' 0x');
+		i = (not i) and str:find('@0x') or i;
+		if(not i) then error("Use the method toString instead __tostring on " .. derived.__type) end
+		str = str:sub(i + 1)
+		self.__varAddress = str:trim();
+		local s = self.toString and self:toString() or derived.__type .. ":Instance@" .. self.__varAddress;
 		c.__tostring = old;
 		return s;
+	end
+	if(namespace) then
+		namespace[typeName] = c;
 	end
 	return c;
 end
@@ -297,6 +324,7 @@ function MeowCore.derive(typeName, from, properties, constructors)
 			end
 			local o = super:new(props);
 			setmetatable(o, self);
+			tostring(o);
 			self.__index = self;
 			if(constructors[strictSignature] and o[constructors[strictSignature]]) then
 				o[constructors[strictSignature]](o, ...);
@@ -316,18 +344,33 @@ function MeowCore.derive(typeName, from, properties, constructors)
 			local old = derived.__tostring;
 			local olds = super.__tostring;
 			derived.__tostring = nil;
-			local s = derived.__type .. " " .. tostring(self):sub(#super.__type + 2);
+			super.__tostring = nil;
+			local str = tostring(self);
+			local i = str:find(' 0x');
+			i = (not i) and str:find('@0x') or i;
+			if(not i) then error("Use the method toString instead __tostring on " .. derived.__type) end
+			str = str:sub(i+1)
+			self.__varAddress = str:trim();
+			local s = derived.__type .. ":Class@" .. self.__varAddress;
 			derived.__tostring = old;
 			super.__tostring = olds;
 			return s;
 		end
 
 		local c = derived:new(properties);
+
 		c.__tostring = function(self)
 			local old = c.__tostring;
 			local olds = super.__tostring;
 			c.__tostring = nil;
-			local s = derived.__type .. " " .. tostring(self):sub(#super.__type + 2);
+			local str = tostring(self);
+			local i = str:find(' 0x');
+			i = (not i) and str:find('@0x') or i;
+			if(not i) then error("Use the method toString instead __tostring on " .. derived.__type) end
+			str = str:sub(i+1)
+			self.__varAddress = str:trim();
+			local s = self.Type ~= "ISUIBridge" and self.toString and self:toString() or
+				derived.__type .. ":Instance@" .. self.__varAddress;
 			c.__tostring = old;
 			super.__tostring = olds;
 			return s;

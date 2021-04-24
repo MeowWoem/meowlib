@@ -25,7 +25,7 @@ function Vector3:copy ()
 	return Vector3:new(self.x, self.y, self.z);
 end
 
-function Vector3:__tostring ()
+function Vector3:toString ()
 	return string.format("<Vector3 %f, %f, %f>", self.x, self.y, self.z);
 end
 

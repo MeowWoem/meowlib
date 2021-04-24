@@ -23,7 +23,7 @@ function Vector2:copy ()
 	return Vector2:new(self.x, self.y)
 end
 
-function Vector2:__tostring ()
+function Vector2:toString ()
 	return string.format("<Vector2 %f, %f>", self.x, self.y)
 end
 
