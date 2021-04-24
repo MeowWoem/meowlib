@@ -28,9 +28,9 @@ local function getRectData(parX, parY, parW, parH, parA, parR, parG, parB)
 			a = parY; r = typed('float', parW);
 			b = typed('float', parH); g = typed('float', parA);
 		end
-	elseif(isctype("integer", parX)) then
-		x = parX; y = typed('integer', parY);
-		w = typed('integer', parW); h = typed('integer', parH);
+	elseif(isctype("number", parX)) then
+		x = parX; y = typed('number', parY);
+		w = typed('number', parW); h = typed('number', parH);
 		if(isctype("Color", parA)) then
 			a = parA.a; r = parA.r; g = parA.g; b = parA.b;
 		elseif(isctype("float", parA)) then
@@ -205,7 +205,7 @@ function ISUIBridge:drawRectBorder(
 	end
 
 	if(wb > 0) then
-		self:drawRect(x, h - wb, w, wb, a, r, g, b);
+		self:drawRect(x, y + h - wb, w, wb, a, r, g, b);
 		offsetH = offsetH + wb;
 	end
 
@@ -214,7 +214,7 @@ function ISUIBridge:drawRectBorder(
 	end
 
 	if(wr > 0) then
-		self:drawRect(w - wr, y + offsetY, wr, h - offsetH, a, r, g, b);
+		self:drawRect(x + w - wr, y + offsetY, wr, h - offsetH, a, r, g, b);
 	end
 
 end
