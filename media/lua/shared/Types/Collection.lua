@@ -1257,3 +1257,5 @@ Collection.sortAsc = Collection.sort;
 
 --- Alias for the Collection:average() method
 Collection.replace = Collection.splice;
+
+return Collection;
