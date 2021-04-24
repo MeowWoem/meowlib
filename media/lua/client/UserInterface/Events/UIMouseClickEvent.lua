@@ -7,7 +7,3 @@ local UIMouseClickEvent = MeowCore.derive(
 		x = 0, y = 0
 	}
 );
-
-
-
-MeowCore.Client.UserInterface.Events.UIMouseClickEvent = UIMouseClickEvent;
