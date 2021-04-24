@@ -1,11 +1,19 @@
 require "MeowCore";
 require "Theme";
 
-local UIComponentEventsManager = MeowCore.require("Client/UserInterface/Events/UIComponentEventsManager");
-local UIMouseClickEvent = MeowCore.require("Client/UserInterface/Events/UIMouseClickEvent");
-local UIRectStruct = MeowCore.require("Client/UserInterface/UIRectStruct");
-local Color = MeowCore.require("Shared/Types/Color");
-local UIStyle = MeowCore.require("Client/UserInterface/UIStyle");
+
+
+local UIComponentEventsManager,
+	UIMouseClickEvent,
+	UIRectStruct,
+	Color,
+	UIStyle = MeowCore.require(
+	"Client/UserInterface/Events/UIComponentEventsManager",
+	"Client/UserInterface/Events/UIMouseClickEvent",
+	"Client/UserInterface/UIRectStruct",
+	"Shared/Types/Color",
+	"Client/UserInterface/UIStyle"
+);
 
 local UIComponent = MeowCore.derive("Client/UserInterface/UIComponent", "Client/UserInterface/ISUIBridge", {
 	theme = nil,
