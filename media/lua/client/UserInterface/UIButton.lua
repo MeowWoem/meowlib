@@ -1,6 +1,12 @@
 require "MeowCore";
 
 local Color = MeowCore.require("Shared/Types/Color");
+local UITooltip = MeowCore.require("Client/UserInterface/UITooltip");
+local PrivatesManager = MeowCore.require("Shared/Core/PrivatesManager");
+
+local privates = PrivatesManager:new({
+	tooltip = UITooltip:new();
+});
 
 local UIButton = MeowCore.derive("Client/UserInterface/UIButton", "Client/UserInterface/UIPanel", {
 	enable = true,
@@ -19,11 +25,18 @@ local UIButton = MeowCore.derive("Client/UserInterface/UIButton", "Client/UserIn
 
 function UIButton:constructor_string(title)
 	self.title = title;
+	privates:initialise(self);
 end
 
 function UIButton:initialise()
+	local pself = privates:getAll(self);
 
 	self:loadStyle();
+	pself.tooltip = UITooltip:new();
+	Dump(pself.tooltip);
+	pself.tooltip:setOwner(self)
+	pself.tooltip:setVisible(false)
+	pself.tooltip:setAlwaysOnTop(true)
 
 	local tm = getTextManager();
 	if self.width < (tm:MeasureStringX(self.style.font, self.title) + 10) then
@@ -121,6 +134,25 @@ function UIButton:prerenderHover()
 			a=self.style.hover.background.a * f + self.style.background.a * (1 - f),
 		});
 	end
+
+	local pself = privates:getAll(self);
+	if self:isMouseOver() then
+		if not pself.tooltip:getIsVisible() then
+			if string.contains(pself.tooltip.text, "\n") then
+				pself.tooltip.maxLineWidth = 1000 -- don't wrap the lines
+			else
+				pself.tooltip.maxLineWidth = 300
+			end
+			pself.tooltip:addToUIManager()
+			pself.tooltip:setVisible(true)
+		end
+		pself.tooltip:setDesiredPosition(getMouseX(), self:getAbsoluteY() + self:getHeight() + 8)
+	else
+		if pself.tooltip and pself.tooltip:getIsVisible() then
+			pself.tooltip:setVisible(false)
+			pself.tooltip:removeFromUIManager()
+		end
+    end
 end
 
 function UIButton:render()
@@ -180,7 +212,6 @@ function UIButton:render()
 	if self.overlayText then
 		self:drawTextRight(self.overlayText, self.width, self.height - height, 1, 1, 1, 0.5, UIFont.Small);
 	end
-
 
 end
 
