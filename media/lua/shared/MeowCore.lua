@@ -139,6 +139,27 @@ function MeowCore.class(typeName, properties, constructors)
 	constructors = constructors or {};
 	properties = properties or {};
 	local derived = MeowClass:new();
+	local namespace = nil;
+
+	if(typeName:find('/')) then
+		local splitted = luautils.split(typeName, "/");
+		typeName = splitted[#splitted];
+		splitted[#splitted] = nil;
+		local root = MeowCore;
+		local obj = root;
+		local lastObj = root;
+		for _, v in ipairs(splitted) do
+			obj = obj[v];
+			if(obj == nil) then
+				obj = {};
+			end
+			lastObj[v] = obj;
+			lastObj = obj;
+		end
+
+		namespace = obj;
+	end
+
 	derived.__type = typeName;
 	function derived:new(...)
 		local args = {...};
@@ -180,6 +201,9 @@ function MeowCore.class(typeName, properties, constructors)
 		elseif(o.constructor) then
 			o:constructor(...);
 		end
+		if(namespace) then
+			namespace[typeName] = o;
+		end
 		return o;
 	end
 
@@ -211,6 +235,26 @@ end
 function MeowCore.derive(typeName, from, properties, constructors)
 	constructors = constructors or {};
 	properties = properties or {};
+	local namespace = nil;
+
+	if(typeName:find('/')) then
+		local splitted = luautils.split(typeName, "/");
+		typeName = splitted[#splitted];
+		splitted[#splitted] = nil;
+		local root = MeowCore;
+		local obj = root;
+		local lastObj = root;
+		for _, v in ipairs(splitted) do
+			obj = obj[v];
+			if(obj == nil) then
+				obj = {};
+			end
+			lastObj[v] = obj;
+			lastObj = obj;
+		end
+
+		namespace = obj;
+	end
 
 	local super = nil;
 	if(type(from) == 'string') then
@@ -287,6 +331,9 @@ function MeowCore.derive(typeName, from, properties, constructors)
 			c.__tostring = old;
 			super.__tostring = olds;
 			return s;
+		end
+		if(namespace) then
+			namespace[typeName] = c;
 		end
 		return c;
 	end

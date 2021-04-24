@@ -1,8 +1,6 @@
 require "MeowCore";
 
-MeowCore.namespace("Shared/Types");
-
-local Collection = MeowCore.class("Collection", {
+local Collection = MeowCore.class("Shared/Types/Collection", {
 	table = {}
 });
 
@@ -1259,5 +1257,3 @@ Collection.sortAsc = Collection.sort;
 
 --- Alias for the Collection:average() method
 Collection.replace = Collection.splice;
-
-MeowCore.Shared.Types.Collection = Collection;

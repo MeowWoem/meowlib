@@ -1,9 +1,7 @@
 require "MeowCore";
 require "ISUI/ISMouseDrag";
 
-MeowCore.namespace("Client/UserInterface");
-
-local UIPanel = MeowCore.derive("UIPanel", "Client/UserInterface/UIComponent", {
+local UIPanel = MeowCore.derive("Client/UserInterface/UIPanel", "Client/UserInterface/UIComponent", {
 	moveWithMouse = false
 });
 
@@ -113,5 +111,3 @@ function UIPanel:onMouseMove(dx, dy)
     end
 	return event;
 end
-
-MeowCore.Client.UserInterface.UIPanel = UIPanel;

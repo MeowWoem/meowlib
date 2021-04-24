@@ -1,9 +1,8 @@
 require "MeowCore";
 
-MeowCore.namespace("Shared/Utils");
 
 local DS = getFileSeparator();
-local INIUtils = MeowCore.class("INIUtils");
+local INIUtils = MeowCore.class("Shared/Utils/INIUtils");
 INIUtils.DS = DS;
 INIUtils.DIR_SEP = DS;
 
@@ -92,5 +91,3 @@ function INIUtils.INIToTable(modid, filename)
 	end
 	return retVal;
 end
-
-MeowCore.Shared.Utils.INIUtils = INIUtils;

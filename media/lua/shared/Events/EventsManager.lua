@@ -1,9 +1,7 @@
 require "MeowCore";
 
-MeowCore.namespace("Shared/Events");
-
 local EventsManager = MeowCore.class(
-	"EventsManager",
+	"Shared/Events/EventsManager",
 	{ events = {} }
 );
 
@@ -25,5 +23,3 @@ function EventsManager:trigger(elm, eventType, eventData)
 		end
 	end
 end
-
-MeowCore.Shared.Events.EventsManager = EventsManager;

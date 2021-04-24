@@ -1,11 +1,10 @@
 require "MeowCore";
 
-MeowCore.namespace("Client/UserInterface");
 
 local Color = MeowCore.require("Shared/Types/Color");
 
 local UIStyle = MeowCore.class(
-	"UIStyle", {
+	"Client/UserInterface/UIStyle", {
 		background = Color.transparent(),
 		border = {
 			all = {
@@ -21,5 +20,3 @@ local UIStyle = MeowCore.class(
 		active = {}
 	}
 );
-
-MeowCore.Client.UserInterface.UIStyle = UIStyle;

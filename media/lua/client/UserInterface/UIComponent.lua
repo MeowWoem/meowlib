@@ -1,8 +1,5 @@
 require "MeowCore";
 require "Theme";
-require "ISUI/ISUIElement"
-
-MeowCore.namespace("Client/UserInterface");
 
 local UIComponentEventsManager = MeowCore.require("Client/UserInterface/Events/UIComponentEventsManager");
 local UIMouseClickEvent = MeowCore.require("Client/UserInterface/Events/UIMouseClickEvent");
@@ -10,7 +7,7 @@ local UIRectStruct = MeowCore.require("Client/UserInterface/UIRectStruct");
 local Color = MeowCore.require("Shared/Types/Color");
 local UIStyle = MeowCore.require("Client/UserInterface/UIStyle");
 
-local UIComponent = MeowCore.derive("UIComponent", "Client/UserInterface/ISUIBridge", {
+local UIComponent = MeowCore.derive("Client/UserInterface/UIComponent", "Client/UserInterface/ISUIBridge", {
 	theme = nil,
 	x = 0,
 	y = 0,
@@ -152,7 +149,3 @@ function UIComponent:prerender()
 	self:drawUIRectStructStatic(self.backgroundRect);
 
 end
-
-
-
-MeowCore.Client.UserInterface.UIComponent = UIComponent;

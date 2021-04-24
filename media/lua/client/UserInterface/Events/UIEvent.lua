@@ -1,7 +1,3 @@
 require "MeowCore";
 
-MeowCore.namespace("Client/UserInterface/Events");
-local UIEvent = MeowCore.derive("UIEvent", "Shared/Events/Event");
-
-
-MeowCore.Client.UserInterface.Events.UIEvent = UIEvent;
+local UIEvent = MeowCore.derive("Client/UserInterface/Events/UIEvent", "Shared/Events/Event");

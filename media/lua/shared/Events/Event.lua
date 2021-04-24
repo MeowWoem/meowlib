@@ -1,12 +1,6 @@
 require "MeowCore";
 
-MeowCore.namespace("Shared/Events");
-
 local Event = MeowCore.class(
-	"Event",
+	"Shared/Events/Event",
 	{ preventDefault = false }
 );
-
-
-
-MeowCore.Shared.Events.Event = Event;

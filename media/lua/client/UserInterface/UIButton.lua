@@ -1,10 +1,8 @@
 require "MeowCore";
 
-MeowCore.namespace("Client/UserInterface");
-
 local Color = MeowCore.require("Shared/Types/Color");
 
-local UIButton = MeowCore.derive("UIButton", "Client/UserInterface/UIPanel", {
+local UIButton = MeowCore.derive("Client/UserInterface/UIButton", "Client/UserInterface/UIPanel", {
 	enable = true,
 	pressed = false,
 	allowMouseUpProcessing = false,
@@ -183,7 +181,7 @@ function UIButton:render()
 		self:drawTextRight(self.overlayText, self.width, self.height - height, 1, 1, 1, 0.5, UIFont.Small);
 	end
 
-	
+
 end
 
 
@@ -207,5 +205,3 @@ function UIButton:update()
 		self.pressedTime = nil
 	end
 end
-
-MeowCore.Client.UserInterface.UIButton = UIButton;

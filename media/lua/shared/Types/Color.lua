@@ -1,9 +1,8 @@
 require "MeowCore";
 
-MeowCore.namespace("Shared/Types");
 
 local Color = MeowCore.class(
-	"Color",
+	"Shared/Types/Color",
 	{ r=0, g=0, b=0, a=0 },
 	{
 		["integer,integer,integer"] = "constructor_integer_integer_integer_integer",
@@ -255,5 +254,3 @@ Color.cornsilk = function() return Color:new({r=1,g=0.97254901960784,b=0.8627450
 Color.beige = function() return Color:new({r=0.96078431372549,g=0.96078431372549,b=0.86274509803922,a=1 });end
 Color.black = function() return Color:new({r=0,g=0,b=0,a=1 });end
 Color.transparent = function() return Color:new({r=0,g=0,b=0,a=0 }); end
-
-MeowCore.Shared.Types.Color = Color;

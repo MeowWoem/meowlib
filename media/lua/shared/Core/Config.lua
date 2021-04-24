@@ -1,10 +1,9 @@
 require "MeowCore";
 
-MeowCore.namespace("Shared/Core");
 local INIUtils = MeowCore.require("Shared/Utils/INIUtils");
 
 local Config = MeowCore.class(
-	"Config",
+	"Shared/Core/Config",
 	{ filename="cfg.ini", cfg=nil, modid=nil, defaultConfig=nil }
 );
 
@@ -36,6 +35,3 @@ function Config:initialise()
 	self:load();
 	self:save();
 end
-
-
-MeowCore.Shared.Core.Config = Config;

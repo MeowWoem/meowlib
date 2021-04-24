@@ -1,9 +1,7 @@
 require "MeowCore";
 
-MeowCore.namespace("Shared/Math/Geometry");
-
 local Vector3 = MeowCore.derive(
-	"Vector3",
+	"Shared/Math/Geometry/Vector3",
 	"Shared/Math/Geometry/Vector2",
 	{ x=0, y=0, z=0 }
 );
@@ -81,6 +79,3 @@ function Vector3:normalize ()
 		self.z = self.z / length;
 	end
 end
-
-
-MeowCore.Shared.Math.Geometry.Vector3 = Vector3;

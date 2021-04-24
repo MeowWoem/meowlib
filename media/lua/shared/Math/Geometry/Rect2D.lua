@@ -1,10 +1,7 @@
 require "MeowCore";
 
-MeowCore.namespace("Shared/Math/Geometry");
-
-
 local Rect2D = MeowCore.class(
-	"Rect2D",
+	"Shared/Math/Geometry/Rect2D",
 	{ x=0, y=0, w=0, h=0 }
 );
 
@@ -76,5 +73,3 @@ end
 function Rect2D:getHeight()
 	return self.h;
 end
-
-MeowCore.Shared.Math.Geometry.Rect2D = Rect2D;

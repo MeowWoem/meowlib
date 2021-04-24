@@ -1,10 +1,8 @@
 require "MeowCore";
 
-MeowCore.namespace("Shared/Math/Geometry");
-
 
 local Vector2 = MeowCore.class(
-	"Vector2",
+	"Shared/Math/Geometry/Vector2",
 	{ x=0, y=0 }
 );
 
@@ -106,5 +104,3 @@ function Vector2:distance(a, b)
 	local v2 = a.y - b.y;
 	return math.sqrt((v1 * v1) + (v2 * v2));
 end
-
-MeowCore.Shared.Math.Geometry.Vector2 = Vector2;

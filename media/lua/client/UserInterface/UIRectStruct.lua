@@ -1,6 +1,5 @@
 require "MeowCore";
 
-MeowCore.namespace("Client/UserInterface");
 
 local Color = MeowCore.require("Shared/Types/Color");
 local Rect2D = MeowCore.require("Shared/Math/Geometry/Rect2D");
@@ -8,7 +7,7 @@ local UIRectBorderStruct = MeowCore.require("Client/UserInterface/UIRectBorderSt
 
 
 local UIRectStruct = MeowCore.class(
-	"UIRectStruct", {
+	"Client/UserInterface/UIRectStruct", {
 		rect = Rect2D.zero(),
 		color = Color.white(),
 		borders = {
@@ -155,5 +154,3 @@ function UIRectStruct:getBorderRightRect()
 		self.borders.t.thickness, self.rect.h - offset.h
 	);
 end
-
-MeowCore.Client.UserInterface.UIRectStruct = UIRectStruct;
