@@ -339,46 +339,55 @@ function MeowCore.derive(typeName, from, properties, constructors)
 	end
 end
 
-function MeowCore.require(str)
-	local path = str;
-	local i, l = path:find("Client/");
-	if(i == 1) then
-		path = path:sub(i + l);
+function MeowCore.require(...)
+	local args = {...};
+	if(#args > 1) then
+		local results = {};
+		for _, v in ipairs(args) do
+			table.insert(results, MeowCore.require(v));
+		end
+		return unpack(results);
 	else
-		i, l = path:find("Shared/");
+		local str = args[1];
+		local path = str;
+		local i, l = path:find("Client/");
 		if(i == 1) then
 			path = path:sub(i + l);
 		else
-			i, l = path:find("Server/");
+			i, l = path:find("Shared/");
 			if(i == 1) then
 				path = path:sub(i + l);
+			else
+				i, l = path:find("Server/");
+				if(i == 1) then
+					path = path:sub(i + l);
+				end
 			end
 		end
-	end
 
+		if(_required[str] ~= true) then
 
+			print("Require : " .. str);
 
-	if(_required[str] ~= true) then
+			_required[str] = true;
+			require (path);
+		end
+		local obj = MeowCore;
 
-		print("Require : " .. str);
+		for _, v in ipairs(luautils.split(str, "/")) do
+			if(obj == nil) then
+				return nil;
+			end
+			obj = obj[v];
+		end
 
-		_required[str] = true;
-		require (path);
-	end
-	local obj = MeowCore;
-
-	for _, v in ipairs(luautils.split(str, "/")) do
-		if(obj == nil) then
+		if(obj == nil or obj == MeowCore) then
+			print("Module : " .. str .. " Not exists in client!");
 			return nil;
 		end
-		obj = obj[v];
-	end
+		return obj;
 
-	if(obj == nil or obj == MeowCore) then
-		print("Module : " .. str .. " Not exists in client!");
-		return nil;
 	end
-	return obj;
 end
 
 function MeowCore.extend(main, ...)
