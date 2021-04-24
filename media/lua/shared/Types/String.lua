@@ -57,3 +57,8 @@ function string:getAllAfterLast(haystack, needle)
 	end
 	return str;
 end
+
+function string:trim(str)
+  if(str == nil) then str = self; end
+  return str:match'^%s*(.*%S)' or ''
+end
