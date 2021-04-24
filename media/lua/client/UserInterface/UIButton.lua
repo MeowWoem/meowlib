@@ -16,7 +16,7 @@ local UIButton = MeowCore.derive("UIButton", "Client/UserInterface/UIPanel", {
     forcedWidthImage = nil,
     forcedHeightImage = nil
 });
-MeowCore.interface(UIButton, "Client/UserInterface/Interfaces/IUITooltip");
+
 
 
 function UIButton:constructor_string(title)
@@ -182,6 +182,8 @@ function UIButton:render()
 	if self.overlayText then
 		self:drawTextRight(self.overlayText, self.width, self.height - height, 1, 1, 1, 0.5, UIFont.Small);
 	end
+
+	
 end
 
 
