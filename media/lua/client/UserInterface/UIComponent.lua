@@ -31,14 +31,33 @@ local UIComponent = MeowCore.derive("Client/UserInterface/UIComponent", "Client/
 	events = UIComponentEventsManager:new()
 });
 
+function UIComponent:constructor()
+	self:loadStyle();
+end
+
 function UIComponent:constructor_integer_integer_integer_integer(x, y, width, height)
 	self.x = x;
 	self.y = y;
 	self.width = width;
 	self.height = height;
+	self:constructor();
 end
 
+function UIComponent:constructor_Rect2D(rect)
+	self:constructor_integer_integer_integer_integer(rect.x, rect.y, rect.w, rect.h);
+end
 
+function UIComponent:constructor_integer_integer_Vector2(x, y, dim)
+	self:constructor_integer_integer_integer_integer(x, y, dim.x, dim.y);
+end
+
+function UIComponent:constructor_Vector2_integer_integer(pos, width, height)
+	self:constructor_integer_integer_integer_integer(pos.x, pos.y, width, height);
+end
+
+function UIComponent:constructor_Vector2_Vector2(pos, dim)
+	self:constructor_integer_integer_integer_integer(pos.x, pos.y, dim.x, dim.y);
+end
 
 function UIComponent:loadStyle()
 	if(self.theme ~= nil) then
@@ -54,8 +73,6 @@ end
 
 function UIComponent:initialise()
 	UIComponent.__super.initialise(self);
-	self:loadStyle();
-
 	local bg = UIRectStruct:new();
 	bg.rect.x = 0;
 	bg.rect.y = 0;
