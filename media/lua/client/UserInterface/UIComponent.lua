@@ -96,7 +96,7 @@ function UIComponent:onMouseMove(dx, dy)
 	local event = UIMouseClickEvent:new({x=dx,y=dy});
 	self.mouseOver = self:isMouseOver();
 	self.events:trigger(self, "MouseMove", event);
-	return event;
+	--return event;
 end
 
 function UIComponent:onMouseMoveOutside(dx, dy)
@@ -106,7 +106,7 @@ function UIComponent:onMouseMoveOutside(dx, dy)
 	local event = UIMouseClickEvent:new({x=dx,y=dy});
 	self.mouseOver = false;
 	self.events:trigger(self, "MouseMoveOutside", event);
-	return event;
+	--return event;
 end
 
 function UIComponent:onMouseDown(dx, dy)
@@ -115,7 +115,7 @@ function UIComponent:onMouseDown(dx, dy)
 	end
 	local event = UIMouseClickEvent:new({x=dx,y=dy});
 	self.events:trigger(self, "MouseDown", event);
-	return event;
+	--return event;
 end
 
 function UIComponent:onMouseUp(dx, dy)
@@ -124,7 +124,7 @@ function UIComponent:onMouseUp(dx, dy)
 	end
 	local event = UIMouseClickEvent:new({x=dx,y=dy});
 	self.events:trigger(self, "MouseUp", event);
-	return event;
+	--return event;
 end
 
 function UIComponent:onMouseUpOutside(dx, dy)
@@ -133,7 +133,7 @@ function UIComponent:onMouseUpOutside(dx, dy)
 	end
 	local event = UIMouseClickEvent:new({x=dx,y=dy});
 	self.events:trigger(self, "MouseUpOutside", event);
-	return event;
+	--return event;
 end
 
 function UIComponent:prerenderHover()

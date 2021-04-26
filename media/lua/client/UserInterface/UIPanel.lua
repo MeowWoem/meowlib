@@ -20,11 +20,11 @@ end
 function UIPanel:onMouseUp(x, y)
 	local event = UIPanel:super().onMouseUp(self, x, y);
 	if(event ~= nil and event.preventDefault) then
-		return event;
+		return;
 	end
     if not self.moveWithMouse then return event; end
     if not self:getIsVisible() then
-        return event;
+        return;
     end
 
     self.moving = false;
@@ -33,28 +33,28 @@ function UIPanel:onMouseUp(x, y)
     end
 
     ISMouseDrag.dragView = nil;
-	return event;
+	--return event;
 end
 
 function UIPanel:onMouseUpOutside(x, y)
 	local event = UIPanel:super().onMouseUpOutside(self, x, y);
 	if(event ~= nil and event.preventDefault) then
-		return event;
+		return;
 	end
     if not self.moveWithMouse then return; end
     if not self:getIsVisible() then
-        return event;
+        return;
     end
 
     self.moving = false;
     ISMouseDrag.dragView = nil;
-        return event;
+        return;
 end
 
 function UIPanel:onMouseDown(x, y)
 	local event = UIPanel:super().onMouseDown(self, x, y);
 	if(event ~= nil and event.preventDefault) then
-		return event;
+		return;
 	end
     if not self.moveWithMouse then return true; end
     if not self:getIsVisible() then
@@ -68,13 +68,13 @@ function UIPanel:onMouseDown(x, y)
     self.downY = y;
     self.moving = true;
     self:bringToTop();
-    return event;
+    return;
 end
 
 function UIPanel:onMouseMoveOutside(dx, dy)
 	local event = UIPanel:super().onMouseMoveOutside(self, dx, dy);
 	if(event ~= nil and event.preventDefault) then
-		return event;
+		return;
 	end
     if not self.moveWithMouse then return event; end
 
@@ -88,13 +88,13 @@ function UIPanel:onMouseMoveOutside(dx, dy)
             self:bringToTop();
         end
     end
-	return event;
+	return;
 end
 
 function UIPanel:onMouseMove(dx, dy)
 	local event = UIPanel:super().onMouseMove(self, dx, dy);
 	if(event ~= nil and event.preventDefault) then
-		return event;
+		return;
 	end
     if not self.moveWithMouse then return event; end
 
@@ -109,5 +109,5 @@ function UIPanel:onMouseMove(dx, dy)
         end
         --ISMouseDrag.dragView = self;
     end
-	return event;
+	return;
 end
