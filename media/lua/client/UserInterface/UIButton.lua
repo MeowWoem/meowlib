@@ -2,11 +2,8 @@ require "MeowCore";
 
 local Color = MeowCore.require("Shared/Types/Color");
 local UITooltip = MeowCore.require("Client/UserInterface/UITooltip");
-local PrivatesManager = MeowCore.require("Shared/Core/PrivatesManager");
 
-local privates = PrivatesManager:new({
-	tooltip = UITooltip:new();
-});
+
 
 local UIButton = MeowCore.derive("Client/UserInterface/UIButton", "Client/UserInterface/UIPanel", {
 	enable = true,
@@ -15,28 +12,25 @@ local UIButton = MeowCore.derive("Client/UserInterface/UIButton", "Client/UserIn
 	target = nil,
 	isJoypad = false,
 	joypadFocused = false,
-	title = "Button",
+	title = "",
 	overlayText = nil,
     forcedWidthImage = nil,
-    forcedHeightImage = nil
+    forcedHeightImage = nil,
+	tooltip = UITooltip:new(),
+	tooltipText = "",
 });
 
 
-
 function UIButton:constructor_string(title)
+	self:constructor();
 	self.title = title;
-	privates:initialise(self);
 end
 
 function UIButton:initialise()
-	local pself = privates:getAll(self);
 
-	self:loadStyle();
-	pself.tooltip = UITooltip:new();
-	Dump(pself.tooltip);
-	pself.tooltip:setOwner(self)
-	pself.tooltip:setVisible(false)
-	pself.tooltip:setAlwaysOnTop(true)
+	self.tooltip = UITooltip:new();
+	self.tooltip:initialise();
+	self.tooltip.initialised = false;
 
 	local tm = getTextManager();
 	if self.width < (tm:MeasureStringX(self.style.font, self.title) + 10) then
@@ -48,6 +42,11 @@ function UIButton:initialise()
 
     UIButton:super().initialise(self);
 
+end
+
+
+function UIButton:setImage(image)
+	self.image = image;
 end
 
 function UIButton:setJoypadFocused(focused)
@@ -135,22 +134,28 @@ function UIButton:prerenderHover()
 		});
 	end
 
-	local pself = privates:getAll(self);
 	if self:isMouseOver() then
-		if not pself.tooltip:getIsVisible() then
-			if string.contains(pself.tooltip.text, "\n") then
-				pself.tooltip.maxLineWidth = 1000 -- don't wrap the lines
-			else
-				pself.tooltip.maxLineWidth = 300
-			end
-			pself.tooltip:addToUIManager()
-			pself.tooltip:setVisible(true)
+		if(not self.tooltip.initialised) then
+			self.tooltip:setOwner(self);
+			self.tooltip:setVisible(false);
+			self.tooltip:setAlwaysOnTop(true);
+			self.tooltip.initialised = true;
 		end
-		pself.tooltip:setDesiredPosition(getMouseX(), self:getAbsoluteY() + self:getHeight() + 8)
+		if not self.tooltip:getIsVisible() then
+			if string.contains(self.tooltip.text, "\n") then
+				self.tooltip.maxLineWidth = 1000 -- don't wrap the lines
+			else
+				self.tooltip.maxLineWidth = 300
+			end
+			self.tooltip:addToUIManager()
+			self.tooltip:setVisible(true)
+		end
+		self.tooltip.text = self.tooltipText;
+		self.tooltip:setDesiredPosition(getMouseX(), self:getAbsoluteY() + self:getHeight() + 8)
 	else
-		if pself.tooltip and pself.tooltip:getIsVisible() then
-			pself.tooltip:setVisible(false)
-			pself.tooltip:removeFromUIManager()
+		if self.tooltip and self.tooltip:getIsVisible() then
+			self.tooltip:setVisible(false)
+			self.tooltip:removeFromUIManager()
 		end
     end
 end
@@ -169,7 +174,7 @@ function UIButton:render()
 				(self.width / 2) - (self.forcedWidthImage / 2),
 				(self.height / 2) - (self.forcedHeightImage / 2),
 				self.forcedWidthImage, self.forcedHeightImage,
-				self.textureColor.a, self.textureColor.r, self.textureColor.g, self.textureColor.b
+				self.style.textureColor.a, self.style.textureColor.r, self.style.textureColor.g, self.style.textureColor.b
 			);
 
 		elseif self.image:getWidthOrig() <= self.width and self.image:getHeightOrig() <= self.height then
@@ -178,14 +183,14 @@ function UIButton:render()
 				self.image,
 				(self.width / 2) - (self.image:getWidthOrig() / 2),
 				(self.height / 2) - (self.image:getHeightOrig() / 2),
-				self.textureColor.a, self.textureColor.r, self.textureColor.g, self.textureColor.b
+				self.style.textureColor.a, self.style.textureColor.r, self.style.textureColor.g, self.style.textureColor.b
 			);
 
         else
 
             self:drawTextureScaledAspect(
 				self.image, 0, 0, self.width, self.height,
-				self.textureColor.a, self.textureColor.r, self.textureColor.g, self.textureColor.b
+				self.style.textureColor.a, self.style.textureColor.r, self.style.textureColor.g, self.style.textureColor.b
 			);
 
 		end
