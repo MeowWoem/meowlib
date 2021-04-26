@@ -121,7 +121,7 @@ function UIRectStruct:getRectWithOffset()
 	local offset = self:getRectOffset();
 	return Rect2D:new(
 		self.rect.x + offset.x, self.rect.y + offset.y,
-		self.rect.w - offset.w, self.rect.h - offset.h
+		self.rect.w - offset.w - offset.x, self.rect.h - offset.h - offset.y
 	);
 end
 
@@ -136,7 +136,7 @@ function UIRectStruct:getBorderLeftRect()
 	local offset = self:getRectOffset();
 	return Rect2D:new(
 		self.rect.x, self.rect.y + offset.y,
-		self.borders.l.thickness, self.rect.h - offset.h
+		self.borders.l.thickness, self.rect.h - offset.h - offset.y
 	);
 end
 
@@ -151,6 +151,6 @@ function UIRectStruct:getBorderRightRect()
 	local offset = self:getRectOffset();
 	return Rect2D:new(
 		self.rect.w - self.borders.r.thickness, self.rect.y + offset.y,
-		self.borders.t.thickness, self.rect.h - offset.h
+		self.borders.t.thickness, self.rect.h - offset.h - offset.y
 	);
 end
