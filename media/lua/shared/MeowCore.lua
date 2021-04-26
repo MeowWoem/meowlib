@@ -64,7 +64,17 @@ function ctype(obj, strict)
 			end
 		end
 	elseif t == 'userdata' then
-		t = tostring(obj):split(" ")[1];
+		if(obj.getClass) then
+			local str = obj:getClass():getName();
+			local i = str:find('%$');
+			if(i) then
+				t = str:sub(i + 1);
+			else
+				t = str;
+			end
+		else
+			t = tostring(obj):split(" ")[1];
+		end
 	elseif t == 'number' then
 		if strict then
 			t = math.floor(obj) == obj and 'integer' or 'float';
@@ -456,6 +466,7 @@ MeowClass.__super = nil;
 function MeowClass:new(props)
 	props = props or {};
 	local o = MeowCore.extend({}, props);
+
 	setmetatable(o, self);
 	self.__index = self;
 	return o;
