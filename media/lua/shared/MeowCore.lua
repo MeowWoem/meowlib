@@ -489,10 +489,10 @@ local function _dump(o, lvl)
 				return (s .. strIndent ..  '   ' .. '\n... Max depth 256\n} ');
 			end
 			if(v == o) then
-				s = s .. strIndent ..  '   ' .. '['..k..'] = ' .. tostring(v):gsub("table ", ctype(v) .. ':') .. ' (Recursive),\n';
+				s = s .. strIndent ..  '   ' .. '['..tostring(k)..'] = ' .. tostring(v):gsub("table ", ctype(v) .. ':') .. ' (Recursive),\n';
 			else
-				if type(k) ~= 'number' then k = '"'..k..'"' end
-				s = s .. strIndent ..  '   ' .. '['..k..'] = ' .. _dump(v, lvl + 1) .. ',\n';
+				if type(k) ~= 'number' then k = '"'..tostring(k)..'"' end
+				s = s .. strIndent ..  '   ' .. '['..tostring(k)..'] = ' .. _dump(v, lvl + 1) .. ',\n';
 			end
 		end
 		return (s .. strIndent .. '} ');
