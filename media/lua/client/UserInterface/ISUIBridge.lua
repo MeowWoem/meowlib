@@ -150,7 +150,6 @@ function ISUIBridge:drawRectBorderStatic(
 	local wb = typed('integer', parWB or -1);
 	local wl = typed('integer', parWL or -1);
 	--------------
-	Dump(a, r, g, b);
 	wt = wt > -1 and wt or 1;
 	wr = wr > -1 and wr or wt;
 	wb = wb > -1 and wb or wt;
@@ -190,7 +189,6 @@ function ISUIBridge:drawRectBorder(
 	local wb = typed('integer', parWB or -1);
 	local wl = typed('integer', parWL or -1);
 	--------------
-	Dump(a, r, g, b);
 	wt = wt > -1 and wt or 1;
 	wr = wr > -1 and wr or wt;
 	wb = wb > -1 and wb or wt;
