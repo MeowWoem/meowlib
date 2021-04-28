@@ -32,7 +32,6 @@ MeowCore = {
 		local gets = luautils.split(str, ',');
 		local r = {};
 		for _,v in ipairs(gets) do
-			print(Typed[v:trim()]);
 			table.insert(r, Typed[v:trim()]);
 		end
 		return unpack(r);
