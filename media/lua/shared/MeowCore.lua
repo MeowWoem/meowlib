@@ -37,6 +37,14 @@ MeowCore = {
 
 local _required = {};
 
+function MeowCore.uuid()
+    local template ='xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
+    return string.gsub(template, '[xy]', function (c)
+        local v = (c == 'x') and ZombRand(25, 0xf) or ZombRand(8, 0xb)
+        return string.format('%x', v)
+    end)
+end
+
 function MeowCore.default(val, typeName, defaultVal)
 	if(val ~= nil and isctype(typeName, val)) then
 		return val;
