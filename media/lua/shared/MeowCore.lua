@@ -17,12 +17,21 @@ end
 
 local MeowClass = {};
 
+local activeModIDs = getActivatedMods()
+local activeMods = {};
+for i=1,activeModIDs:size() do
+	local modID = activeModIDs:get(i-1)
+	local modInfo = getModInfoByID(modID)
+	activeMods[modID] = modInfo;
+end
+
 MeowCore = {
 	isctype = isctype,
 	typed = typed,
 	ccast = ccast,
 	cinstanceof = cinstanceof,
 	ctype = ctype,
+	activeMods = activeMods;
 	switch = switch,
 	Typed = function(str)
 		local gets = luautils.split(str, ',');
@@ -34,6 +43,12 @@ MeowCore = {
 		return unpack(r);
 	end
 };
+
+function MeowCore.modIsActive(modid)
+	return MeowCore.activeMods[modid] ~= nil;
+end
+
+MeowCore.MOD_WEARELEGEND = MeowCore.modIsActive('wearelegends');
 
 local _required = {};
 
