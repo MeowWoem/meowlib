@@ -1,5 +1,7 @@
 require "MeowCore";
 
+local ActorPerk = MeowCore.require('Shared/Actors/ActorPerk');
+
 local ActorPerksRegistry = MeowCore.class(
 	"Shared/Actors/ActorPerksRegistry", {
 		perks = {}
@@ -18,7 +20,7 @@ function ActorPerksRegistry:constructor()
 			if not perks[perk:getParent()] then
 				perks[perk:getParent()] = {};
 			end
-			table.insert(perks[perk:getParent()], perk);
+			table.insert(perks[perk:getParent()], ActorPerk:new(perk));
 		end
 	end
 	self.perks = perks;

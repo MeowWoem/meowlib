@@ -9,5 +9,9 @@ local ActorsManager = MeowCore.class(
 );
 
 function ActorsManager:registerActor(actor)
-
+	if(self.actors:get(actor.uuid)) then
+		-- TODO: Error handling
+		return;
+	end
+	self.actors:put(actor.uuid, actor);
 end
