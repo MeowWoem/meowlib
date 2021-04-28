@@ -5,6 +5,8 @@ require "ISUI/ISUIElement"
 MeowCore.namespace("Client/UserInterface");
 
 
+local isctype, typed = MeowCore.Typed("isctype, typed");
+
 local ISUIBridge = ISUIElement:derive("ISUIBridge");
 ISUIBridge.__type = "ISUIBridge";
 ISUIBridge.__super = ISUIElement;

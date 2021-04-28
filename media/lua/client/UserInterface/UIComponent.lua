@@ -1,7 +1,7 @@
 require "MeowCore";
 require "Theme";
 
-
+local ctype = MeowCore.Typed("ctype");
 
 local UIComponentEventsManager,
 	UIMouseClickEvent,

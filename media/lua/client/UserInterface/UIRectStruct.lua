@@ -1,5 +1,6 @@
 require "MeowCore";
 
+local typed	= MeowCore.Typed("typed");
 
 local Color = MeowCore.require("Shared/Types/Color");
 local Rect2D = MeowCore.require("Shared/Math/Geometry/Rect2D");
