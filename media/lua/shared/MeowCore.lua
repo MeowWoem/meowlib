@@ -26,11 +26,6 @@ for i=1,activeModIDs:size() do
 end
 
 MeowCore = {
-	isctype = isctype,
-	typed = typed,
-	ccast = ccast,
-	cinstanceof = cinstanceof,
-	ctype = ctype,
 	activeMods = activeMods;
 	switch = switch,
 	Typed = function(str)
