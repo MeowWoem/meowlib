@@ -34,7 +34,8 @@ local function ctype(obj, strict)
 			t = 'number';
 		end
 	end
-	return t
+	local parts = luautils.split(t, '.');
+	return parts[#parts];
 end
 
 
