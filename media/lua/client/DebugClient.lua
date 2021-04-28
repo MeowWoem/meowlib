@@ -8,9 +8,12 @@ local Config = MeowCore.require("Shared/Core/Config");
 local V2 = MeowCore.require("Shared/Math/Geometry/Vector2");
 local V3 = MeowCore.require("Shared/Math/Geometry/Vector3");
 local Rect2D = MeowCore.require("Shared/Math/Geometry/Rect2D");
+local ActorPerksRegistry = MeowCore.require("Shared/Actors/ActorPerksRegistry");
+
 
 
 local function test()
+	local regitry = ActorPerksRegistry:new();
 	local elm = UIWindow:new(1000, 250, 500, 500);
 	elm:initialise();
 	elm:addToUIManager();
@@ -28,20 +31,8 @@ local function test()
 	local v3 = V3:new(1, 2, 3);
 	local v33 = V3:new(4, 5, 6);
 
-	local perks = {};
-	-- we start to fetch all our perks
-	for i = 0, PerkFactory.PerkList:size() - 1 do
-		local perk = PerkFactory.PerkList:get(i);
-		-- we only add in our list the child perk
-		-- here we just display the active skill, not the passive ones (they are in another tab)
-		if perk:getParent() ~= Perks.None then
-			-- we take the longest skill's name as width reference
-			if not perks[perk:getParent()] then
-				perks[perk:getParent()] = {};
-			end
-			table.insert(perks[perk:getParent()], perk);
-		end
-	end
+	local perks = regitry.perks;
+
 
 	Dump(perks);
 	--Dump(V2.__varAddress, v2.__varAddress, v22.__varAddress);
