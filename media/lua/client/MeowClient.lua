@@ -1,3 +1,0 @@
-require "MeowCore";
-
-MeowClient = {};

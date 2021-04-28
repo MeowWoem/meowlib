@@ -1,7 +1,6 @@
 require "MeowCore";
 
 local UIPanel = MeowCore.require("Client/UserInterface/UIPanel");
-local UIResizeWidget = MeowCore.require("Client/UserInterface/UIResizeWidget");
 
 local UIWindow = MeowCore.derive("Client/UserInterface/UIWindow", "Client/UserInterface/UIPanel", {
 	widgetTextureColor = {r = 1, g = 1, b = 1, a = 1},
@@ -16,7 +15,7 @@ local UIWindow = MeowCore.derive("Client/UserInterface/UIWindow", "Client/UserIn
 	pin = true,
 	isCollapsed = false,
 	collapseCounter = 0,
-	title = "Windoe",
+	title = "",
 	viewList = {},
 	resizable = true,
 	drawFrame = true,
@@ -239,7 +238,7 @@ function UIWindow:onMouseMove(dx, dy)
 		--ISMouseDrag.dragView = self;
 	end
     if not isMouseButtonDown(0) and not isMouseButtonDown(1) and not isMouseButtonDown(2) then
-    	self:uncollapse();
+		self:uncollapse();
     end
 end
 
@@ -279,7 +278,10 @@ function UIWindow:onMouseMoveOutside(dx, dy)
 		self:bringToTop();
 	end
 
-	if not self.pin and (self:getMouseX() < 0 or self:getMouseY() < 0 or self:getMouseX() > self:getWidth() or self:getMouseY() > self:getHeight()) then
+	if 	not self.pin and (
+		self:getMouseX() < 0 or self:getMouseY() < 0 or
+		self:getMouseX() > self:getWidth() or self:getMouseY() > self:getHeight()
+	) then
 		self.collapseCounter = self.collapseCounter + 1;
 
 		local bDo = true;
@@ -311,7 +313,7 @@ function UIWindow:onMouseUp(x, y)
 	ISMouseDrag.dragView = nil;
 end
 
-function UIWindow:onMouseUpOutside(x, y)
+function UIWindow:onMouseUpOutside()
 	if not self:getIsVisible() then
 		return;
 	end
@@ -349,7 +351,7 @@ function UIWindow:titleBarHeight()
 end
 
 function UIWindow:resizeWidgetHeight()
-	return 8
+	return 8;
 end
 
 function UIWindow:setResizable(resizable)
