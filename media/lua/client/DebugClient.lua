@@ -34,7 +34,8 @@ local function test()
 	local perks = regitry.perks;
 
 
-	Dump(perks);
+
+	Dump(tostring(MeowCore.MOD_WEARELEGEND), getModInfo('test'), getModInfo('wearelegends'));
 	--Dump(V2.__varAddress, v2.__varAddress, v22.__varAddress);
 	--Dump(V3.__varAddress, v3.__varAddress, v33.__varAddress);
 
@@ -61,4 +62,4 @@ local function test()
 end
 
 
-Events.OnMainMenuEnter.Add(test);
+-- Events.OnMainMenuEnter.Add(test);
