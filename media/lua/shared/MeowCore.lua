@@ -26,6 +26,7 @@ for i=1,activeModIDs:size() do
 end
 
 MeowCore = {
+	Config = nil,
 	activeMods = activeMods;
 	switch = switch,
 	Typed = function(str)
@@ -494,3 +495,16 @@ function DeepCopyRecursive(obj, seen)
 	for k, v in pairs(obj) do res[DeepCopyRecursive(k, s)] = DeepCopyRecursive(v, s) end
 	return setmetatable(res, getmetatable(obj))
 end
+
+local function OnGameBoot()
+
+	local Config = MeowCore.require("Shared/Core/Config");
+	MeowCore.Config = Config:new("meowlib", {
+		Debug = {
+			enabled = true
+		}
+	});
+
+	MeowCore.Config:initialise();
+end
+Events.OnGameBoot.Add(OnGameBoot)
