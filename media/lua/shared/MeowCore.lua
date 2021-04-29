@@ -388,7 +388,7 @@ function MeowCore.require(...)
 		end
 
 		if(obj == nil or obj == MeowCore) then
-			print("Module : " .. str .. " Not exists in client!");
+			error("Module : " .. str .. " Not exists in client!");
 			return nil;
 		end
 		return obj;
