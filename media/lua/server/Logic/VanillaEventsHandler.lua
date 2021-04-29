@@ -1,7 +1,7 @@
 require "MeowCore";
 
-local MeowServer = MeowCore.require("Server/MeowServer");
 local PlayerActor = MeowCore.require("Shared/Actors/PlayerActor");
+local ActorsGroup = MeowCore.require("Shared/Actors/ActorsGroup");
 
 -- ###################################
 -- Vanilla Server Side Events Handling
@@ -54,8 +54,18 @@ Events.LoadGridsquare.Add(LoadGridsquare)
 	Triggered when a player is created.
 -----------------------------------------------------]]--
 local function OnCreatePlayer(playerNum)
+	IsoPlayer.setCoopPVP(true);
 	local actor = PlayerActor:new(playerNum);
+	local MeowServer = MeowCore.require("Server/MeowServer");
 	MeowServer.actorManager:registerActor(actor);
+
+	local serverMD = MeowServer.getModData();
+	Dump("First", serverMD.__test.getLeaderActor, serverMD.__test);
+	serverMD.__test = not serverMD.__test and ActorsGroup:new(actor) or ActorsGroup:new(serverMD.__test);
+
+	Dump("Second", serverMD.__test.getLeaderActor, serverMD.__test);
+	Dump("Third", serverMD.__test:getLeaderActor());
+
 end
 Events.OnCreatePlayer.Add(OnCreatePlayer)
 
@@ -66,3 +76,32 @@ Events.OnCreatePlayer.Add(OnCreatePlayer)
 -----------------------------------------------------]]--
 local function OnPlayerUpdate(isoPlayer) end
 Events.OnPlayerUpdate.Add(OnPlayerUpdate)
+
+
+
+--[[-----------------------------------------------------
+	OnWeaponHitCharacter
+    #################
+	Triggered when a IsoGameCharacter has been hit by a HandWeapon
+-----------------------------------------------------]]--
+local function OnWeaponHitCharacter(isoWielder, isoVictim, weapon, damage)
+	Dump("HIT");
+	if(instanceof(isoWielder, "IsoZombie") == false and instanceof(isoVictim, "IsoZombie") == false) then
+		Dump("HIT Actor>Actor", isoWielder, isoVictim);
+		--[[local wielder = CharacterManager:getCharFromIsoPlayer(isoWielder);
+		local victim = CharacterManager:getCharFromIsoPlayer(isoVictim);
+		victim.hitUpdate = true;
+		victim.hitWielder = wielder;
+		victim.lastHitTimestamp = getGametimeTimestamp();]]--
+		isoVictim:setAvoidDamage(true);
+		--return false;
+	elseif(instanceof(isoWielder, "IsoZombie") == true and instanceof(isoVictim, "IsoZombie") == false) then
+		Dump("HIT Zombie>Actor", isoWielder, isoVictim);
+		--[[local victim = CharacterManager:getCharFromIsoPlayer(isoVictim);
+		victim.hitUpdate = true;
+		victim.hitWielder = nil;
+		victim.lastHitTimestamp = getGametimeTimestamp();]]--
+	end
+
+end
+Events.OnWeaponHitCharacter.Add(OnWeaponHitCharacter);
