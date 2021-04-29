@@ -15,3 +15,7 @@ function ActorsManager:registerActor(actor)
 	end
 	self.actors:put(actor.uuid, actor);
 end
+
+function ActorsManager:getActorByUUID(uuid)
+	return self.actors:get(uuid);
+end
