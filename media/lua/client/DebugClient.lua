@@ -1,5 +1,19 @@
 require "MeowCore";
-require "ISUI/ISUIElement";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--[[require "ISUI/ISUIElement";
 
 local UIWindow = MeowCore.require("Client/UserInterface/UIWindow");
 local UIButton = MeowCore.require("Client/UserInterface/UIButton");
@@ -60,6 +74,6 @@ local function test()
 
 	cfg:initialise();
 end
-
+]]--
 
 -- Events.OnMainMenuEnter.Add(test);
