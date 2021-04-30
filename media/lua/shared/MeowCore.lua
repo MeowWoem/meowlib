@@ -464,7 +464,10 @@ local function _dump(o, lvl)
 		return (tostring(o));
 	end
 end
-
+local redumpStr = '';
+function ReDump()
+	Dump(redumpStr);
+end
 function Dump(...)
 	local args = {...};
 	local str = '';
@@ -473,7 +476,9 @@ function Dump(...)
 		str = str .. '|-> ' .. _dump(v, 0);
 		if(i < l) then str = str ..'\n' end
 	end
-	print("\n-------\n| [DUMP]\n" .. str .. '\n-------\n' .. debugstacktrace(nil, 2, 1));
+	local res = "\n-------\n| [DUMP]\n" .. str .. '\n-------\n' .. debugstacktrace(nil, 2, 1);
+	redumpStr = redumpStr .. res;
+	print(res);
 end
 
 function DeepCopy(obj)
