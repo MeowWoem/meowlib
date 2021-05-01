@@ -16,6 +16,21 @@ function ActorsManager:registerActor(actor)
 	self.actors:put(actor.uuid, actor);
 end
 
+function ActorsManager:getActorByIso(iso)
+  local md = iso:getModData();
+	if not md.uuid then return nil end
+	return self:getActorByUUID(md.uuid);
+end
+
 function ActorsManager:getActorByUUID(uuid)
 	return self.actors:get(uuid);
+end
+
+function ActorsManager:getPlayerByNum(num)
+
+	for _,v in pairs(self.actors:all()) do
+		if v.isPlayer and v.id == num then
+			return v;
+		end
+	end
 end
