@@ -24,6 +24,5 @@ function ActorsGroupMember:constructor_PlayerActor(player)
 end
 
 function ActorsGroupMember:getActor()
-	local MeowServer = MeowCore.require("Server/MeowServer");
-	return MeowServer.actorManager:getActorByUUID(self.uuid);
+	return MeowCore.require("Server/MeowServer").actorManager:getActorByUUID(self.uuid);
 end
