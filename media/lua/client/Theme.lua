@@ -6,7 +6,31 @@ local Color = MeowCore.require("Shared/Types/Color");
 
 local Theme = {
 	UIPanel = Style:new({
-		background = Color.black(),
+		background = Color.blue(),
+		color = Color.white(),
+		font = UIFont.Small,
+		border = {
+			all = {
+				width = 0,
+				color = Color.transparent()
+			}
+		},
+		hover = {}
+	}),
+	UIWindow = Style:new({
+		background = Color.green(),
+		color = Color.white(),
+		font = UIFont.Small,
+		border = {
+			all = {
+				width = 0,
+				color = Color.transparent()
+			}
+		},
+		hover = {}
+	}),
+	UITabPanel = Style:new({
+		background = Color.red(),
 		color = Color.white(),
 		font = UIFont.Small,
 		border = {
