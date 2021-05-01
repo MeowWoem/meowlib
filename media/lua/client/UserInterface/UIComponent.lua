@@ -123,7 +123,41 @@ function UIComponent:initialise()
 	return self;
 end
 
+function ISUIElement:setXScroll(x)
+	if self.javaObject == nil then
+		return;
+	end
+    if -x > self:getScrollWidth() - (self:getScrollAreaWidth()) then
+        x = -(self:getScrollWidth() - (self:getScrollAreaWidth()));
+    end
+    if -x < 0 then
+        x = 0;
+    end
+	self.javaObject:setXScroll(x);
+end
 
+function UIComponent:updateScrollbars()
+
+    if self.vscroll ~= nil then
+        self.vscroll:updatePos();
+    end
+
+    if self.hscroll ~= nil then
+        self.hscroll:updatePos();
+    end
+
+    local y = self.javaObject:getYScroll();
+
+    if -y > self:getScrollHeight() - (self:getScrollAreaHeight()) then
+        y = -(self:getScrollHeight() - (self:getScrollAreaHeight()));
+    end
+    if -y < 0 then
+        y = 0;
+    end
+
+    self.javaObject:setYScroll(y);
+
+end
 
 -- Mouse Handling
 function UIComponent:onMouseMove(dx, dy)
