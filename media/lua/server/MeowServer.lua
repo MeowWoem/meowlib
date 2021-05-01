@@ -1,17 +1,17 @@
 require "MeowCore";
 
-local ActorsManager = MeowCore.require('Server/Managers/ActorsManager');
 
 local MeowServer = MeowCore.class("Server/MeowServer");
 
-MeowServer.actorManager = ActorsManager:new();
+MeowServer.actorManager = nil;
+MeowServer.groupManager = nil;
 
 function MeowServer.getModData()
 	local md;
 	if(isServer() == true) then -- Not used in B41 IWBMS.
 		md = getServerModData();
 	else
-		md = getSpecificPlayer(0):getModData();
+		md = getGameTime():getModData();
 		md.__meowServer = md.__meowServer or {};
 		md = md.__meowServer;
 	end

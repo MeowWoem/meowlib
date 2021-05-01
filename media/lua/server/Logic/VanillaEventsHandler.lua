@@ -1,5 +1,9 @@
 require "MeowCore";
 
+local MeowServer;
+
+local ActorsManager = MeowCore.require('Server/Managers/ActorsManager');
+local ActorsGroupsManager = MeowCore.require('Server/Managers/ActorsGroupsManager');
 local PlayerActor = MeowCore.require("Shared/Actors/PlayerActor");
 local ActorsGroup = MeowCore.require("Shared/Actors/ActorsGroup");
 
@@ -15,6 +19,17 @@ local ActorsGroup = MeowCore.require("Shared/Actors/ActorsGroup");
 -----------------------------------------------------]]--
 local function OnGameBoot() end
 Events.OnGameBoot.Add(OnGameBoot)
+
+--[[-----------------------------------------------------
+	OnGameTimeLoaded
+    #################
+-----------------------------------------------------]]--
+local function OnGameTimeLoaded()
+	MeowServer = MeowCore.require("Server/MeowServer");
+	MeowServer.actorManager = ActorsManager:new();
+	MeowServer.groupManager = ActorsGroupsManager:new();
+end
+Events.OnGameTimeLoaded.Add(OnGameTimeLoaded)
 
 --[[-----------------------------------------------------
 	OnGameStart
@@ -56,16 +71,7 @@ Events.LoadGridsquare.Add(LoadGridsquare)
 local function OnCreatePlayer(playerNum)
 	IsoPlayer.setCoopPVP(true);
 	local actor = PlayerActor:new(playerNum);
-	local MeowServer = MeowCore.require("Server/MeowServer");
 	MeowServer.actorManager:registerActor(actor);
-
-	local serverMD = MeowServer.getModData();
-	Dump("First", serverMD.__test.getLeaderActor, serverMD.__test);
-	serverMD.__test = not serverMD.__test and ActorsGroup:new(actor) or ActorsGroup:new(serverMD.__test);
-
-	Dump("Second", serverMD.__test.getLeaderActor, serverMD.__test);
-	Dump("Third", serverMD.__test:getLeaderActor());
-
 end
 Events.OnCreatePlayer.Add(OnCreatePlayer)
 
