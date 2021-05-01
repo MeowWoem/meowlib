@@ -73,13 +73,31 @@ function UIComponent:loadStyle()
 	end
 end
 
+function UIComponent:setX(x)
+	UIComponent:super().setX(self, x);
+end
+
+function UIComponent:setY(y)
+	UIComponent:super().setY(self, y);
+end
+
+function UIComponent:setWidth(w)
+   UIComponent:super().setWidth(self, w);
+   self.backgroundRect.rect.w = math.max(self.width, self.minimumWidth);
+end
+
+function UIComponent:setHeight(h)
+   UIComponent:super().setHeight(self, h);
+   self.backgroundRect.rect.h = math.max(self.height, self.minimumHeight);
+end
+
 function UIComponent:initialise()
 	UIComponent.__super.initialise(self);
 	local bg = UIRectStruct:new();
 	bg.rect.x = 0;
 	bg.rect.y = 0;
-	bg.rect.w = self.width;
-	bg.rect.h = self.height;
+	bg.rect.w = math.max(self.width, self.minimumWidth);
+	bg.rect.h = math.max(self.height, self.minimumHeight);
 	bg.color = self.style.background;
 	self.backgroundRect = bg;
 
