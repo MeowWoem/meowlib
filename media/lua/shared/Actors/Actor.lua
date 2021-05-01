@@ -13,7 +13,8 @@ local Actor = MeowCore.class(
 		uuid = nil,
 		isDead = false,
 		modData = nil,
-		lastSquare = nil
+		lastSquare = nil,
+		mainGroup = nil
 	}
 );
 
@@ -24,6 +25,7 @@ function Actor:loadModData()
 	self.uuid = self.modData.meow.uuid or MeowCore.uuid();
 	self.isDead = self.modData.meow.isDead or false;
 	self.lastSquare = self.modData.meow.lastSquare or nil;
+	self.mainGroup = self.modData.meow.mainGroup or nil;
 	self:updateModData();
 end
 
@@ -32,6 +34,7 @@ function Actor:updateModData()
 	self.modData.meow.uuid = self.uuid;
 	self.modData.meow.isDead = self.isDead;
 	self.modData.meow.lastSquare = self.lastSquare;
+	self.modData.meow.mainGroup = self.mainGroup;
 end
 
 function Actor:constructor()
@@ -78,6 +81,16 @@ end
 
 function Actor:onStart()
 	_eventsManager:trigger(self, 'start', {});
+end
+
+function Actor:isIsSameGroup(other)
+	if(self.mainGroup == nil or other.mainGroup == nil) then
+		return false;
+	end
+	if(self.mainGroup.uuid == other.mainGroup.uuid) then
+		return true;
+	end
+	return false;
 end
 
 function Actor:getInventory()
