@@ -141,7 +141,7 @@ function UIButton:prerenderHover()
 			self.tooltip:setAlwaysOnTop(true);
 			self.tooltip.initialised = true;
 		end
-		if not self.tooltip:getIsVisible() then
+		if not self.tooltip:getIsVisible() and self.tooltip.text ~= "" then
 			if string.contains(self.tooltip.text, "\n") then
 				self.tooltip.maxLineWidth = 1000 -- don't wrap the lines
 			else
