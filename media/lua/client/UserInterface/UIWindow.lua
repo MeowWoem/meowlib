@@ -38,10 +38,6 @@ function UIWindow:getTitle()
 	return self.title;
 end
 
---************************************************************************--
---** ISPanel:instantiate
---**
---************************************************************************--
 function UIWindow:createChildren()
 
 	local rh = self:resizeWidgetHeight()
