@@ -99,7 +99,17 @@ local function OnWeaponHitCharacter(isoWielder, isoVictim, weapon, damage)
 		victim.hitUpdate = true;
 		victim.hitWielder = wielder;
 		victim.lastHitTimestamp = getGametimeTimestamp();]]--
-		isoVictim:setAvoidDamage(true);
+		local preventDamage = false;
+		local wielder = MeowServer.actorManager:getActorByIso(isoWielder);
+		local victim = MeowServer.actorManager:getActorByIso(isoVictim);
+
+		if(wielder:isIsSameGroup(victim)) then
+			preventDamage = true;
+		end
+
+		if(preventDamage) then
+			isoVictim:setAvoidDamage(true);
+		end
 		--return false;
 	elseif(instanceof(isoWielder, "IsoZombie") == true and instanceof(isoVictim, "IsoZombie") == false) then
 		Dump("HIT Zombie>Actor", isoWielder, isoVictim);
