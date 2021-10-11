@@ -28,6 +28,7 @@ local UIComponent = MeowCore.derive("Client/UserInterface/UIComponent", "Client/
 	anchorTop = true,
 	anchorBottom = false,
 	style = nil,
+	layout = nil,
     fade = UITransition.new(),
 	backgroundRect = nil,
 	events = UIComponentEventsManager:new()
@@ -35,6 +36,7 @@ local UIComponent = MeowCore.derive("Client/UserInterface/UIComponent", "Client/
 
 function UIComponent:constructor()
 	self:loadStyle();
+	self.fade = UITransition.new();
 end
 
 function UIComponent:constructor_integer_integer_integer_integer(x, y, width, height)
@@ -71,6 +73,19 @@ function UIComponent:loadStyle()
 	if(self.style == nil) then
 		self.style = UIStyle:new();
 	end
+end
+
+function UIComponent:createLayout(layoutType)
+	self.layout = layoutType:new(self);
+end
+
+function UIComponent:setLayout(layout)
+	self.layout = layout;
+end
+
+function UIComponent:addToLayout(child)
+	if(not self.layout) then return end
+	self.layout:addChild(child);
 end
 
 function UIComponent:setX(x)
@@ -224,7 +239,6 @@ end
 function UIComponent:prerender()
 
 	self:prerenderHover();
-
 	self:drawUIRectStructStatic(self.backgroundRect);
 
 end
