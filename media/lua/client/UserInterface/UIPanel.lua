@@ -119,19 +119,24 @@ function UIPanel:onMouseMove(dx, dy)
 end
 
 
-
+-- TODO : Fix a viewport bug when a scrollbar is added.
+--			The right edge of panel can't receive mouse events even if the vertical scrollbar is not visible.
 function UIPanel:addScrollBars(addHorizontal)
 	self.vscroll = ISScrollBarMinimalist:new(self, true);
 	self.vscroll:initialise();
 	self:addChild(self.vscroll);
 	self.vscroll:bringToTop();
 	if addHorizontal then
-		self.hscroll = ISScrollBarMinimalist:new(self, false)
-		self.hscroll:initialise()
-		self:addChild(self.hscroll)
-		self.hscroll:setVisible(false);
-		self.hscroll:bringToTop();
+		self:addHorizontalScrollbar();
 	end
+end
+
+function UIPanel:addHorizontalScrollbar()
+	self.hscroll = ISScrollBarMinimalist:new(self, false)
+	self.hscroll:initialise()
+	self:addChild(self.hscroll)
+	self.hscroll:setVisible(false);
+	self.hscroll:bringToTop();
 end
 
 function UIPanel:setXScroll(x)
