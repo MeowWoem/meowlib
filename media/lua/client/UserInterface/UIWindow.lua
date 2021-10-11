@@ -254,9 +254,9 @@ function UIWindow:onResize()
 	self.bodyPanel.backgroundRect.rect.y = 0;
 	self.bodyPanel.backgroundRect.rect.w = self.width;
 	self.bodyPanel.backgroundRect.rect.h = self.height-rh;
-	self.bodyPanel.y = th;
-	self.bodyPanel.width = self.width;
-	self.bodyPanel.height = self.height-th-rh;
+	self.bodyPanel:setY(th);
+	self.bodyPanel:setWidth(self.width);
+	self.bodyPanel:setHeight(self.height-th-rh);
 	UIWindow:super().onResize(self);
 
 end
