@@ -94,3 +94,12 @@ function UILayout:addChild(child)
 	self.root:addChild(child);
 	table.insert(self.childrens, child);
 end
+
+function UILayout:removeChild(child)
+	local test = table.removeByValue(self.childrens, child);
+	Dump(test);
+	if(test) then
+		self.isDirty = true;
+		self.root:removeChild(child);
+	end
+end
