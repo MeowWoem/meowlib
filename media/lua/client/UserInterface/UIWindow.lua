@@ -210,9 +210,9 @@ function UIWindow:render()
 	if self.clearStentil then
 		self:clearStencilRect();
 	end
-    if self.drawFrame then
+    --if self.drawFrame then
 	    --self:drawRectBorder(0, 0, self:getWidth(), height, self.borderColor.a, self.borderColor.r, self.borderColor.g, self.borderColor.b);
-    end
+    --end
 
 	if self.drawJoypadFocus then
 		self:drawRectBorder(0, 0, self:getWidth(), self:getHeight(), 0.4, 0.2, 1.0, 1.0);
@@ -326,6 +326,7 @@ function UIWindow:onMouseDown(x, y)
 	self.downX = x;
 	self.downY = y;
 	self.moving = true;
+
 	self:bringToTop();
 end
 
