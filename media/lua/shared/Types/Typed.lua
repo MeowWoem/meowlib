@@ -16,8 +16,11 @@ local function ctype(obj, strict)
 			end
 		end
 	elseif t == 'userdata' then
-		if(obj.getClass) then
-			local str = obj:getClass():getName();
+
+
+
+		if(obj.name) then
+			local str = obj:name();
 			local i = str:find('%$');
 			if(i) then
 				t = str:sub(i + 1);
