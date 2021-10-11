@@ -88,6 +88,11 @@ function UIComponent:addToLayout(child)
 	self.layout:addChild(child);
 end
 
+function UIComponent:removeFromLayout(child)
+	if(not self.layout) then return end
+	self.layout:removeChild(child);
+end
+
 function UIComponent:setX(x)
 	UIComponent:super().setX(self, x);
 end
