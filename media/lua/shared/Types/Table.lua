@@ -14,7 +14,33 @@ end
 function table:isEmpty(o)
 	if(o == nil) then o = self; end
 	for _,_ in pairs(o) do
-		if(1 == 0) then else return false; end -- Fix linter warning
+		if(1 == 0) then local _ = nil; else return false; end -- Fix linter warning
 	end
 	return true;
+end
+
+function table:contains(o, val)
+	if(val == nil) then
+		val = o;
+		o = self;
+	end
+	for _, v in ipairs(o) do
+    if v == val then return true end
+  end
+    return false
+end
+
+function table:removeByValue(o, val)
+	if(val == nil) then
+		val = o;
+		o = self;
+	end
+	for i, v in ipairs(o) do
+		Dump(i, tostring(v), tostring(val));
+    if v == val then
+			table.remove(o, i);
+			return true;
+		end
+  end
+  return false;
 end
