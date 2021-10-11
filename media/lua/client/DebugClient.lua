@@ -1,15 +1,71 @@
 require "MeowCore";
 
 
+Events.OnMainMenuEnter.Add(function()
+	local UIWindow = MeowCore.require("Client/UserInterface/UIWindow");
+	local UIButton = MeowCore.require("Client/UserInterface/UIButton");
+	local UIPanel = MeowCore.require("Client/UserInterface/UIPanel");
+	local UITabPanel = MeowCore.require("Client/UserInterface/UITabPanel");
+	local UILayoutGrid = MeowCore.require("Client/UserInterface/Layouts/UILayout");
 
 
 
 
+	local debugWin = UIWindow:new(1000, 250, 200, 150);
+	debugWin.title = "##-DEBUG MEOWLIB-##"
+	debugWin:initialise();
+	debugWin:addToUIManager();
+	debugWin:setVisible(true);
+
+	local panel = UIPanel:new(0, 0, debugWin.bodyPanel.width, debugWin.bodyPanel.height);
+
+
+	function panel:onMouseWheel(del)
+		--Dump(del);
+		panel:setXScroll(panel:getXScroll() - (del*18));
+		--panel:setX(panel:getXScroll());
+		panel:updateScrollbars();
+	end
+
+	panel:initialise();
+	panel:createLayout(UILayoutGrid);
+
+	--local layout = UILayout:new(panel);
+	function debugWin.bodyPanel:onResize()
+		panel:setWidth(debugWin.bodyPanel.width);
+		panel.layout:recalcLayout();
+		panel:setHeight(panel.layout.size.h);
+		panel:setScrollWidth(panel.layout.size.w)
+	end
+
+	panel:addScrollBars(true);
+	panel:setScrollChildren(true);
+
+	for i=1,10 do
+		local btn1 = UIButton:new("Test " .. i);
+
+		btn1:initialise();
+		btn1:setHeight(35);
+		panel:addToLayout(btn1);
+	end
+
+	panel.layout:recalcLayout();
+	Dump(panel.layout.size);
+	panel:setScrollWidth(panel.layout.size.w)
+
+	debugWin.bodyPanel:addChild(panel);
 
 
 
+	--tabPanel:addView("TEST", characterView);
 
+	--local btn = UIButton:new("Test");
 
+	--btn.tooltipText = "<H1>Test <LINE> <RESET>TEST <TEXT>TEST <META>TEST";
+	--btn:initialise();
+	--tabPanel:addChild(btn);
+
+end);
 
 
 
